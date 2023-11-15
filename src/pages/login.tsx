@@ -1,17 +1,18 @@
 import { useFormState,Form, Toast, Button,Typography } from '@douyinfe/semi-ui';
 import {useState} from 'react';
+
 export const Login = () => {
     const [loginSuccess, setLoginSuccess] = useState(undefined);
-    const requestLogin= new Promise((resolve, reject) => {
+    const handleSubmit = async (values) => {
+        const requestLogin= new Promise((resolve, reject) => {
             let isSuccessful = Math.random() >= 0.5;  // 随机成功或失败
+            console.log(isSuccessful)
             if (isSuccessful) {
                 resolve({success:true});  // 成功，调用resolve
             } else {
                 resolve({msg:'密码错误',code:1001})
             }
         })
-
-    const handleSubmit = async (values) => {
         await requestLogin.then((res)=>{
             if(res.msg){
                 setLoginSuccess(res.msg)
