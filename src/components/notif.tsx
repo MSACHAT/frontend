@@ -1,0 +1,1 @@
+//思路:IF ELSE判断传入的Comment Type,根据不同的Comment Type返回不同的样式
