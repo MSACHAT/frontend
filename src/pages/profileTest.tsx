@@ -3,6 +3,8 @@ import { Col, Row, Avatar, Toast } from '@douyinfe/semi-ui';
 import axios from 'axios';
 import fakeData from "./Json/profile.json";
 import DataComponent from './tool/DataComponent.tsx';
+import {Login} from "./login";
+import LayoutList from "./tool/grid.tsx";
 
 export const Profile = () => {
     const [postData, setPostData] = useState([]);
@@ -12,7 +14,7 @@ export const Profile = () => {
         // 模拟登录请求的Promise
         const requestProfile = new Promise((resolve, reject) => {
             // 随机生成成功或失败
-            let isSuccessful = Math.random() >= 0.5;
+            let isSuccessful = true;
 
             if (isSuccessful) {
                 // 成功时，调用resolve
@@ -32,6 +34,9 @@ export const Profile = () => {
             } else {
                 // 如果没有错误消息，显示登录成功的Toast
                 Toast.success('登录成功');
+                console.log(loginSuccess)
+                setPostData(fakeData);
+                setLoginSuccess(true);
             }
         });
     }, []); // 依赖数组为空，确保 effect 在初始渲染后只执行一次
@@ -41,7 +46,7 @@ export const Profile = () => {
         <>
             <div>
                 <Avatar size="default" style={{ margin: 4 }} alt="User">
-                    <img src={fakeData.protrait} />
+                    <img src={postData.protrait} />
                 </Avatar>
             </div>
             <div>
@@ -50,7 +55,8 @@ export const Profile = () => {
             {loginSuccess ? (
 
 
-                <DataComponent data={fakeData} />
+                <LayoutList></LayoutList>
+
             ) : (
                 <p>Login failed: {loginSuccess}</p>
             )}
