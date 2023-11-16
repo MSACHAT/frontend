@@ -3,6 +3,7 @@ import { Button, TextArea, Toast, Upload } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
 import axios from "axios";
 
+
 interface PublishPostProps {}
 
 const PublishPost: React.FC<PublishPostProps> = () => {
