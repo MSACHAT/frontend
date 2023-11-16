@@ -36,12 +36,12 @@ const LayoutList = () => {
         });
     }, []); // 依赖数组为空，确保 effect 在初始渲染后只执行一次
 
-    const handleClick = () => {
-
-        console.log('Div clicked! postData:', postData);
-        Toast.success(postid)
-        // 在这里可以使用 postData 进行后续逻辑
-    };
+    // const handleClick = () => {
+    //
+    //     console.log('Div clicked! postData:', postData);
+    //     Toast.success(postid)
+    //     // 在这里可以使用 postData 进行后续逻辑
+    // };
 
     const style = {
         border: '1px solid var(--semi-color-border)',
@@ -64,10 +64,10 @@ const LayoutList = () => {
                 dataSource={postData.data}
                 renderItem={(item) => (
                     <List.Item style={style}>
-                        <div onClick={handleClick(item.id)}>
+                        <div >
                             <div>AAAAAAAS</div>
 
-                            <img onClick={handleClick(item.id)}
+                            <img
                                 src={item.image}
 
                                  style={{
