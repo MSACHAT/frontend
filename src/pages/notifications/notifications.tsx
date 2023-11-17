@@ -23,7 +23,7 @@ export function Notifications(){
         var scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
 
         //滚动条到底部
-        if(scrollTop+windowHeight>=scrollHeight){//对于手机端来说，中间的符号用===比较好
+        if(scrollTop+windowHeight>=scrollHeight){//对于手机端来说，中间的符号可能用===比较好
             loadMoreData()
         }
     }
@@ -71,8 +71,7 @@ export function Notifications(){
     console.log(notifs.data)
     return (
         <Layout>
-            <Header style={commonStyle}><IconChevronLeft onClick={null}/></Header>
-            {/*onclick暂时禁用*/}
+            <Header style={commonStyle}><Button theme={"borderless"} icon={<IconChevronLeft/>} onClick={()=>window.history.back()}></Button></Header>
             <Content style={{height: 300, lineHeight: '300px'}}>
                 <Table dataSource={notifs.data} pagination={false}>
                     <Column dataIndex="MessageType" key="key"

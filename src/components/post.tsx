@@ -1,4 +1,4 @@
-import {Typography, TextArea, Image} from '@douyinfe/semi-ui';
+import {Typography, TextArea, Image,Space} from '@douyinfe/semi-ui';
 import { Avatar } from '@douyinfe/semi-ui';
 import Icon, { IconLikeHeart,IconComment } from '@douyinfe/semi-icons';
 import React, {useState} from "react";
@@ -21,15 +21,20 @@ export const Post=(props)=>{
     return(
         <>
             <Paragraph>
-            <Avatar size="small" alt='User' src={UserIcon}></Avatar>
-            <Text strong>{UserName}</Text><Text type="quaternary">{SendTime}</Text><br/>
-                {Content}
+            <Avatar size="small" alt='User' src={UserIcon} style={{marginRight:5}}></Avatar>
+                <Space align={"center"}>
+            <Text strong>{UserName}</Text><Text size={"small"} type="quaternary">{SendTime}</Text>
+                </Space>
+                    <br/>
+                <Text type={"secondary"} strong={true}>{Content}</Text>
                 <br/>
                 <Image
-                    width={360}
-                    height={200}
+
+                    width={300}
+                    height={300}
                     src={ImgURL}/>
                 <br/>
+                <Space align={"center"}>
                 <IconLikeHeart
                     style={{color}}
                     size="extra-large"
@@ -38,7 +43,8 @@ export const Post=(props)=>{
                 <Text style={{marginRight:5}}>{LikesCount}</Text>
                <IconComment size={"extra-large"} />
                 <Text>{CommentsCount}</Text>
-                <TextArea style={{width:"40%",display:"inline-block",position:"absolute"}} autosize rows={1} />
+                <TextArea style={{width:"40%",display:"inline-block",position:"absolute",right:"10%"}} placeholder={"请输入评论"} autosize rows={1} />
+                </Space>
             </Paragraph>
         </>
 

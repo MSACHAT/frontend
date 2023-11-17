@@ -7,6 +7,7 @@ import {IconChevronLeft,IconPlus} from "@douyinfe/semi-icons"
 import {GetData} from "./hookToGetData.tsx";
 import {useState,useEffect} from "react";
 export function Feed(){
+
     const [pageSize,setPageSize]=useState(5)//修改这个值来调整一次获取的数据量
     const [currentData,setCurrentData]=useState(0)
     const [likesCount,setLikesCount]=useState(0)
@@ -65,12 +66,10 @@ export function Feed(){
            setCurrentData(currentData+pageSize);
            // @ts-ignore
         setPosts(data);
-    }, []);
-    console.log(posts.data)
+    },[]);
         return (
             <Layout>
-                <Header style={commonStyle}><IconChevronLeft onClick={null}/></Header>
-                {/*onclick暂时禁用*/}
+                <Header style={commonStyle}><Button theme={"borderless"} icon={<IconChevronLeft/>} onClick={()=>{window.history.go(-1)}}></Button></Header>
                 <Content style={{height: 300, lineHeight: '300px'}}>
                     <Table dataSource={posts.data} pagination={false}>
                         <Column dataIndex="UserIcon" key="key"
@@ -95,4 +94,5 @@ export function Feed(){
                 {/*</Footer>*/}
             </Layout>
         );
+
 };
