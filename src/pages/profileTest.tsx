@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Avatar, Toast } from '@douyinfe/semi-ui';
-import axios from 'axios';
 import fakeData from "./Json/profile.json";
 import DataComponent from './tool/DataComponent.tsx';
 import {Login} from "./login";

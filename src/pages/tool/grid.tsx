@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {List, Descriptions, ButtonGroup, Rating, Button, Toast} from '@douyinfe/semi-ui';
 import fakeData from "../Json/profile.json"
+import {Route} from "react-router-dom";
+
 
 const LayoutList = () => {
 
     const [postData, setPostData] = useState([]);
     const [loginSuccess, setLoginSuccess] = useState(undefined);
-
+    const [showToast, setShowToast] = useState(false);
     useEffect(() => {
         // 模拟登录请求的Promise
         const requestProfile = new Promise((resolve, reject) => {
@@ -30,18 +32,22 @@ const LayoutList = () => {
                 setLoginSuccess(res.msg);
             } else {
                 // 如果没有错误消息，显示登录成功的Toast
-                Toast.success('登录成功');
+                Toast.success('图片获取成功111');
                 setPostData(fakeData);
             }
         });
     }, []); // 依赖数组为空，确保 effect 在初始渲染后只执行一次
 
     const handleClick = (postid) => {
+        Toast.success(postid + '');
+        Toast.success("1秒后转跳")
 
-
-        Toast.success(postid+'')
-        console.log("AAAAAAAAAAAAAA",postid)
-        // 在这里可以使用 postData 进行后续逻辑
+        console.log('AAAAAAAAAAAAAA', postid);
+        const timeoutId = setTimeout(() => {
+            setShowToast(false);
+            window.location.href = `http://localhost:3000/detail/${postid}`;
+        }, 1000);
+        // Any other logic related to the click event
     };
 
     const style = {
