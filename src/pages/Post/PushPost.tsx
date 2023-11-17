@@ -6,7 +6,7 @@ import axios from "axios";
 
 interface PublishPostProps {}
 
-const PublishPost: React.FC<PublishPostProps> = () => {
+export const PublishPost: React.FC<PublishPostProps> = () => {
     const [saveLoading, setSaveLoading] = useState(false);
     const [post, setPost] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('未命名');
@@ -148,4 +148,3 @@ const PublishPost: React.FC<PublishPostProps> = () => {
     );
 };
 
-export default PublishPost;

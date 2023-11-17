@@ -1,9 +1,23 @@
 import {Login} from './pages/login.tsx';
-import {Feed} from "./pages/feed/feed.tsx";
-import {Notification} from "@douyinfe/semi-ui";
-function App() {
+import {Space} from "@douyinfe/semi-ui";
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+
+const App = () => {
   return (
-    <Feed></Feed>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Router>
+  );
+}
+
+const Home = () => {
+  return (
+      <Space>
+        <Link to="/login">登录</Link>
+      </Space>
   );
 }
 
