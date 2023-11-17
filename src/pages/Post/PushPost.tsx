@@ -6,7 +6,7 @@ import axios from "axios";
 
 interface PublishPostProps {}
 
-export const PublishPost: React.FC<PublishPostProps> = () => {
+const PublishPost: React.FC<PublishPostProps> = () => {
     const [saveLoading, setSaveLoading] = useState(false);
     const [post, setPost] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('未命名');
@@ -15,6 +15,7 @@ export const PublishPost: React.FC<PublishPostProps> = () => {
     const [imagesObject, setImagesObject] = useState<any>(undefined);
     const uploadRef = useRef<any>();
     const [shouldCallEffect, setShouldCallEffect] = useState<boolean>(false);
+
 
     // Mock代码
 
@@ -28,14 +29,14 @@ export const PublishPost: React.FC<PublishPostProps> = () => {
                 resolve();
                 setSaveLoading(false);
             } else {
-                reject({ msg: '错误', code: 1001 });
+                resolve({ msg: '错误', code: 1001 });
                 setSaveLoading(false);
             }
         });
 
         await requestLogin.then(() => {
             if (isSuccess) {
-                setIsSuccess(isSuccess);
+                Toast.error('失败')
             } else {
                 Toast.success('成功');
             }
@@ -103,6 +104,7 @@ export const PublishPost: React.FC<PublishPostProps> = () => {
                     showClear
                     value={title}
                     onChange={handleTitleChange}
+                    aria-readonly={saveLoading}
                 />
                 <br /><br />
                 <Upload
@@ -110,27 +112,31 @@ export const PublishPost: React.FC<PublishPostProps> = () => {
                     action={action}
                     uploadTrigger="custom"
                     ref={uploadRef}
+                    showRetry = {false}
                     onSuccess={(...v) => {
                         if (JSON.stringify(v[2]) !== JSON.stringify(imagesObject)) {
                             setImagesObject(v[2]);
                         }
                     }}
-                    onError={(...v) => console.log(...v)}
+                    onError={(...v) =>{setSaveLoading(false);Toast.error("图片上传失败");console.log(...v)}}
                     listType="picture"
                     draggable={true}
                     multiple
                     limit={9}
+                    disable={saveLoading}
                 >
                     <IconPlus size="large" />
                 </Upload>
 
                 <TextArea
+                    aria-readonly={saveLoading}
                     autosize
                     maxLength={1000}
                     placeholder={'记录美好生活'}
                     borderless={true}
                     value={content}
                     onChange={handleContentChange}
+
                 />
 
                 <Button
@@ -148,3 +154,4 @@ export const PublishPost: React.FC<PublishPostProps> = () => {
     );
 };
 
+export default PublishPost;
