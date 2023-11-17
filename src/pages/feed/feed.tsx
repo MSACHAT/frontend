@@ -69,7 +69,8 @@ export function Feed(){
     console.log(posts.data)
         return (
             <Layout>
-                <Header style={commonStyle}><IconChevronLeft onClick={window.history.back()}/></Header>
+                <Header style={commonStyle}><IconChevronLeft onClick={null}/></Header>
+                {/*onclick暂时禁用*/}
                 <Content style={{height: 300, lineHeight: '300px'}}>
                     <Table dataSource={posts.data} pagination={false}>
                         <Column dataIndex="UserIcon" key="key"
