@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { ImagePreview, Image, Typography, Toast, Avatar } from '@douyinfe/semi-ui';
 import axios from "axios";
 import { IconHeartStroked, IconLikeHeart } from "@douyinfe/semi-icons";
-import mockData from "/mockPost.json";
+
+import mockData from '../Json/mockPost.json'
 import PropTypes from "prop-types";
 
 interface LikesCountProps {
