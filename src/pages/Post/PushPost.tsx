@@ -1,25 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, TextArea, Toast, Upload } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
-import axios from "axios";
+import axios from 'axios';
 
-
-interface PublishPostProps {}
-
-export const PublishPost: React.FC<PublishPostProps> = () => {
-    const [saveLoading, setSaveLoading] = useState(false);
+const PublishPost: React.FC = () => {
+    const [saveLoading, setSaveLoading] = useState<boolean>(false);
     const [post, setPost] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('未命名');
     const [content, setContent] = useState<string>('');
-    const [list, updateList] = useState<any[]>();
+    const [list, updateList] = useState<any>();
     const [imagesObject, setImagesObject] = useState<any>(undefined);
     const uploadRef = useRef<any>();
     const [shouldCallEffect, setShouldCallEffect] = useState<boolean>(false);
 
     // Mock代码
 
-    const [isSuccess, setIsSuccess] = useState<string | undefined>(undefined);
-
+    // eslint-disable-next-line no-unused-vars
+    const [isSuccess, setIsSuccess] = useState<boolean | string>(undefined);
     const handleSubmit = async () => {
         const requestLogin = new Promise<void>((resolve, reject) => {
             let isSuccessful = Math.random() >= 0.5; // 随机成功或失败
@@ -32,17 +29,16 @@ export const PublishPost: React.FC<PublishPostProps> = () => {
                 setSaveLoading(false);
             }
         });
-
         await requestLogin.then(() => {
-            if (isSuccess) {
+            if (isSuccess && typeof isSuccess === 'string') {
                 setIsSuccess(isSuccess);
             } else {
                 Toast.success('成功');
             }
         });
     };
-
     // Mock结束
+
     const manulUpload = () => {
         uploadRef.current.upload();
     };
@@ -93,18 +89,19 @@ export const PublishPost: React.FC<PublishPostProps> = () => {
     };
 
     return (
-        <div className="bg-white flex">
-            <div className="flex-auto">
+        <div>
+            <div>
                 <TextArea
                     maxCount={20}
                     rows={1}
-                    placeholder='标题'
-                    size='large'
+                    placeholder="标题"
+                    size="large"
                     showClear
                     value={title}
                     onChange={handleTitleChange}
                 />
-                <br /><br />
+                <br />
+                <br />
                 <Upload
                     accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
                     action={action}
@@ -133,14 +130,7 @@ export const PublishPost: React.FC<PublishPostProps> = () => {
                     onChange={handleContentChange}
                 />
 
-                <Button
-                    loading={saveLoading}
-                    onClick={() => {
-                        manulUpload();
-                        setSaveLoading(true);
-                    }}
-                    disabled={post}
-                >
+                <Button loading={saveLoading} onClick={() => {manulUpload(); setSaveLoading(true);}} disabled={post}>
                     发布
                 </Button>
             </div>
@@ -148,3 +138,4 @@ export const PublishPost: React.FC<PublishPostProps> = () => {
     );
 };
 
+export default PublishPost;
