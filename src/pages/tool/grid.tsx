@@ -39,7 +39,7 @@ const LayoutList = () => {
     const handleClick = (postid) => {
 
 
-        Toast.success(postid)
+        Toast.success(postid+'')
         console.log("AAAAAAAAAAAAAA",postid)
         // 在这里可以使用 postData 进行后续逻辑
     };
