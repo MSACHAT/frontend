@@ -2,12 +2,14 @@ import React from 'react';
 import { Layout,Button,Table } from '@douyinfe/semi-ui';
 // @ts-ignore
 import {Post} from "../../components/post.tsx";
-import {IconChevronLeft,IconPlus} from "@douyinfe/semi-icons"
+import {IconChevronLeft} from "@douyinfe/semi-icons"
 // @ts-ignore
 import {GetData} from "./hookToGetData.tsx";
 import {useState,useEffect} from "react";
-export function Feed(){
-    const [pageSize,setPageSize]=useState(5)//修改这个值来调整一次获取的数据量
+// @ts-ignore
+import {Notif} from "../../components/notif.tsx";
+export function Notifications(){
+    const [pageSize,setPageSize]=useState(10)//修改这个值来调整一次获取的数据量
     const [currentData,setCurrentData]=useState(0)
     const [likesCount,setLikesCount]=useState(0)
     window.onscroll=function(){
@@ -21,7 +23,7 @@ export function Feed(){
         var scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
 
         //滚动条到底部
-        if(scrollTop+windowHeight>=scrollHeight){
+        if(scrollTop+windowHeight>=scrollHeight){//对于手机端来说，中间的符号用===比较好
             loadMoreData()
         }
     }
@@ -31,10 +33,10 @@ export function Feed(){
         // @ts-ignore
         const newData = GetData(currentData, pageSize);
         setCurrentData(currentData+pageSize)
-        setPosts(prevPosts => {
+        setNotifs(prevNotifs => {
             return {
-                ...prevPosts,
-                data: prevPosts.data.concat(newData.data)
+                ...prevNotifs,
+                data: prevNotifs.data.concat(newData.data)
             }
         });
     }
@@ -59,22 +61,30 @@ export function Feed(){
         lineHeight: '64px',
         background: 'var(--semi-color-fill-0)'
     };
-    const [posts,setPosts]=useState({data:[]});
+    const [notifs,setNotifs]=useState({data:[]});
     useEffect(() => {
         const data = GetData(currentData,pageSize);
         setCurrentData(currentData+pageSize);
         // @ts-ignore
-        setPosts(data);
+        setNotifs(data);
     }, []);
-    console.log(posts.data)
+    console.log(notifs.data)
     return (
         <Layout>
-            <Header style={commonStyle}><IconChevronLeft onClick={window.history.back()}/></Header>
+            <Header style={commonStyle}><IconChevronLeft onClick={null}/></Header>
+            {/*onclick暂时禁用*/}
             <Content style={{height: 300, lineHeight: '300px'}}>
-                <Table dataSource={posts.data} pagination={false}>
+                <Table dataSource={notifs.data} pagination={false}>
                     <Column dataIndex="MessageType" key="key"
                             render={(text, record) => (
-
+                                <Notif
+                                MessageType={record.MessageType}
+                                UserIcon={record.UserIcon}
+                                UserName={record.UserName}
+                                SendTime={record.SendTime}
+                                PostIMG={record.PostIMG}
+                                Comment={record.Comment}
+                                ></Notif>
                             )}/>
                 </Table>
             </Content>
