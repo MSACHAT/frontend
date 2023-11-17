@@ -56,7 +56,7 @@ const FormattedTime: React.FC<FormattedTimeProps> = ({ num }) => {
             formated = `${days}天前`;
         } else {
             const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-            const formattedTime = postTime.toLocaleDateString('en-US', options);
+            const formattedTime = postTime.toLocaleDateString('en-US');
             formated = formattedTime;
         }
         return formated;
