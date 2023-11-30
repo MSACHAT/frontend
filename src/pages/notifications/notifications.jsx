@@ -1,13 +1,13 @@
 import React from 'react';
 import { Layout,Button,Table } from '@douyinfe/semi-ui';
 // @ts-ignore
-import {Post} from "../../components/post.tsx";
+import {Post} from "../../components/post.jsx";
 import {IconChevronLeft} from "@douyinfe/semi-icons"
 // @ts-ignore
-import {GetData} from "./hookToGetData.tsx";
+import {GetData} from "./hookToGetData.jsx";
 import {useState,useEffect} from "react";
 // @ts-ignore
-import {Notif} from "../../components/notif.tsx";
+import {Notif} from "../../components/notif.jsx";
 export function Notifications(){
     const [pageSize,setPageSize]=useState(10)//修改这个值来调整一次获取的数据量
     const [currentData,setCurrentData]=useState(0)
@@ -71,7 +71,7 @@ export function Notifications(){
     console.log(notifs.data)
     return (
         <Layout>
-            <Header style={commonStyle}><Button theme={"borderless"} icon={<IconChevronLeft/>} onClick={()=>window.history.back()}></Button></Header>
+            <Header style={{position:"fixed",zIndex:999,backgroundColor:"#9C9EA1",width:"100%"}}><Button theme={"borderless"} icon={<IconChevronLeft/>} onClick={()=>{window.history.go(-1)}}></Button></Header>
             <Content style={{height: 300, lineHeight: '300px'}}>
                 <Table dataSource={notifs.data} pagination={false}>
                     <Column dataIndex="MessageType" key="key"

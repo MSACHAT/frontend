@@ -1,13 +1,12 @@
 import React from 'react';
 import { Layout,Button,Table } from '@douyinfe/semi-ui';
 // @ts-ignore
-import {Post} from "../../components/post.tsx";
+import {Post} from "../../components/post.jsx";
 import {IconChevronLeft,IconPlus} from "@douyinfe/semi-icons"
 // @ts-ignore
-import {GetData} from "./hookToGetData.tsx";
+import {GetData} from "./hookToGetData.jsx";
 import {useState,useEffect} from "react";
 export function Feed(){
-
     const [pageSize,setPageSize]=useState(5)//修改这个值来调整一次获取的数据量
     const [currentData,setCurrentData]=useState(0)
     const [likesCount,setLikesCount]=useState(0)
@@ -69,7 +68,7 @@ export function Feed(){
     },[]);
         return (
             <Layout>
-                <Header style={commonStyle}><Button theme={"borderless"} icon={<IconChevronLeft/>} onClick={()=>{window.history.go(-1)}}></Button></Header>
+                <Header style={{position:"fixed",zIndex:999,backgroundColor:"#9C9EA1",width:"100%"}}><Button theme={"borderless"} icon={<IconChevronLeft/>} onClick={()=>{window.history.go(-1)}}></Button></Header>
                 <Content style={{height: 300, lineHeight: '300px'}}>
                     <Table dataSource={posts.data} pagination={false}>
                         <Column dataIndex="UserIcon" key="key"

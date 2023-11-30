@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Avatar, Toast } from '@douyinfe/semi-ui';
 import fakeData from "./Json/profile.json";
-import DataComponent from './tool/DataComponent.tsx';
-import {Login} from "./login";
-import LayoutList from "./tool/grid.tsx";
+import DataComponent from './tool/DataComponent.jsx';
+import {Login} from "./login.jsx";
+import LayoutList from "./tool/grid.jsx";
 
 export const Profile = () => {
     const [postData, setPostData] = useState([]);
@@ -54,7 +54,7 @@ export const Profile = () => {
             {loginSuccess ? (
 
 
-                <DataComponent data={postData}/>
+                <LayoutList></LayoutList>
 
             ) : (
                 <p>Login failed: {loginSuccess}</p>

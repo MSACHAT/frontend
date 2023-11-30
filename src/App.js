@@ -1,12 +1,12 @@
-import {Login} from './pages/login.tsx';
+import {Login} from './pages/login.jsx';
 import {Space} from "@douyinfe/semi-ui";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import {Profile} from "./pages/profileTest.tsx";
-import {Feed} from "./pages/feed/feed.tsx";
-import {Notifications} from "./pages/notifications/notifications.tsx";
-import PushPost from "./pages/Post/PushPost";
-import detailPost from "./pages/Post/detailPost";
-import DetailPost from "./pages/Post/detailPost";
+import {Profile} from "./pages/profileTest.jsx";
+import {Feed} from "./pages/feed/feed.jsx";
+import {Notifications} from "./pages/notifications/notifications.jsx";
+import PushPost from "./pages/Post/PushPost.jsx";
+import detailPost from "./pages/Post/detailPost.jsx";
+import DetailPost from "./pages/Post/detailPost.jsx";
 
 const App = () => {
   return (
