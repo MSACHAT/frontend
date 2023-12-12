@@ -1,13 +1,13 @@
 import React from 'react';
 import { Layout,Button,Table } from '@douyinfe/semi-ui';
 // @ts-ignore
-import {Post} from "../../components/post.jsx";
+import {Post} from "../../components/PostComponent.jsx";
 import {IconChevronLeft} from "@douyinfe/semi-icons"
 // @ts-ignore
-import {GetData} from "./hookToGetData.jsx";
+import {GetData} from "./HookToGetData.jsx";
 import {useState,useEffect} from "react";
 // @ts-ignore
-import {Notif} from "../../components/notif.jsx";
+import {Notif} from "../../components/NotifComponent.jsx";
 export function Notifications(){
     const [pageSize,setPageSize]=useState(10)//修改这个值来调整一次获取的数据量
     const [currentData,setCurrentData]=useState(0)

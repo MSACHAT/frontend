@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {List, Descriptions, ButtonGroup, Rating, Button, Toast} from '@douyinfe/semi-ui';
-import fakeData from "../Json/profile.json"
+import fakeData from "../mockdata/ProfileMockData.json"
 import {Route} from "react-router-dom";
 
 

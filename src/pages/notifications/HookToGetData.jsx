@@ -1,7 +1,7 @@
 import { Toast } from '@douyinfe/semi-ui';
 import {useState} from 'react';
 // @ts-ignore
-import data from "../../mockdata/notificationdata.json"
+import data from "../../mockdata/NotificationMockData.json"
 export const GetData = (currentData,pageSize) => {
     let isSuccessful = Math.random() >= 0;  // 随机成功或失败
     console.log(isSuccessful)

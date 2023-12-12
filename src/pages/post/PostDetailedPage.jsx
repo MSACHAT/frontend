@@ -3,7 +3,7 @@ import { ImagePreview, Image, Typography, Toast, Avatar } from '@douyinfe/semi-u
 import axios from "axios";
 import { IconHeartStroked, IconLikeHeart } from "@douyinfe/semi-icons";
 
-import mockData from '../Json/mockPost.json';
+import mockData from '../../mockdata/PostMockData.json';
 import PropTypes from "prop-types";
 
 const LikesCount = ({ likes }) => {
