@@ -5,7 +5,6 @@ import {Profile} from "./pages/profile/ProfileTest.jsx";
 import {Feed} from "./pages/feed/FeedPage.jsx";
 import {Notifications} from "./pages/notifications/NotificationsPage.jsx";
 import PushPost from "./pages/post/PostPushingPage.jsx";
-import detailPost from "./pages/post/PostDetailedPage.jsx";
 import DetailPost from "./pages/post/PostDetailedPage.jsx";
 
 const App = () => {

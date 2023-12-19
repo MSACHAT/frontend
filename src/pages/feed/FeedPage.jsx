@@ -1,15 +1,12 @@
 import React from 'react';
 import { Layout,Button,Table } from '@douyinfe/semi-ui';
-// @ts-ignore
 import {Post} from "../../components/PostComponent.jsx";
 import {IconChevronLeft,IconPlus} from "@douyinfe/semi-icons"
-// @ts-ignore
 import {GetData} from "./HookToGetData.jsx";
 import {useState,useEffect} from "react";
 export function Feed(){
     const [pageSize,setPageSize]=useState(5)//修改这个值来调整一次获取的数据量
-    const [currentData,setCurrentData]=useState(0)
-    const [likesCount,setLikesCount]=useState(0)
+    const [pageNum,setPageNum]=useState(0)
     window.onscroll=function(){
         //变量scrollTop是滚动条滚动时，滚动条上端距离顶部的距离
         var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
@@ -27,10 +24,12 @@ export function Feed(){
     }
 
     function loadMoreData() {
-        // 请求API加载数据
         // @ts-ignore
-        const newData = GetData(currentData, pageSize);
-        setCurrentData(currentData+pageSize)
+        if(pageNum>totalPages){//没有更多的分页请求了，就不要再请求了
+            return;
+        }
+        const newData = GetData(pageNum, pageSize);
+        setPageNum(pageNum+1)
         setPosts(prevPosts => {
             return {
                 ...prevPosts,
@@ -38,20 +37,7 @@ export function Feed(){
             }
         });
     }
-    const handleClickOnLike=(color)=>{
-        if(color=="gray")
-        {
-            setColor("red")
-            setLikesCount(likesCount+1)
-            //axios.patch('abc.d')//等有后端了再补全url,这边应该是点赞数+1,注释掉是为了防止报错
-        }
-        else{
-            setColor("gray")
-            setLikesCount(likesCount-1)
-            //axios.patch('abc.d')//等有后端了再补全url,这边应该是后端点赞数-1,注释掉是为了防止报错
-        }
-    }
-    const [color, setColor] = useState('gray')
+
     const { Header,Content, Footer } = Layout;
     const {Column}=Table;
     const commonStyle = {
@@ -60,32 +46,39 @@ export function Feed(){
         background: 'var(--semi-color-fill-0)'
     };
     const [posts,setPosts]=useState({data:[]});
+    const [totalPages,setTotalPages]=useState()
     useEffect(() => {
-           const data = GetData(currentData,pageSize);
-           setCurrentData(currentData+pageSize);
-           // @ts-ignore
-        setPosts(data);
+           GetData(pageNum,pageSize).then(result=>{
+               setPosts(result)
+               setTotalPages(result.totalPages)
+           });
+           setPageNum(pageNum+1);
+            // setPosts(data);
     },[]);
         return (
             <Layout>
                 <Header style={{position:"fixed",zIndex:999,backgroundColor:"#9C9EA1",width:"100%"}}><Button theme={"borderless"} icon={<IconChevronLeft/>} onClick={()=>{window.history.go(-1)}}></Button></Header>
                 <Content style={{height: 300, lineHeight: '300px'}}>
                     <Table dataSource={posts.data} pagination={false}>
-                        <Column dataIndex="UserIcon" key="key"
+                        <Column dataIndex="id" key="id"
                                 render={(text, record) => (
                                     <Post
-                                        UserName={record.UserName}
-                                        UserIcon={record.UserIcon}
-                                        SendTime={record.SendTime}
-                                        ImgURL={record.ImgURL}
-                                        Content={record.Content}
-                                        LikesCount={record.LikesCount}
-                                        CommentsCount={record.CommentsCount}
+                                        userName={record.userName}
+                                        // userIcon={record.userIcon}
+                                        timeStamp={record.timeStamp}
+                                        images={record.images}
+                                        content={record.content}
+                                        likeCount={record.likeCount}
+                                        commentCount={record.commentCount}
+                                        liked={record.isLiked}
+                                        title={record.title}
+                                        postId={record.id}
                                     >
                                     </Post>
                                 )}/>
                     </Table>
                 </Content>
+                {/*以下的代码是用来做footer的navigation的*/}
                 {/*<Footer style={{...commonStyle,display: "flex", textAlign: "center"}} className="Align-Bottom" >*/}
                 {/*    <Button theme='borderless' type='primary' style={{marginRight: 8}}>首页</Button>*/}
                 {/*    <Button icon={<IconPlus/>} aria-label="截屏"/>*/}
