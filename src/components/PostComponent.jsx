@@ -3,24 +3,36 @@ import { Avatar } from '@douyinfe/semi-ui';
 import Icon, { IconLikeHeart,IconComment } from '@douyinfe/semi-icons';
 import React, {useEffect, useState} from "react";
 export const PostStatsBar=(props)=>{
-    const {likeCount,commentCount}=props;
+    const {likeCount,commentCount,postId}=props;
     const [color, setColor] = useState('gray')
     const [likeLocalCount,setLikeLocalCount]=useState()
     const { Text } = Typography;
     useEffect(()=>{
-        setLikeLocalCount(likeCount+1);
+        setLikeLocalCount(likeCount);//这个不能放外面，不然会循环渲染
     },[]);
-    const handleClickOnLike=(color)=>{
+    const handleClickOnLike=(color,postId)=>{
         if(color==="gray")
         {
             setColor("red")
             setLikeLocalCount(likeLocalCount+1)
-            //axios.patch('abc.d')//等有后端了再补全url,这边应该是点赞数+1,注释掉是为了防止报错
+            if(localStorage.getItem("postsLiked")==null){
+                localStorage.setItem("postsLiked",JSON.stringify({}))
+            }
+            let obj=JSON.parse(localStorage.getItem("postsLiked"))
+            obj[postId]=true
+            localStorage.setItem("postsLiked",JSON.stringify(obj))
+            console.log("LocalStorage(postsLiked): "+localStorage.getItem("postsLiked"))
         }
         else{
             setColor("gray")
             setLikeLocalCount(likeLocalCount-1)
-            //axios.patch('abc.d')//等有后端了再补全url,这边应该是后端点赞数-1,注释掉是为了防止报错
+            if(localStorage.getItem("postsLiked")==null){
+                localStorage.setItem("postsLiked",JSON.stringify({}))
+            }
+            let obj=JSON.parse(localStorage.getItem("postsLiked"))
+            obj[postId]=false
+            localStorage.setItem("postsLiked",JSON.stringify(obj))
+            console.log("LocalStorage(postsLiked): "+localStorage.getItem("postsLiked"))
         }
     }
     return(
@@ -29,7 +41,7 @@ export const PostStatsBar=(props)=>{
                 <IconLikeHeart
                     style={{color}}
                     size="extra-large"
-                    onClick={()=>handleClickOnLike(color)}
+                    onClick={()=>handleClickOnLike(color,postId)}
                 />
                 <Text style={{marginRight:5}}>{likeLocalCount}</Text>
                 <IconComment size={"extra-large"} />
@@ -61,6 +73,7 @@ export const Post=(props)=>{
                 <PostStatsBar
                     likeCount={likeCount}
                     commentCount={commentCount}
+                    postId={postId}
                 />
             </Paragraph>
         </>

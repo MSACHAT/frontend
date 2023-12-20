@@ -3,9 +3,8 @@ import {Avatar, Collapse,Typography,Image,Space } from '@douyinfe/semi-ui';
 import {IconChevronDown,IconChevronUp,IconLikeHeart,IconComment } from "@douyinfe/semi-icons"
 export const Notif=(props)=>{
     const {Text}=Typography
-    const{MessageType,UserIcon,UserName,SendTime,PostIMG}=props;
-    if(MessageType=="Comment"){
-    const{Comment}=props;
+    const{messageType,userIcon,userName,sendTime,commentContent}=props;
+    if(messageType==="Comment"){
     const expandIconForComments=(
         <Space style={{height:"100%",display:"inline-flex",float:"right"}}>
             <IconChevronDown style={{float:"right",marginRight:20}} />
@@ -33,13 +32,13 @@ export const Notif=(props)=>{
                 <div>
                     <Space align='center'>
                         <IconComment size={"extra-large"}></IconComment>
-                        <Avatar src={UserIcon} />
-                        <Text>{UserName}</Text>
-                        <Text type="quaternary" size={"small"}>{SendTime}</Text>
+                        <Avatar src={userIcon} />
+                        <Text>{userName}</Text>
+                        <Text type="quaternary" size={"small"}>{sendTime}</Text>
                     </Space>
                 </div>
             } itemKey="1" >
-                <Text type={"secondary"} strong={true}>{Comment}</Text>
+                <Text type={"secondary"} strong={true}>{commentContent}</Text>
             </Collapse.Panel>
         </Collapse>
     )
@@ -58,12 +57,12 @@ export const Notif=(props)=>{
                     <div>
                         <Space align={"center"}>
                         <IconLikeHeart size={"extra-large"} style={{color:"red"}}></IconLikeHeart>
-                        <Avatar src={UserIcon} />
-                        <Text size={"normal"}>{UserName}</Text>
-                        <Text type={"quaternary"} size={"small"}>{SendTime}</Text>
+                        <Avatar src={userIcon} />
+                        <Text size={"normal"}>{userName}</Text>
+                        <Text type={"quaternary"} size={"small"}>{sendTime}</Text>
                         </Space>
                     </div>
-                } itemKey="1" extra={PostIMG}>
+                } itemKey="1">
                 </Collapse.Panel>
             </Collapse>
         )

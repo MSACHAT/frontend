@@ -23,7 +23,7 @@ import {Toast} from "@douyinfe/semi-ui";
 //                 return ({msg: '请求失败'})
 //             }
 //     }
-export const GetData=(pageNum,pageSize):{data:any}=>{
+export const GetData=(pageNum,pageSize)=>{
     return axios.get('http://localhost:8085/post/getbypagenumandpagesize/test', {
         params:{
             "pageNum":pageNum,
