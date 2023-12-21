@@ -37,7 +37,7 @@ export const GetData=(pageNum,pageSize)=>{
     }).then(res => {
         console.log(res.data)
         const data=res.data.notifs.map(notif=>({
-            "notifId":notif.id,
+            "id":notif.id,
             "userName":notif.userName,
             "commentContent":notif.commentContent,
             "postId":notif.postId,

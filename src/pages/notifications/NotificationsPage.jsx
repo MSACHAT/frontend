@@ -8,6 +8,7 @@ import {GetData} from "./HookToGetData.jsx";
 import {useState, useEffect} from "react";
 // @ts-ignore
 import {Notif} from "../../components/NotifComponent.jsx";
+import axios from "axios";
 
 export function Notifications() {
     const [pageSize, setPageSize] = useState(10)//修改这个值来调整一次获取的数据量
@@ -41,6 +42,7 @@ export function Notifications() {
             result.data = [...notifs.data,...result.data]
             setNotifs(result)
             setTotalPages(result.totalPages)
+            axios.post('http://localhost:8085/notif/isread',result.data)
         });
         setpageNum(pageNum + 1)
     }
@@ -52,6 +54,10 @@ export function Notifications() {
         GetData(pageNum, pageSize).then(result => {
             setNotifs(result)
             setTotalPages(result.totalPages)
+            const header={"Content-Type":"application/json"}
+            axios.post('http://localhost:8085/notif/isread',result.data,{
+                headers:header
+            })
         });
         setpageNum(pageNum + 1);
         // @ts-ignore
