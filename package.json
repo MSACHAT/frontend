@@ -49,6 +49,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@craco/craco": "^7.1.0",
-    "@douyinfe/semi-webpack-plugin": "^2.49.1"
+    "@douyinfe/semi-webpack-plugin": "^2.49.1",
+    "typescript": "^5.3.3"
   }
 }
