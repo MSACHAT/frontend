@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@douyinfe/semi-icons": "^2.49.1",
-    "@douyinfe/semi-ui": "^2.46.1",
+    "@douyinfe/semi-ui": "^2.49.1",
+    "@semi-bot/semi-theme-moonshot": "^1.0.3",
     "@semi-bot/semi-theme-ty": "^1.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -22,9 +23,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -46,6 +47,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.1.0",
+    "@douyinfe/semi-webpack-plugin": "^2.49.1"
   }
 }
