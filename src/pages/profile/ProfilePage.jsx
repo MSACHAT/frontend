@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Col, Row, Avatar, Toast } from '@douyinfe/semi-ui';
 import fakeData from '../../mockdata/ProfileMockData.json';
 import DataComponent from '../../components/DataComponent.jsx';
-import { Login } from '../LoginPage.jsx';
+import { Login } from '../login/LoginPage.jsx';
 import LayoutList from '../../components/GridComponent.jsx';
 
 export const Profile = () => {

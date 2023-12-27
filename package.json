@@ -5,7 +5,7 @@
   "dependencies": {
     "@douyinfe/semi-icons": "^2.49.1",
     "@douyinfe/semi-ui": "^2.49.1",
-    "@semi-bot/semi-theme-moonshot": "^1.0.3",
+    "@semi-bot/semi-theme-moonshot": "^1.0.4",
     "@semi-bot/semi-theme-ty": "^1.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -20,6 +20,7 @@
     "react-router-dom": "^6.19.0",
     "react-scripts": "5.0.1",
     "react-virtualized": "^9.22.5",
+    "sass": "^1.69.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

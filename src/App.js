@@ -1,4 +1,4 @@
-import { Login } from './pages/LoginPage.jsx';
+import { Login } from './pages/login/LoginPage.jsx';
 import { Space } from '@douyinfe/semi-ui';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Profile } from './pages/profile/ProfileTest.jsx';
