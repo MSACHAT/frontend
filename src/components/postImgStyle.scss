@@ -3,15 +3,36 @@
   grid-template-columns: repeat(3, 1fr); /* 创建三列 */
   grid-template-rows: repeat(2, auto); /* 创建两行 */
   gap: 12px; /* 设置图片之间的间隙 */
+  .image-item {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 使用padding-top以百分比形式设置高度，保持正方形 */
+    overflow: hidden; /* 超出的内容将被隐藏，用于裁剪 */
+    .image {
+      border-radius: 0;
+      width: 100%; /* 让图像宽度自动调整以保持纵横比 */
+      height: 100%; /* 让图像高度自动调整以保持纵横比 */
+      position: absolute; /* 绝对定位，用于水平垂直居中 */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* 水平垂直居中 */
+
+      .semi-image-img-preview {
+        object-fit: cover;
+        width: 100%; /* 让图像宽度自动调整以保持纵横比 */
+        height: 100%; /* 让图像高度自动调整以保持纵横比 */
+      }
+    }
+  }
 }
 
 /* 2到4张图片时的样式 */
 .image-container:nth-child(2):nth-last-child(2),
-.image-container:nth-child(2):nth-last-child(2) .image,
+.image-container:nth-child(2):nth-last-child(2) .image-item,
 .image-container:nth-child(3):nth-last-child(3),
-.image-container:nth-child(3):nth-last-child(3) .image,
+.image-container:nth-child(3):nth-last-child(3) .image-item,
 .image-container:nth-child(4):nth-last-child(4),
-.image-container:nth-child(4):nth-last-child(4) .image {
+.image-container:nth-child(4):nth-last-child(4) .image-item {
   grid-template-columns: repeat(3, 1fr);
 }
 
@@ -22,15 +43,12 @@
 }
 
 /* 单独处理第3和第4张图片，将它们放在第二行 */
-.image-container .image:nth-child(3),
-.image-container .image:nth-child(4) {
+.image-container .image-item:nth-child(3),
+.image-container .image-item:nth-child(4) {
   grid-row-start: 2; /* 第二行开始 */
   grid-column-start: auto; /* 第一列开始 */
 }
 
-/* 图片样式 */
-.image-container .image {
-  width: 100%; /* 图片填满单元格 */
-  height: auto; /* 图片高度自适应 */
-  object-fit: cover;
-}
+
+
+

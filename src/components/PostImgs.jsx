@@ -1,15 +1,17 @@
 import './postImgStyle.scss';
-import { Image } from '@douyinfe/semi-ui';
+import { Image, ImagePreview } from '@douyinfe/semi-ui';
 export const PostImgs = ({ imgUrls }) => {
   if (!imgUrls.length) {
     return null;
   }
   console.log(imgUrls);
   return (
-    <div className={'image-container'}>
+    <ImagePreview className={'image-container'}>
       {imgUrls.map((x, index) => (
-        <Image src={x} className={'image'} id={index} />
+        <div className={'image-item'}>
+          <Image className={'image'} src={x} id={index} />
+        </div>
       ))}
-    </div>
+    </ImagePreview>
   );
 };
