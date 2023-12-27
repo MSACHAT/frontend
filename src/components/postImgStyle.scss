@@ -26,7 +26,12 @@
   }
 }
 
-/* 单独处理第3和第4张图片，将它们放在第二行 */
+/* 单独处理只有1张图片 */
+.container-1 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* 单独处理只有3，4张图片，第3和第4张图片，将它们放在第二行 */
 .container-less-than-5 .image-item:nth-child(3),
 .container-less-than-5 .image-item:nth-child(4) {
   grid-row-start: 2; /* 第二行开始 */

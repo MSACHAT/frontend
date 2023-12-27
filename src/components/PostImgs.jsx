@@ -7,8 +7,8 @@ export const PostImgs = ({ imgUrls }) => {
   console.log(imgUrls);
   return (
     <ImagePreview
-      className={`image-container ${
-        imgUrls.length < 5 && 'container-less-than-5'
+      className={`image-container ${imgUrls.length === 1 && 'container-1'} ${
+        imgUrls.length < 5 && imgUrls.length > 1 && 'container-less-than-5'
       }`}
     >
       {imgUrls.map((x, index) => (
