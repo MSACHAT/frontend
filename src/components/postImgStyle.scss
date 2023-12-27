@@ -1,0 +1,36 @@
+.image-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 创建三列 */
+  grid-template-rows: repeat(2, auto); /* 创建两行 */
+  gap: 12px; /* 设置图片之间的间隙 */
+}
+
+/* 当有2张、3张或4张图片时，确保最后一列为空 */
+.image-container:nth-last-child(-n+4):first-child,
+.image-container:nth-last-child(-n+4):first-child ~ img {
+  grid-column: span 1; /* 每张图片占据一列 */
+}
+
+/* 特别的，如果只有2张或3张图片，我们需要把它们放在第一行 */
+.image-container:nth-last-child(-n+3):first-child,
+.image-container:nth-last-child(-n+3):first-child ~ img {
+  grid-column: span 1; /* 每张图片占据一列 */
+}
+
+/* 特别的，如果有4张图片，将第四张图片放在第二行第一个位置 */
+.image-container:nth-child(4):nth-last-child(4),
+.image-container:nth-child(4):nth-last-child(4) ~ img {
+  grid-column: span 1; /* 每张图片占据一列 */
+}
+
+/* 单独处理第四张图片，让它在第二行 */
+.image-container img:nth-child(4) {
+  grid-row-start: 2; /* 第二行开始 */
+  grid-column-start: 1; /* 第一列开始 */
+}
+
+/* 图片样式 */
+.image-container img {
+  width: 100%; /* 图片填满单元格 */
+  height: auto; /* 图片高度自适应 */
+}
