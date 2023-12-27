@@ -5,32 +5,32 @@
   gap: 12px; /* 设置图片之间的间隙 */
 }
 
-/* 当有2张、3张或4张图片时，确保最后一列为空 */
-.image-container:nth-last-child(-n+4):first-child,
-.image-container:nth-last-child(-n+4):first-child ~ img {
-  grid-column: span 1; /* 每张图片占据一列 */
-}
-
-/* 特别的，如果只有2张或3张图片，我们需要把它们放在第一行 */
-.image-container:nth-last-child(-n+3):first-child,
-.image-container:nth-last-child(-n+3):first-child ~ img {
-  grid-column: span 1; /* 每张图片占据一列 */
-}
-
-/* 特别的，如果有4张图片，将第四张图片放在第二行第一个位置 */
+/* 2到4张图片时的样式 */
+.image-container:nth-child(2):nth-last-child(2),
+.image-container:nth-child(2):nth-last-child(2) .image,
+.image-container:nth-child(3):nth-last-child(3),
+.image-container:nth-child(3):nth-last-child(3) .image,
 .image-container:nth-child(4):nth-last-child(4),
-.image-container:nth-child(4):nth-last-child(4) ~ img {
-  grid-column: span 1; /* 每张图片占据一列 */
+.image-container:nth-child(4):nth-last-child(4) .image {
+  grid-template-columns: repeat(3, 1fr);
 }
 
-/* 单独处理第四张图片，让它在第二行 */
-.image-container img:nth-child(4) {
+/* 将第3或4张图片放在第二行，并空着最后一列 */
+.image-container:nth-child(3):nth-last-child(3),
+.image-container:nth-child(4):nth-last-child(4) {
+  grid-template-columns: 1fr 1fr auto; /* 第三列空着 */
+}
+
+/* 单独处理第3和第4张图片，将它们放在第二行 */
+.image-container .image:nth-child(3),
+.image-container .image:nth-child(4) {
   grid-row-start: 2; /* 第二行开始 */
-  grid-column-start: 1; /* 第一列开始 */
+  grid-column-start: auto; /* 第一列开始 */
 }
 
 /* 图片样式 */
-.image-container img {
+.image-container .image {
   width: 100%; /* 图片填满单元格 */
   height: auto; /* 图片高度自适应 */
+  object-fit: cover;
 }
