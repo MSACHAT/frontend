@@ -6,7 +6,11 @@ export const PostImgs = ({ imgUrls }) => {
   }
   console.log(imgUrls);
   return (
-    <ImagePreview className={'image-container'}>
+    <ImagePreview
+      className={`image-container ${
+        imgUrls.length < 5 && 'container-less-than-5'
+      }`}
+    >
       {imgUrls.map((x, index) => (
         <div className={'image-item'}>
           <Image className={'image'} src={x} id={index} />
