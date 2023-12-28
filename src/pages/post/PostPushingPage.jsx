@@ -2,13 +2,13 @@ import React, {useEffect, useRef, useState} from 'react';
 import { Button, TextArea, Toast, Upload } from '@douyinfe/semi-ui';
 import {IconChevronLeft, IconPlus} from '@douyinfe/semi-icons';
 import axios from "axios";
-
+import './PostPushingStyle.scss'
 
 
 const PublishPost = () => {
     const [saveLoading, setSaveLoading] = useState(false);
     const [post,setPost] =useState(false)
-    const [title, setTitle] = useState('未命名');
+    const [readyPublish,setReadyPublish] = useState(false)
     const [content, setContent] = useState('');
     const [list, updateList] = useState();
     const [imagesObject, setImagesObject] = useState(undefined);
@@ -63,7 +63,7 @@ const PublishPost = () => {
     const action = 'https://api.semi.design/upload';
 
 
-    async function putPost(postData){
+/*    async function putPost(postData){
         try {
             const instance = axios.create({
                 baseURL: 'http://localhost:8085/post',
@@ -85,17 +85,9 @@ const PublishPost = () => {
         }
 
         setSaveLoading(false);
-    }
+    }*/
 
-    const handleTitleChange = (value) => {
-        if (value.length>20||value.length===0){
-            setPost(true)
 
-        }else {
-            setPost(false)
-        }
-        setTitle(value);
-    };
 
     const handleContentChange = (value) => {
         setContent(value);
@@ -105,13 +97,12 @@ const PublishPost = () => {
 
 
         const postData = {
-            title: title,
             content: content,
             images:imagesObject.map(items => items.url)
 
         };
 
-        await putPost(postData);
+        // await putPost(postData);
 
 
 
@@ -119,12 +110,16 @@ const PublishPost = () => {
 
 
     return (
-        <div className="mx-auto">
+        <div>
 
-            <div className="flex flex-col justify-between container  mx-auto">
-                <header className=" flex flex-row justify-between my-3  px-2.5">
+            <div className={"bg"}>
+                <div className={"head"}>
+                    <Button iconSize={"large"} icon={<IconChevronLeft />} theme="borderless" disabled={readyPublish}/>
+
                     <Button
-                        className="order-last"
+                        size='small'
+                        theme={"solid"}
+                        type={"primary"}
                         loading={saveLoading}
 
                         onClick={()=>{manulUpload();setSaveLoading(true)}}
@@ -134,52 +129,46 @@ const PublishPost = () => {
                         发布
                     </Button>
 
-                    <Button icon={<IconChevronLeft />} theme="borderless" />
-
-                </header>
 
 
-                <TextArea
-                    className="my-3"
-                    maxCount={20}
-                    rows={1}
-                    placeholder='标题'
-                    size='large'
-                    showClear
-                    value={title}
-                    borderless={true}
-                    onChange={handleTitleChange}
-                />
+                </div>
+                <div className={"mainContent"}>
+                    <TextArea
 
-                <Upload
-                    className="order-last"
-                    accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
-                    action={action}
-                    uploadTrigger="custom"
-                    ref={uploadRef}
-                    onSuccess={(...v) => {
-                        if (JSON.stringify(v[2]) !== JSON.stringify(imagesObject)) {
-                            setImagesObject(v[2]);
-                        }
-                    }}
-                    onError={(...v) => {setSaveLoading(false);Toast.error("图片上传失败");console.log(...v)}}
-                    listType="picture"
-                    draggable={true}
-                    multiple
-                    limit={9}
-                >
-                    <IconPlus size="large" />
-                </Upload>
+                        className={'input'}
+                        rows={1}
+                        autosize
+                        maxLength={1000}
+                        placeholder={'记录美好生活'}
+                        borderless={true}
+                        value={content}
 
-                <TextArea
-                    className="mb-3"
-                    autosize
-                    maxLength={1000}
-                    placeholder={'记录美好生活'}
-                    borderless={true}
-                    value={content}
-                    onChange={handleContentChange}
-                />
+
+                        onChange={handleContentChange}
+                    />
+
+
+                    <Upload
+                        className="imageUpload"
+                        accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
+                        action={action}
+                        uploadTrigger="custom"
+                        ref={uploadRef}
+                        onSuccess={(...v) => {
+                            if (JSON.stringify(v[2]) !== JSON.stringify(imagesObject)) {
+                                setImagesObject(v[2]);
+                            }
+                        }}
+                        onError={(...v) => {setSaveLoading(false);Toast.error("图片上传失败");console.log(...v)}}
+                        listType="picture"
+                        draggable={true}
+                        multiple
+                        limit={9}
+                    >
+                        <IconPlus size="default" />
+                    </Upload>
+                </div>
+
 
 
             </div>
