@@ -48,17 +48,28 @@ const PublishPost = () => {
     const manulUpload = () => {
         uploadRef.current.upload();
     };
+    useEffect(()=>{
+        if (content.length > 0){
+            setReadyPublish(false)
+        }
+        if (content.length=== 0){
+            setReadyPublish(true)
+        }
+        },[content])
 
     useEffect(() => {
         if (shouldCallEffect){
 
             console.log(imagesObject)
+
             handlePublish()
         }else {
             setShouldCallEffect(true)
+
         }
 
     }, [imagesObject]);
+
 
     const action = 'https://api.semi.design/upload';
 
@@ -91,6 +102,7 @@ const PublishPost = () => {
 
     const handleContentChange = (value) => {
         setContent(value);
+
     };
 
     const handlePublish = async () => {
@@ -108,11 +120,10 @@ const PublishPost = () => {
 
     };
 
-
     return (
-        <div>
 
-            <div className={"bg"}>
+
+            <div >
                 <div className={"head"}>
                     <Button iconSize={"large"} icon={<IconChevronLeft />} theme="borderless" disabled={readyPublish}/>
 
@@ -123,7 +134,7 @@ const PublishPost = () => {
                         loading={saveLoading}
 
                         onClick={()=>{manulUpload();setSaveLoading(true)}}
-                        disabled={post}
+                        disabled={readyPublish}
 
                     >
                         发布
@@ -156,6 +167,7 @@ const PublishPost = () => {
                         ref={uploadRef}
                         onSuccess={(...v) => {
                             if (JSON.stringify(v[2]) !== JSON.stringify(imagesObject)) {
+
                                 setImagesObject(v[2]);
                             }
                         }}
@@ -163,16 +175,36 @@ const PublishPost = () => {
                         listType="picture"
                         draggable={true}
                         multiple
+
+                       onRemove={(currentFile, fileList)=>{
+                           if (fileList.length>0){
+                               setReadyPublish(false)
+                           }
+                           if (fileList.length===0){
+                               setReadyPublish(true)
+                           }
+
+                       }}
+                        onFileChange={(...v)=>{
+                            if (v.length>0) {
+                                setReadyPublish(false)
+                            }
+                            if (v.length===0) {
+                                setReadyPublish(true)
+                            }
+                        }
+
+                    }
                         limit={9}
                     >
-                        <IconPlus size="default" />
+                        <IconPlus size="large" />
                     </Upload>
                 </div>
 
 
 
             </div>
-        </div>
+
     );
 };
 export default PublishPost;
