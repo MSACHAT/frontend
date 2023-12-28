@@ -15,51 +15,52 @@
     }
 
   }
-  .imageUpload{
 
-  }
-  .input{
 
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    border-radius: unset;
-    border-color: unset;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-bottom: 32px;
-    color-input_default-border-focus: rgba(255, 0, 0, 0);
-
-  }
 
   
-  .semi-upload-file-list-main{
-    max-width: 393px;
 
-    .semi-upload-picture-file-card img{
-      border-radius: 0;
-    }
-    .semi-upload-picture-file-card{
-      border-radius: 0;
-    }
-  }
-  .semi-input-textarea-wrapper{
-    border-color: white;
-  }
-}
-
-
-  .semi-upload-picture-add{
-    border-radius: 12px;
-
-
-  }
   .mainContent{
     max-width: 393px;
     margin: 20px;
     .semi-input-textarea{
       padding-left: 0;
     }
+    .input{
+
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      border-radius: unset;
+      border-color: unset;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 32px;
+      color-input_default-border-focus: rgba(255, 0, 0, 0);
+
+    }
+    .semi-upload-file-list-main{
+      max-width: 393px;
+
+      .semi-upload-picture-file-card img{
+        border-radius: 0;
+      }
+      .semi-upload-picture-file-card{
+        border-radius: 0;
+      }
+    }
+    .semi-input-textarea-wrapper{
+      border-color: white;
+    }
+    .semi-upload-picture-add{
+      border-radius: 12px;
+
+
+    }
   }
+}
+
+
+
 
 
