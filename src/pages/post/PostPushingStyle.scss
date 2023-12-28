@@ -1,8 +1,8 @@
 .bg{
-  max-width: 100%;
+  max-width: 100%;//?
 
 
-  .head {
+  .head {//?
     display: inline-flex;
     width: 350px;
     padding: 12px var(--semi-border-radius-circle, 16px) 12px 20px;
@@ -13,7 +13,6 @@
       width: 70px;
       height: 32px;
     }
-
   }
 
 
@@ -21,11 +20,12 @@
   
 
   .mainContent{
-    max-width: 393px;
+    max-width: 393px; //不行
     margin: 20px;
     .semi-input-textarea{
       padding-left: 0;
     }
+    // 三等分 重写
     .input{
 
       font-size: 16px;
