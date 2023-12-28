@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, TextArea, Toast, Upload } from '@douyinfe/semi-ui';
 import { IconChevronLeft, IconPlus } from '@douyinfe/semi-icons';
 import axios from 'axios';
-import './postStyle.scss';
+import './PostPushingStyle.scss';
+
 const PublishPost = () => {
   const [saveLoading, setSaveLoading] = useState(false);
   const [post, setPost] = useState(false);
@@ -105,7 +106,7 @@ const PublishPost = () => {
 
   return (
     <div className={'bg'}>
-      <div className={'header'}>
+      <div className={'head'}>
         <Button
           iconSize={'large'}
           icon={<IconChevronLeft />}
@@ -138,6 +139,7 @@ const PublishPost = () => {
           value={content}
           onChange={handleContentChange}
         />
+
         <Upload
           className="imageUpload"
           accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"

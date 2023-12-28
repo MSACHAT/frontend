@@ -1,0 +1,14 @@
+.bg{
+  margin:20px 0 20px 0;
+  .header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mainContent {
+    margin-top: 24px;
+    .semi-upload-file-list {
+      width:100%;
+    }
+  }
+}

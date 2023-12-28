@@ -1,10 +1,7 @@
 .bg{
-  max-width: 100%;//?
-
-
   .head {//?
     display: inline-flex;
-    width: 350px;
+    //width: 350px;
     padding: 12px var(--semi-border-radius-circle, 16px) 12px 20px;
 
     justify-content: space-between;
@@ -20,7 +17,6 @@
   
 
   .mainContent{
-    max-width: 393px; //不行
     margin: 20px;
     .semi-input-textarea{
       padding-left: 0;
