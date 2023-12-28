@@ -121,9 +121,9 @@ const PublishPost = () => {
     };
 
     return (
-        <div>
 
-            <div className={"bg"}>
+
+            <div >
                 <div className={"head"}>
                     <Button iconSize={"large"} icon={<IconChevronLeft />} theme="borderless" disabled={readyPublish}/>
 
@@ -197,14 +197,14 @@ const PublishPost = () => {
                     }
                         limit={9}
                     >
-                        <IconPlus size="default" />
+                        <IconPlus size="large" />
                     </Upload>
                 </div>
 
 
 
             </div>
-        </div>
+
     );
 };
 export default PublishPost;
