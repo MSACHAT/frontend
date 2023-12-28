@@ -1,8 +1,8 @@
 import axios from "axios";
 import {Toast} from "@douyinfe/semi-ui";
 
-const instance = axios.create(); // 创建一个 Axios 实例
-instance.interceptors.request.use((config) => {
+const apiClient = axios.create(); // 创建一个 Axios 实例
+apiClient.interceptors.request.use((config) => {
     console.log('请求拦截器');
     const token = localStorage.getItem('token');
     // 将 Token 添加到请求头中
@@ -12,11 +12,9 @@ instance.interceptors.request.use((config) => {
     console.log(config.headers['Authorization'])
     console.log(config.data)
     return config;
-}, (error) => {
-    return Promise.reject(error);
-});
+})
 
-instance.interceptors.response.use((response) => {
+apiClient.interceptors.response.use((response) => {
     console.log('响应拦截器');
     console.log('请求成功')
     return response;
@@ -72,10 +70,10 @@ instance.interceptors.response.use((response) => {
                 Toast.error('HTTP版本不受支持');
                 break;
             default:
-                console.error('其他错误状态码:', status);
+                console.error('其他错误状态码:', error.response.status);
         }
     }
-    return Promise.reject(error);
+    return Promise.reject(error.response.status);
 });
 
-export default instance;
+export default apiClient;

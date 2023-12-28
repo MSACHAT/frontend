@@ -7,21 +7,25 @@ import {
 } from '@douyinfe/semi-ui';
 import { useState } from 'react';
 import './loginStyle.scss';
-import axios from "axios";
 import { IconArrowRight } from '@douyinfe/semi-icons';
-import instance from "../../middlewares/axiosInterceptors"
-// import changePwdToUuid from "../../middlewares/uuidMiddleWare";
-// const {addToken}=require('../../middlewares/tokenMiddleWare.js')
+import apiClient from "../../middlewares/axiosInterceptors"
 export const Login = () => {
+  async function fetchData(header) {
+    try {
+      const res = await apiClient.get('http://localhost:8085/post/getbypagenumandpagesize/test?pageNum=0', {
+        headers: header,
+      });
+      console.log(res.data);
+    } catch (err) {
+      // 处理错误
+      console.error("An error occurred:", err);
+    }
+  }
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
-    const header = { 'Content-Type': 'application/json' };
-    await instance.get('http://localhost:8085/post/getbypagenumandpagesize/test?pageNum=0', {
-      headers: header,
-    }).then(res=>{
-      console.log(res.data)
-    });
-  };
+    const header = {'Content-Type': 'application/json'};
+    fetchData(header)
+  }
   const { Title, Text } = Typography;
   const ConfirmButton = () => {
     const formState = useFormState();
