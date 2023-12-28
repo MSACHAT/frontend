@@ -8,25 +8,22 @@ import {
 import { useState } from 'react';
 import './loginStyle.scss';
 import { IconArrowRight } from '@douyinfe/semi-icons';
+import axios from "axios";
+// import changePwdToUuid from "../../middlewares/uuidMiddleWare";
+const {addToken}=require('../../middlewares/tokenMiddleWare.js')
+// 创建 Koa 应用程序
+// const Koa = require('koa');
+// const app = new Koa();
+// app.use(addToken);
 export const Login = () => {
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
-    const requestLogin = new Promise((resolve, reject) => {
-      let isSuccessful = Math.random() >= 0.5; // 随机成功或失败
-      console.log(isSuccessful);
-      if (isSuccessful) {
-        resolve({ success: true }); // 成功，调用resolve
-      } else {
-        resolve({ msg: '密码错误', code: 1001 });
-      }
-    });
-    await requestLogin.then(res => {
-      if (res.msg) {
-        setLoginFailInfo(res.msg);
-      } else {
-        Toast.success('登录成功');
-      }
-    });
+    // const header = { 'Content-Type': 'application/json' };
+    // await axios.post('http://localhost:8085/login',changePwdToUuid(values), {
+    //   headers: header,
+    // }).then(res=>{
+    //   console.log(res.data)
+    // });
   };
   const { Title, Text } = Typography;
   const ConfirmButton = () => {

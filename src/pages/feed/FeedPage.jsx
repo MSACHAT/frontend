@@ -5,7 +5,7 @@ import { IconChevronLeft, IconPlus } from '@douyinfe/semi-icons';
 import { GetData } from './HookToGetData.jsx';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { handleError } from '../../middlewares/errorHandlingMiddleWare';
 export function Feed() {
   const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
@@ -53,6 +53,7 @@ export function Feed() {
   const [posts, setPosts] = useState({ data: [] });
   const [totalPages, setTotalPages] = useState();
   useEffect(() => {
+    handleError("Error Test")
     //用于往后端发送前端本地保存的点赞
     const header = { 'Content-Type': 'application/json' };
     const interval = setInterval(() => {
@@ -78,6 +79,7 @@ export function Feed() {
     GetData(pageNum, pageSize).then(result => {
       setPosts(result);
       setTotalPages(result.totalPages);
+      
     });
     setPageNum(pageNum + 1);
     // setPosts(data);

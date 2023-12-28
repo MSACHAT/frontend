@@ -13,6 +13,7 @@
     "axios": "^1.6.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.1",
+    "koa": "^2.14.2",
     "prettier": "^2.5.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -21,6 +22,7 @@
     "react-scripts": "5.0.1",
     "react-virtualized": "^9.22.5",
     "sass": "^1.69.5",
+    "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
