@@ -8,26 +8,24 @@ import {
 import { useState } from 'react';
 import './loginStyle.scss';
 import { IconArrowRight } from '@douyinfe/semi-icons';
+import apiClient from "../../middlewares/axiosInterceptors"
 export const Login = () => {
+  async function fetchData(header) {
+    try {
+      const res = await apiClient.get('http://localhost:8085/post/getbypagenumandpagesize/test?pageNum=0', {
+        headers: header,
+      });
+      console.log(res.data);
+    } catch (err) {
+      // 处理错误
+      console.error("An error occurred:", err);
+    }
+  }
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
-    const requestLogin = new Promise((resolve, reject) => {
-      let isSuccessful = Math.random() >= 0.5; // 随机成功或失败
-      console.log(isSuccessful);
-      if (isSuccessful) {
-        resolve({ success: true }); // 成功，调用resolve
-      } else {
-        resolve({ msg: '密码错误', code: 1001 });
-      }
-    });
-    await requestLogin.then(res => {
-      if (res.msg) {
-        setLoginFailInfo(res.msg);
-      } else {
-        Toast.success('登录成功');
-      }
-    });
-  };
+    const header = {'Content-Type': 'application/json'};
+    fetchData(header)
+  }
   const { Title, Text } = Typography;
   const ConfirmButton = () => {
     const formState = useFormState();
