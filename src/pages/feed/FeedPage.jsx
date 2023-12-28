@@ -5,7 +5,6 @@ import { IconChevronLeft, IconPlus } from '@douyinfe/semi-icons';
 import { GetData } from './HookToGetData.jsx';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
 export function Feed() {
   const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
@@ -78,6 +77,7 @@ export function Feed() {
     GetData(pageNum, pageSize).then(result => {
       setPosts(result);
       setTotalPages(result.totalPages);
+      
     });
     setPageNum(pageNum + 1);
     // setPosts(data);
