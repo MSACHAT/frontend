@@ -4,25 +4,29 @@
   "private": true,
   "dependencies": {
     "@douyinfe/semi-icons": "^2.49.1",
-    "@douyinfe/semi-ui": "^2.46.1",
+    "@douyinfe/semi-ui": "^2.49.1",
+    "@semi-bot/semi-theme-moonshot": "^1.0.4",
     "@semi-bot/semi-theme-ty": "^1.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.1",
+    "prettier": "^2.5.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.19.0",
     "react-scripts": "5.0.1",
     "react-virtualized": "^9.22.5",
-    "uuid": "^9.0.1",
+    "sass": "^1.69.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -44,6 +48,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.1.0",
+    "@douyinfe/semi-webpack-plugin": "^2.49.1",
+    "typescript": "^5.3.3"
   }
 }

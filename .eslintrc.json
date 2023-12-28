@@ -1,0 +1,13 @@
+{
+  "extends": ["prettier"],
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+
+  "env": {
+    "es6": true,
+    "node": true
+  }
+}
