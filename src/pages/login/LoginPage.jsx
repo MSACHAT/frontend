@@ -7,23 +7,20 @@ import {
 } from '@douyinfe/semi-ui';
 import { useState } from 'react';
 import './loginStyle.scss';
-import { IconArrowRight } from '@douyinfe/semi-icons';
 import axios from "axios";
+import { IconArrowRight } from '@douyinfe/semi-icons';
+import instance from "../../middlewares/axiosInterceptors"
 // import changePwdToUuid from "../../middlewares/uuidMiddleWare";
-const {addToken}=require('../../middlewares/tokenMiddleWare.js')
-// 创建 Koa 应用程序
-// const Koa = require('koa');
-// const app = new Koa();
-// app.use(addToken);
+// const {addToken}=require('../../middlewares/tokenMiddleWare.js')
 export const Login = () => {
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
-    // const header = { 'Content-Type': 'application/json' };
-    // await axios.post('http://localhost:8085/login',changePwdToUuid(values), {
-    //   headers: header,
-    // }).then(res=>{
-    //   console.log(res.data)
-    // });
+    const header = { 'Content-Type': 'application/json' };
+    await instance.get('http://localhost:8085/post/getbypagenumandpagesize/test?pageNum=0', {
+      headers: header,
+    }).then(res=>{
+      console.log(res.data)
+    });
   };
   const { Title, Text } = Typography;
   const ConfirmButton = () => {

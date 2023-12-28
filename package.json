@@ -13,7 +13,6 @@
     "axios": "^1.6.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.1",
-    "koa": "^2.14.2",
     "prettier": "^2.5.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

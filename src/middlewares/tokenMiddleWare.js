@@ -1,7 +1,5 @@
-const Koa = require('koa');
 const axios = require('axios');
 
-const app = new Koa();
 async function addToken(ctx, next) {
     const token = 'your_token_here';
     ctx.request.headers['Authorization'] = `Bearer ${token}`;
