@@ -3,6 +3,7 @@ import { Avatar, Toast } from '@douyinfe/semi-ui';
 import fakeData from "../../mockdata/ProfileMockData.json";
 import { Post } from "../../components/PostComponentNew.jsx";
 import BottomBarCompomnent from "../../components/BottomBarComponent.jsx";
+import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
 
 export const Profile = () => {
   const [postData, setPostData] = useState([]);
@@ -37,8 +38,25 @@ export const Profile = () => {
         setLoginSuccess(true);
       }
     });
-  }, []); // 依赖数组为空，确保 effect 在初始渲染后只执行一次
 
+  }, []); // 依赖数组为空，确保 effect 在初始渲染后只执行一次
+ function loadMoreData() {
+    if (pageNum >= totalPages) {
+      // 没有更多的分页请求了，就不要再请求了
+      return;
+    }
+    setPageNum(pageNum + 1);
+    setPosts(prevPosts => ({
+      data: [...prevPosts.data, ...testData.data],
+    }));
+    setTotalPages(testData.totalPages);
+  }
+
+  useEffect(() => {
+    // 初始加载数据
+    setPosts({ data: testData.data });
+    setTotalPages(testData.totalPages);
+  }, []);
   return (
     <>
       <div>
@@ -49,7 +67,7 @@ export const Profile = () => {
       <div>
         <h1>个人页面</h1>
       </div>
-      
+
 {loginSuccess ? (
   <Post
     userName={postData.userName}

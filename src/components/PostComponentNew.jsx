@@ -85,7 +85,7 @@ export const Post = props => {
     "https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/sky.jpg"
   ];
   console.log(images);
-  
+
   return (
     <>
 
@@ -107,7 +107,7 @@ export const Post = props => {
           {content}
         </Text>
         <br />
-        <PostImgs imgUrls={inputList} />;
+        <PostImgs imgUrls={images} />;
         <br />
         <PostStatsBar
           likeCount={likeCount}

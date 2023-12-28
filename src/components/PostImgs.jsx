@@ -1,6 +1,7 @@
 import './postImgStyle.scss';
 import { Image, ImagePreview } from '@douyinfe/semi-ui';
 export const PostImgs = ({ imgUrls }) => {
+  
   if (!imgUrls.length) {
     return null;
   }
