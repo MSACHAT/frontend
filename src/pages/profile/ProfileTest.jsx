@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar, Toast } from '@douyinfe/semi-ui';
-import fakeData from "../../mockdata/ProfileMockData.json";
-import { Post } from "../../components/PostComponentNew.jsx";
-import BottomBarCompomnent from "../../components/BottomBarComponent.jsx";
-import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
+import fakeData from '../../mockdata/ProfileMockData.json';
+import { Post } from '../../components/PostComponentNew.jsx';
+import BottomBarCompomnent from '../../components/BottomBarComponent.jsx';
 
 export const Profile = () => {
   const [postData, setPostData] = useState([]);
@@ -38,9 +37,8 @@ export const Profile = () => {
         setLoginSuccess(true);
       }
     });
-
   }, []); // 依赖数组为空，确保 effect 在初始渲染后只执行一次
- function loadMoreData() {
+  function loadMoreData() {
     if (pageNum >= totalPages) {
       // 没有更多的分页请求了，就不要再请求了
       return;
@@ -68,21 +66,21 @@ export const Profile = () => {
         <h1>个人页面</h1>
       </div>
 
-{loginSuccess ? (
-  <Post
-    userName={postData.userName}
-    timeStamp={postData.timeStamp}
-    images={postData.data[0].images}  // 选择一个帖子的图像数组
-    content={postData.data[0].content}  // 选择一个帖子的内容
-    likeCount={postData.data[0].likeCount}  // 选择一个帖子的点赞数
-    commentCount={postData.data[0].commentCount}  // 选择一个帖子的评论数
-    liked={postData.data[0].isLiked}  // 选择一个帖子的是否点赞
-    title={postData.data[0].title}  // 选择一个帖子的标题
-    postId={postData.data[0].postId}  // 选择一个帖子的 ID
-  />
-) : (
-  <p>Login failed: {loginSuccess}</p>
-)}
+      {loginSuccess ? (
+        <Post
+          userName={postData.userName}
+          timeStamp={postData.timeStamp}
+          images={postData.data[0].images} // 选择一个帖子的图像数组
+          content={postData.data[0].content} // 选择一个帖子的内容
+          likeCount={postData.data[0].likeCount} // 选择一个帖子的点赞数
+          commentCount={postData.data[0].commentCount} // 选择一个帖子的评论数
+          liked={postData.data[0].isLiked} // 选择一个帖子的是否点赞
+          title={postData.data[0].title} // 选择一个帖子的标题
+          postId={postData.data[0].postId} // 选择一个帖子的 ID
+        />
+      ) : (
+        <p>Login failed: {loginSuccess}</p>
+      )}
       <BottomBarCompomnent></BottomBarCompomnent>
     </>
   );
