@@ -23,13 +23,7 @@ export const Profile = () => {
   const fetchData = () => {
     setLoading(true);
     return new Promise(res => {
-      setTimeout(() => {
-        let newDataSource = data.slice(
-          dataCount * count,
-          dataCount * count + count
-        );
-        res(fakeData.data);
-      }, 10);
+      res(fakeData.data);
     }).then(newDataSource => {
       const newData = [...dataSource, ...newDataSource];
       setDataCount(prevCount => prevCount + 1);
@@ -81,7 +75,7 @@ export const Profile = () => {
           pageStart={0}
           threshold={20}
           loadMore={fetchData}
-          hasMore={!loading && hasMore && !showLoadMore}
+          hasMore={true}
           useWindow={false}
         >
           <List
