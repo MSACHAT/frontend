@@ -1,4 +1,4 @@
-{
+[{
   "title": "测试标题1",
   "content": "这是一个测试内容1。",
   "images": [
@@ -13,3 +13,4 @@
   "comments": 5,
   "preIsLike": true
 }
+]

@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import {ImagePreview, Image, Typography, Avatar, Button} from '@douyinfe/semi-ui';
 import axios from "axios";
 import {IconChevronLeft, } from "@douyinfe/semi-icons";
-import mockData from "/mockPost.json"
 import PropTypes from "prop-types";
 import { useParams } from 'react-router-dom';
 

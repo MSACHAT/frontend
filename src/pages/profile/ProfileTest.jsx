@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Col, Row, Avatar, Toast } from '@douyinfe/semi-ui';
-import fakeData from '../../mockdata/ProfileMockData.json';
-import DataComponent from '../../components/DataComponent.jsx';
-import { Login } from '../login/LoginPage.jsx';
-import LayoutList from '../../components/GridComponent.jsx';
+import { Avatar, Toast } from '@douyinfe/semi-ui';
+import fakeData from "../../mockdata/ProfileMockData.json";
+import { Post } from "../../components/PostComponentNew.jsx";
+import BottomBarCompomnent from "../../components/BottomBarComponent.jsx";
 
 export const Profile = () => {
   const [postData, setPostData] = useState([]);
@@ -44,18 +43,31 @@ export const Profile = () => {
     <>
       <div>
         <Avatar size="default" style={{ margin: 4 }} alt="User">
-          <img src={postData.protrait} />
+          <img src={postData.protrait} alt="User" />
         </Avatar>
       </div>
       <div>
         <h1>个人页面</h1>
       </div>
-      {loginSuccess ? (
-        <LayoutList></LayoutList>
-      ) : (
-        <p>Login failed: {loginSuccess}</p>
-      )}
+      
+{loginSuccess ? (
+  <Post
+    userName={postData.userName}
+    timeStamp={postData.timeStamp}
+    images={postData.data[0].images}  // 选择一个帖子的图像数组
+    content={postData.data[0].content}  // 选择一个帖子的内容
+    likeCount={postData.data[0].likeCount}  // 选择一个帖子的点赞数
+    commentCount={postData.data[0].commentCount}  // 选择一个帖子的评论数
+    liked={postData.data[0].isLiked}  // 选择一个帖子的是否点赞
+    title={postData.data[0].title}  // 选择一个帖子的标题
+    postId={postData.data[0].postId}  // 选择一个帖子的 ID
+  />
+) : (
+  <p>Login failed: {loginSuccess}</p>
+)}
+      <BottomBarCompomnent></BottomBarCompomnent>
     </>
   );
 };
+
 export default Profile;
