@@ -5,24 +5,15 @@ import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
 
 export const Profile = () => {
-  const count = 5;
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [dataCount, setDataCount] = useState(0);
   const [postData, setPostData] = useState([]);
-  const data = [];
-  for (let i = 0; i < 100; i++) {
-    data.push({
-      color: 'grey',
-      title: `Semi Design Title ${i}`,
-      loading: false,
-    });
-  }
-
   const fetchData = () => {
     setLoading(true);
     return new Promise(res => {
+      //TODO 这里替换为真实的请求
       res(fakeData.data);
     }).then(newDataSource => {
       const newData = [...dataSource, ...newDataSource].map((x, index) => {
