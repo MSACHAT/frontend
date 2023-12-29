@@ -25,7 +25,9 @@ export const Profile = () => {
     return new Promise(res => {
       res(fakeData.data);
     }).then(newDataSource => {
-      const newData = [...dataSource, ...newDataSource];
+      const newData = [...dataSource, ...newDataSource].map((x, index) => {
+        return { ...x, likeCount: index };
+      });
       setDataCount(prevCount => prevCount + 1);
       setLoading(false);
       setDataSource(newData);
