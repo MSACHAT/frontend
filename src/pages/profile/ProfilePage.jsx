@@ -75,10 +75,10 @@ export const Profile = () => {
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}
-          threshold={20}
+          threshold={40}
           loadMore={fetchData}
-          hasMore={true}
-          useWindow={false}
+          hasMore={!loading && hasMore && !showLoadMore}
+          useWindow={true}
         >
           <List
             loadMore={loadMore}
