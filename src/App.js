@@ -1,7 +1,7 @@
 import { Login } from './pages/login/LoginPage.jsx';
 import { Space } from '@douyinfe/semi-ui';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { Profile } from './pages/profile/ProfileTest.jsx';
+import { Profile } from './pages/profile/ProfilePage.jsx';
 import { Feed } from './pages/feed/FeedPage.jsx';
 import { Notifications } from './pages/notifications/NotificationsPage.jsx';
 import PushPost from './pages/post/PostPushingPage.jsx';

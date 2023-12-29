@@ -1,133 +1,89 @@
-import React from 'react';
-import { List, Avatar } from '@douyinfe/semi-ui';
-import { InfiniteLoader, AutoSizer } from 'react-virtualized';
-import VList from 'react-virtualized/dist/commonjs/List';
+import React, { useState, useEffect } from 'react';
+import { Avatar, Toast } from '@douyinfe/semi-ui';
+import fakeData from '../../mockdata/ProfileMockData.json';
+import { Post } from '../../components/PostComponentNew.jsx';
+import BottomBarCompomnent from '../../components/BottomBarComponent.jsx';
 
-class VirtualizedScroll extends React.Component {
-    constructor() {
-        super();
+export const Profile = () => {
+  const [postData, setPostData] = useState([]);
+  const [loginSuccess, setLoginSuccess] = useState(undefined);
 
-        const dataList = [];
-        for (let i = 0; i < 50; i++) {
-            dataList.push({
-                color: 'grey',
-                title: `Semi Design Title ${i}`,
-            });
-        }
-        this.data = dataList;
+  useEffect(() => {
+    // 模拟登录请求的Promise
+    const requestProfile = new Promise((resolve, reject) => {
+      // 随机生成成功或失败
+      let isSuccessful = true;
 
-        this.fetchData = (startIndex, stopIndex) => {
-            return new Promise((res, rej) => {
-                setTimeout(() => {
-                    let dataSource = this.data.slice(startIndex, stopIndex + 1);
-                    res(dataSource);
-                }, 1000);
-            }).then(dataSource => {
-                let newData = [...this.state.dataSource, ...dataSource];
-                const { loadedRowsMap, loadingRowCount } = this.state;
-                const increment = stopIndex - startIndex + 1;
-                for (let i = startIndex; i <= stopIndex; i++) {
-                    loadedRowsMap[i] = this.statusLoaded;
-                }
-                this.setState({
-                    dataSource: newData,
-                    loadedRowsMap,
-                    loadingRowCount: loadingRowCount - increment,
-                });
-            });
-        };
+      if (isSuccessful) {
+        // 成功时，调用resolve
+        resolve(fakeData);
+      } else {
+        // 失败时，调用resolve，并返回错误消息和代码
+        resolve({ msg: '密码错误', code: 1001 });
+      }
+    });
 
-        this.state = {
-            dataSource: [],
-            loadedRowsMap: {},
-            loadingRowCount: 0,
-        };
-
-        this.statusLoading = 0;
-        this.statusLoaded = 1;
-        this.loadLimit = this.data.length;
-        this.renderItem = this.renderItem.bind(this);
-        this.fetchData = this.fetchData.bind(this);
-        this.handleInfiniteOnLoad = this.handleInfiniteOnLoad.bind(this);
-        this.isRowLoaded = this.isRowLoaded.bind(this);
+    // 等待登录请求的Promise解析
+    requestProfile.then(res => {
+      console.log(res);
+      if (res.msg) {
+        // 如果有错误消息，将错误消息存储到状态中
+        setLoginSuccess(res.msg);
+      } else {
+        // 如果没有错误消息，显示登录成功的Toast
+        Toast.success('登录成功');
+        console.log(loginSuccess);
+        setPostData(fakeData);
+        setLoginSuccess(true);
+      }
+    });
+  }, []); // 依赖数组为空，确保 effect 在初始渲染后只执行一次
+  function loadMoreData() {
+    if (pageNum >= totalPages) {
+      // 没有更多的分页请求了，就不要再请求了
+      return;
     }
+    setPageNum(pageNum + 1);
+    setPosts(prevPosts => ({
+      data: [...prevPosts.data, ...testData.data],
+    }));
+    setTotalPages(testData.totalPages);
+  }
 
-    handleInfiniteOnLoad({ startIndex, stopIndex }) {
-        let { dataSource, loadedRowsMap, loadingRowCount } = this.state;
-        const increment = stopIndex - startIndex + 1;
-        if (stopIndex >= this.loadLimit || loadingRowCount > 0) {
-            return;
-        }
-        for (let i = startIndex; i <= stopIndex; i++) {
-            loadedRowsMap[i] = this.statusLoading;
-        }
-        this.setState({
-            loadingRowCount: loadingRowCount + increment,
-        });
-        return this.fetchData(startIndex, stopIndex);
-    }
+  useEffect(() => {
+    // 初始加载数据
+    setPosts({ data: testData.data });
+    setTotalPages(testData.totalPages);
+  }, []);
+  return (
+    <>
+      <div>
+        <Avatar size="default" style={{ margin: 4 }} alt="User">
+          <img src={postData.protrait} alt="User" />
+        </Avatar>
+      </div>
+      <div>
+        <h1>个人页面</h1>
+      </div>
 
-    isRowLoaded({ index }) {
-        const { loadedRowsMap } = this.state;
-        return !!loadedRowsMap[index];
-    }
+      {loginSuccess ? (
+        <Post
+          userName={postData.userName}
+          timeStamp={postData.timeStamp}
+          images={postData.data[0].images} // 选择一个帖子的图像数组
+          content={postData.data[0].content} // 选择一个帖子的内容
+          likeCount={postData.data[0].likeCount} // 选择一个帖子的点赞数
+          commentCount={postData.data[0].commentCount} // 选择一个帖子的评论数
+          liked={postData.data[0].isLiked} // 选择一个帖子的是否点赞
+          title={postData.data[0].title} // 选择一个帖子的标题
+          postId={postData.data[0].postId} // 选择一个帖子的 ID
+        />
+      ) : (
+        <p>Login failed: {loginSuccess}</p>
+      )}
+      <BottomBarCompomnent></BottomBarCompomnent>
+    </>
+  );
+};
 
-    renderItem({ index, key, style }) {
-        const { dataSource, loadedRowsMap } = this.state;
-        const item = dataSource[index];
-
-        if (!item) {
-            return;
-        }
-        const content = (
-            <List.Item
-                key={key}
-                style={style}
-                header={<Avatar color={item.color}>SE</Avatar>}
-                main={
-                    <div>
-                        <span style={{ color: 'var(--semi-color-text-0)', fontWeight: 500 }}>{item.title}</span>
-                        <p style={{ color: 'var(--semi-color-text-2)', margin: '4px 0' }}>
-                            Semi Design
-                            设计系统包含设计语言以及一整套可复用的前端组件，帮助设计师与开发者更容易地打造高质量的、用户体验一致的、符合设计规范的
-                            Web 应用。
-                        </p>
-                    </div>
-                }
-            />
-        );
-        return content;
-    }
-
-    render() {
-        const { dataSource } = this.state;
-        const height = 500;
-        return (
-            <List style={{ border: '1px solid var(--semi-color-border)', padding: 10 }}>
-                <InfiniteLoader
-                    isRowLoaded={this.isRowLoaded}
-                    loadMoreRows={this.handleInfiniteOnLoad}
-                    rowCount={this.loadLimit}
-                >
-                    {({ onRowsRendered, registerChild }) => (
-                        <AutoSizer disableHeight>
-                            {({ width }) => (
-                                <VList
-                                    ref={registerChild}
-                                    height={height}
-                                    onRowsRendered={onRowsRendered}
-                                    rowCount={this.loadLimit}
-                                    rowHeight={118}
-                                    rowRenderer={this.renderItem}
-                                    width={width}
-                                />
-                            )}
-                        </AutoSizer>
-                    )}
-                </InfiniteLoader>
-            </List>
-        );
-    }
-}
-
-render(VirtualizedScroll);
+export default Profile;
