@@ -2,10 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import {ImagePreview, Image, Typography, Avatar, Button} from '@douyinfe/semi-ui';
 import axios from "axios";
 import {IconChevronLeft, } from "@douyinfe/semi-icons";
+
 import PropTypes from "prop-types";
 import { useParams } from 'react-router-dom';
 
-const LikesCount = ({ likes }) => {
+const  LikesCount = ({ likes }) => {
 
   const formatLikesCount = (likes) => {
 
