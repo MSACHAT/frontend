@@ -5,27 +5,20 @@ import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
 
 export const Profile = () => {
-  const count = 5;
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [dataCount, setDataCount] = useState(0);
   const [postData, setPostData] = useState([]);
-  const data = [];
-  for (let i = 0; i < 100; i++) {
-    data.push({
-      color: 'grey',
-      title: `Semi Design Title ${i}`,
-      loading: false,
-    });
-  }
-
   const fetchData = () => {
     setLoading(true);
     return new Promise(res => {
+      //TODO 这里替换为真实的请求
       res(fakeData.data);
     }).then(newDataSource => {
-      const newData = [...dataSource, ...newDataSource];
+      const newData = [...dataSource, ...newDataSource].map((x, index) => {
+        return { ...x, likeCount: index };
+      });
       setDataCount(prevCount => prevCount + 1);
       setLoading(false);
       setDataSource(newData);
@@ -73,27 +66,15 @@ export const Profile = () => {
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}
-          threshold={20}
+          threshold={40}
           loadMore={fetchData}
-          hasMore={true}
-          useWindow={false}
+          hasMore={!loading && hasMore && !showLoadMore}
+          useWindow={true}
         >
           <List
             loadMore={loadMore}
             dataSource={dataSource}
-            renderItem={item => (
-              <Post
-                userName={item.userName}
-                timeStamp={item.timeStamp}
-                images={item.images} // 选择一个帖子的图像数组
-                content={item.content} // 选择一个帖子的内容
-                likeCount={item.likeCount} // 选择一个帖子的点赞数
-                commentCount={item.commentCount} // 选择一个帖子的评论数
-                liked={item.isLiked} // 选择一个帖子的是否点赞
-                title={item.title} // 选择一个帖子的标题
-                postId={item.postId} // 选择一个帖子的 ID
-              />
-            )}
+            renderItem={item => <Post {...item} />}
           />
           {loading && hasMore && (
             <div style={{ textAlign: 'center' }}>
