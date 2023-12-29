@@ -74,19 +74,7 @@ export const Profile = () => {
           <List
             loadMore={loadMore}
             dataSource={dataSource}
-            renderItem={item => (
-              <Post
-                userName={item.userName}
-                timeStamp={item.timeStamp}
-                images={item.images} // 选择一个帖子的图像数组
-                content={item.content} // 选择一个帖子的内容
-                likeCount={item.likeCount} // 选择一个帖子的点赞数
-                commentCount={item.commentCount} // 选择一个帖子的评论数
-                liked={item.isLiked} // 选择一个帖子的是否点赞
-                title={item.title} // 选择一个帖子的标题
-                postId={item.postId} // 选择一个帖子的 ID
-              />
-            )}
+            renderItem={item => <Post {...item} />}
           />
           {loading && hasMore && (
             <div style={{ textAlign: 'center' }}>
