@@ -1,62 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Toast } from '@douyinfe/semi-ui';
 import fakeData from '../../mockdata/ProfileMockData.json';
 import { Post } from '../../components/PostComponentNew.jsx';
-import BottomBarCompomnent from '../../components/BottomBarComponent.jsx';
+import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
+import InfiniteScroll from 'react-infinite-scroller';
 
 export const Profile = () => {
+  const [loading, setLoading] = useState(false);
+  const [dataSource, setDataSource] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [dataCount, setDataCount] = useState(0);
   const [postData, setPostData] = useState([]);
-  const [loginSuccess, setLoginSuccess] = useState(undefined);
+  const fetchData = () => {
+    setLoading(true);
+    return new Promise(res => {
+      //TODO 这里替换为真实的请求
+      res(fakeData.data);
+    }).then(newDataSource => {
+      const newData = [...dataSource, ...newDataSource].map((x, index) => {
+        return { ...x, likeCount: index };
+      });
+      setDataCount(prevCount => prevCount + 1);
+      setLoading(false);
+      setDataSource(newData);
+      setHasMore(newDataSource.length !== 0);
+    });
+  };
 
   useEffect(() => {
-    // 模拟登录请求的Promise
-    const requestProfile = new Promise((resolve, reject) => {
-      // 随机生成成功或失败
-      let isSuccessful = true;
-
-      if (isSuccessful) {
-        // 成功时，调用resolve
-        resolve(fakeData);
-      } else {
-        // 失败时，调用resolve，并返回错误消息和代码
-        resolve({ msg: '密码错误', code: 1001 });
-      }
-    });
-
-    // 等待登录请求的Promise解析
-    requestProfile.then(res => {
-      console.log(res);
-      if (res.msg) {
-        // 如果有错误消息，将错误消息存储到状态中
-        setLoginSuccess(res.msg);
-      } else {
-        // 如果没有错误消息，显示登录成功的Toast
-        Toast.success('登录成功');
-        console.log(loginSuccess);
-        setPostData(fakeData);
-        setLoginSuccess(true);
-      }
-    });
-  }, []); // 依赖数组为空，确保 effect 在初始渲染后只执行一次
-  function loadMoreData() {
-    if (pageNum >= totalPages) {
-      // 没有更多的分页请求了，就不要再请求了
-      return;
-    }
-    setPageNum(pageNum + 1);
-    setPosts(prevPosts => ({
-      data: [...prevPosts.data, ...testData.data],
-    }));
-    setTotalPages(testData.totalPages);
-  }
-
-  useEffect(() => {
-    // 初始加载数据
-    setPosts({ data: testData.data });
-    setTotalPages(testData.totalPages);
+    fetchData();
   }, []);
+
+  const showLoadMore = dataCount % 4 === 0;
+  const loadMore =
+    !loading && hasMore && showLoadMore ? (
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: 12,
+          height: 32,
+          lineHeight: '32px',
+        }}
+      >
+        <Button onClick={fetchData}>显示更多</Button>
+      </div>
+    ) : null;
+
   return (
-    <>
+    <div>
       <div>
         <Avatar size="default" style={{ margin: 4 }} alt="User">
           <img src={postData.protrait} alt="User" />
@@ -65,25 +55,34 @@ export const Profile = () => {
       <div>
         <h1>个人页面</h1>
       </div>
-
-      {loginSuccess ? (
-        <Post
-          userName={postData.userName}
-          timeStamp={postData.timeStamp}
-          images={postData.data[0].images} // 选择一个帖子的图像数组
-          content={postData.data[0].content} // 选择一个帖子的内容
-          likeCount={postData.data[0].likeCount} // 选择一个帖子的点赞数
-          commentCount={postData.data[0].commentCount} // 选择一个帖子的评论数
-          liked={postData.data[0].isLiked} // 选择一个帖子的是否点赞
-          title={postData.data[0].title} // 选择一个帖子的标题
-          postId={postData.data[0].postId} // 选择一个帖子的 ID
-        />
-      ) : (
-        <p>Login failed: {loginSuccess}</p>
-      )}
-      <BottomBarCompomnent></BottomBarCompomnent>
-    </>
+      <div
+        className="light-scrollbar"
+        style={{
+          overflow: 'auto',
+          border: '1px solid var(--semi-color-border)',
+          padding: 10,
+        }}
+      >
+        <InfiniteScroll
+          initialLoad={false}
+          pageStart={0}
+          threshold={40}
+          loadMore={fetchData}
+          hasMore={!loading && hasMore && !showLoadMore}
+          useWindow={true}
+        >
+          <List
+            loadMore={loadMore}
+            dataSource={dataSource}
+            renderItem={item => <Post {...item} />}
+          />
+          {loading && hasMore && (
+            <div style={{ textAlign: 'center' }}>
+              <Spin />
+            </div>
+          )}
+        </InfiniteScroll>
+      </div>
+    </div>
   );
 };
-
-export default Profile;
