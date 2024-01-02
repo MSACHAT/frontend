@@ -1,6 +1,6 @@
 import { Typography, TextArea, Image, Space } from '@douyinfe/semi-ui';
 import { Avatar } from '@douyinfe/semi-ui';
-import Icon, { IconLikeHeart, IconComment } from '@douyinfe/semi-icons';
+import Icon, { IconHeartStroked , IconCommentStroked  } from '@douyinfe/semi-icons';
 import React, { useEffect, useState } from 'react';
 import { PostImgs } from '../components/PostImgs';
 import './postStyle.scss';
@@ -60,13 +60,13 @@ export const PostStatsBar = props => {
         <Space align={'center'}>
 
         
-          <IconLikeHeart
+          <IconHeartStroked
             style={{ color }}
             size="default"
             onClick={() => handleClickOnLike(color, postId)}
           />
-          <Text size="small" style={{ marginRight: 5 }}>{likeLocalCount}</Text>
-          <IconComment size={'default'} />
+          <Text size="small" color='#180001' style={{ marginRight: 5 }}>{likeLocalCount}</Text>
+          <IconCommentStroked  size={'default'} />
           <Text size='small' >{commentCount}</Text>
           </Space>
 
