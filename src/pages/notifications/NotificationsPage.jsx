@@ -1,46 +1,39 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { Layout, Typography, Table, Toast } from '@douyinfe/semi-ui';
-// @ts-ignore
-import { Post } from '../../components/PostComponent.jsx';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
-// @ts-ignore
 import { GetData } from './HookToGetData.jsx';
 import { useState, useEffect } from 'react';
-// @ts-ignore
 import { Notif } from '../../components/NotifComponent.jsx';
-import axios from 'axios';
 import './notifStyle.scss';
-
+import apiClient from "../../middlewares/axiosInterceptors";
+import InfiniteScroll from 'react-infinite-scroll-component'
 export function Notifications() {
-  const [pageSize, setPageSize] = useState(10); //修改这个值来调整一次获取的数据量
+  const [pageSize, setPageSize] = useState(12); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const { Header, Content, Footer } = Layout;
   const { Column } = Table;
   const [notifs, setNotifs] = useState({ data: [] });
   const { Text } = Typography;
-  const [newestNotifId, setNewestNotifId] = useState(null);
+  const contentRef = useRef(null);
+  let notifTag=null;
   let notifNums = 0;
-  window.onscroll = function () {
-    //变量scrollTop是滚动条滚动时，滚动条上端距离顶部的距离
-    var scrollTop =
-      document.documentElement.scrollTop || document.body.scrollTop;
+  window.addEventListener('scroll', function() {
+    let content = document.getElementById("notifs");
+    if (content!=null) {
+      content.addEventListener("scroll", function () {
+        let scrollTop = content.scrollTop;
+        let windowHeight = content.clientHeight;
+        let scrollHeight = content.scrollHeight;
 
-    //变量windowHeight是可视区的高度
-    var windowHeight =
-      document.documentElement.clientHeight || document.body.clientHeight;
-
-    //变量scrollHeight是滚动条的总高度（当前可滚动的页面的总高度）
-    var scrollHeight =
-      document.documentElement.scrollHeight || document.body.scrollHeight;
-
-    //滚动条到底部
-    if (scrollTop + windowHeight >= scrollHeight) {
-      //对于手机端来说，中间的符号可能用===比较好
-      loadMoreData();
+        if (scrollTop + windowHeight >= scrollHeight*0.9) {
+          console.log("到底了");
+          // 对于手机端来说，中间的符号可能用===比较好
+          loadMoreData();
+        }
+      });
     }
-  };
-
+  })
   function timeAgo(isoString) {
     const pastTime = new Date(isoString);
     const now = new Date();
@@ -68,9 +61,6 @@ export function Notifications() {
   }
 
   function loadMoreData() {
-    if (pageNum > totalPages) {
-      return;
-    }
     GetData(pageNum, pageSize).then(result => {
       const header = { 'Content-Type': 'application/json' };
       result.data = [...notifs.data, ...result.data];
@@ -81,36 +71,25 @@ export function Notifications() {
     setPageNum(pageNum + 1);
   }
 
-  useEffect(() => {
-    if (newestNotifId != null) {
-      const header = { 'Content-Type': 'application/json' };
-      axios.post('http://localhost:8085/notif/isread', newestNotifId, {
-        headers: header,
-      });
-    }
-  }, [newestNotifId]); // 依赖于 newestNotif 的变化
 
   useEffect(() => {
     GetData(pageNum, pageSize).then(result => {
       setNotifs(result);
       setTotalPages(result.totalPages);
       notifNums = result.totalNotifs;
-      setNewestNotifId(result.data[0].id);
+      notifTag=new Date(result.notifTag).getTime();
+      console.log("NotifTag"+new Date(result.notifTag))
     });
     setPageNum(pageNum + 1);
   }, []);
   useEffect(() => {
     const header = { 'Content-Type': 'application/json' };
     const interval = setInterval(() => {
-      axios
-        .get('http://localhost:8085/notif/getbypagenumandpagesize/test', {
+      apiClient.get('http://localhost:8085/notif/getbypagenumandpagesize/test', {
           params: {
             pageNum: pageNum,
             pageSize: pageSize,
-          },
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          }
         })
         .then(res => {
           console.log('resdtttfnotis' + res.data.totalNotifs);
@@ -127,7 +106,6 @@ export function Notifications() {
           console.log(err);
         });
     }, 1000 * 20);
-    console.log(notifNums, '22222');
 
     return () => clearInterval(interval);
   }, []);
@@ -143,21 +121,29 @@ export function Notifications() {
         <Text className={'notif-title'}>消息中心</Text>
         <span style={{ width: '16px', marginRight: '16px' }}></span>
       </Header>
-      <Content className={'notif-content'}>
+      <div className={'notif-content'}
+           ref={contentRef}
+      >
+        <InfiniteScroll
+            next={loadMoreData}
+            hasMore={pageNum < totalPages}
+            loader={<div key={0} style={{ textAlign: 'center', margin: '12px 0' }}>Loading...</div>}
+            dataLength={notifs.data.length}
+            scrollThreshold={0.8}
+        >
         <Table
           dataSource={notifs.data}
           pagination={false}
-          style={{ height: '80%' }}
+          className={'notif-table'}
         >
           <Column
             dataIndex="MessageType"
             key="key"
-            className={'notif-column'}
             render={(text, record) => (
               <Notif
                 previewType={record.previewType}
                 previewString={record.previewString}
-                isRead={record.isRead}
+                isRead={notifTag===null?true:notifTag < record.timeStamp ? true : false}
                 messageType={
                   record.commentContent == undefined ? 'Like' : 'Comment'
                 }
@@ -172,7 +158,8 @@ export function Notifications() {
             )}
           />
         </Table>
-      </Content>
+        </InfiniteScroll>
+      </div>
       {/*<Footer style={{...commonStyle,display: "flex", textAlign: "center"}} className="Align-Bottom" >*/}
       {/*    <Button theme='borderless' type='primary' style={{marginRight: 8}}>首页</Button>*/}
       {/*    <Button icon={<IconPlus/>} aria-label="截屏"/>*/}

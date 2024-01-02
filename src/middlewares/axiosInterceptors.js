@@ -4,13 +4,12 @@ import {Toast} from "@douyinfe/semi-ui";
 const apiClient = axios.create(); // 创建一个 Axios 实例
 apiClient.interceptors.request.use((config) => {
     console.log('请求拦截器');
-    const token = localStorage.getItem('token');
+    const token = "eyJhbGciOiJIUzM4NCJ9.eyJVc2VySWQiOjIsInN1YiI6IjE3MzU0NDM2MzRAcXEuY29tIiwiaWF0IjoxNzA0MTgzNTc5LCJleHAiOjE3MDQ3ODgzNzl9.IcxQJXseHAf05a491GMWEKW7IZLVg7QncMhIuNQ8WB_NowOQC_w3R7zTAqnvaW4n";
     // 将 Token 添加到请求头中
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
+        config.headers['Content-Type']='application/json';
     }
-    console.log(config.headers['Authorization'])
-    console.log(config.data)
     return config;
 })
 

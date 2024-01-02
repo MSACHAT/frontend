@@ -15,7 +15,7 @@ export const Notif = props => {
     previewType,
     previewString,
   } = props;
-
+console.log("IsRead"+isRead)
   const expandIconForComments =
     previewType === 'image' ? (
       <Space style={{ height: '100%', display: 'inline-flex', float: 'right' }}>
@@ -28,11 +28,7 @@ export const Notif = props => {
       </Space>
     ) : (
       <Space style={{ height: '100%', display: 'inline-flex', float: 'right' }}>
-        <Text
-          className={'notif-postpreview'}
-        >
-            {previewString}
-        </Text>
+        <Text className={'notif-postpreview'}>{previewString}</Text>
       </Space>
     );
   if (messageType === 'Comment') {
@@ -46,23 +42,23 @@ export const Notif = props => {
                 <Avatar src={userIcon} className={'notif-avatar'} />
                 <Space align={screenLeft} vertical>
                   <Text className={'notif-username'}>{userName}</Text>
-                  <Text
-                    ellipsis={{
-                      showTooltip: {
-                        opts: {
-                          content: '架构|Semi-inf|graph.cheet.relation',
-                          className: 'components-typography-demo',
+                    <Text
+                      ellipsis={{
+                        showTooltip: {
+                          opts: {
+                            content: '架构|Semi-inf|graph.cheet.relation',
+                            className: 'components-typography-demo',
+                          },
                         },
-                      },
-                    }}
-                    className={'notif-notifcontent'}
-                  >
-                    {commentContent}
-                  </Text>
+                      }}
+                      className={'notif-notifcontent'}
+                    >
+                      {commentContent}
+                    </Text>
                 </Space>
-                <Text type="quaternary" size={'small'}>
-                  {sendTime}
-                </Text>
+                  <Text type="quaternary" className={'notif-sendtime'}>
+                      {sendTime}
+                  </Text>
               </Space>
             </div>
           }
@@ -89,14 +85,13 @@ export const Notif = props => {
               <Space align={'end'}>
                 <div
                   className={isRead ? 'notif-read' : 'notif-newnotif'}
-                  style={{ backgroundColor: 'transparent' }}
                 ></div>
                 <Avatar src={userIcon} />
                 <Space vertical align={screenLeft}>
                   <Text className={'notif-username'}>{userName}</Text>
                   <Text className={'notif-notifcontent'}>{likedYourNotif}</Text>
                 </Space>
-                <Text type={'quaternary'} size={'small'}>
+                <Text type={'quaternary'} className={'notif-sendtime'}>
                   {sendTime}
                 </Text>
               </Space>

@@ -44,8 +44,7 @@ export const GetData = (pageNum, pageSize) => {
         commentContent: notif.commentContent,
         postId: notif.postId,
         senderId: notif.senderId,
-        timeStamp: notif.timeStamp,
-        isRead: notif.read,
+        timeStamp: new Date(notif.timeStamp).getTime(),
         receiverId: notif.receiverId,
         previewType:notif.previewType,
         previewString:notif.previewString
@@ -53,7 +52,8 @@ export const GetData = (pageNum, pageSize) => {
       const result = {
         data: data,
         totalPages: res.data.totalPages,
-        totalNotifs: res.data.totalNotifs
+        totalNotifs: res.data.totalNotifs,
+        notifTag:res.data.notifTag
       };
       console.log(result);
       return result;
