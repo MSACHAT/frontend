@@ -37,8 +37,9 @@ const ScrollLoad = () => {
     return (
         <div
             className="comments"
-        >
-            <Text>评论</Text>
+        >   <div className={'text'}>
+                <Text className={'content'} >评论</Text>
+            </div>
             <InfiniteScroll
                 style={{width:'100%'}}
                 initialLoad={false}

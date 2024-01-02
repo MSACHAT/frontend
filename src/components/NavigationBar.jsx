@@ -5,7 +5,7 @@ import Title from "@douyinfe/semi-ui/lib/es/typography/title";
 const NavigationBar = () => {
 
     return(
-        <div style={{display:"flex",justifyContent:"start",width:'100%',alignItems:"center",marginTop:'12px'}}>
+        <div style={{display:"flex",justifyContent:"start",width:'100%',alignItems:"center",marginTop:'12px',height:'20px'}}>
             <Button color={"black"} icon={<IconChevronLeft />} size={"large"} iconSize={"large"}  theme={"borderless"}/>
             <Title style={{marginLeft:"auto",marginRight:"auto"} } heading={6}>帖子详情</Title>
             <Button style={{visibility:"hidden"}} icon={<IconChevronLeft />} size={"large"} iconSize={"large"}  theme={"borderless"}/>

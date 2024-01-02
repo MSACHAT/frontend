@@ -34,18 +34,38 @@
 }
 
 .comments {
+  width: 95%;
+  padding: 20px 16px;
+  .text{
+    margin-bottom: 20px;
+    .content{
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+    }
+  }
+
   .comment{
+    margin-top: 5px;
     display: flex;
     flex-wrap: wrap;
+
+
+
     .comment-avatar {
+      margin-right: 5px;
       width:30px;
       height:30px
+      
     }
     .comment-user{
+      margin: auto 0;
       height:30px
+
     }
     .detail {
-      width:100%;
+      margin-left: 30px;
+
       display: flex;
       flex-direction: column;
       .comment-content{
