@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
-import InfiniteScroll from 'react-infinite-scroller';
+import { List, Button, Avatar, Spin ,Typography} from '@douyinfe/semi-ui';
 
+import InfiniteScroll from 'react-infinite-scroller';
+import './postStyle.scss'
+const { Text } = Typography;
 const ScrollLoad = () => {
     const count = 5;
     const dataList = [];
@@ -34,9 +36,9 @@ const ScrollLoad = () => {
 
     return (
         <div
-            className="light-scrollbar"
-            style={{ height: 'auto', overflow: 'auto', borderColor:"white"}}
+            className="comments"
         >
+            <Text>评论</Text>
             <InfiniteScroll
                 style={{width:'100%'}}
                 initialLoad={false}
@@ -51,25 +53,18 @@ const ScrollLoad = () => {
                     style={{width:'100%'}}
                     split={false}
                     dataSource={data}
-                    renderItem={item => (
-                        <List.Item
-                            style={{width:"100%"}}
-                            header={<Avatar src={item.avatar}/>}
-                            main={
-                                <div>
-                                    <span style={{ color: 'var(--semi-color-text-40)', fontWeight: 400 }}>
-                                        {item.name}
-                                    </span>
-                                    <p style={{ color: 'var(--semi-color-text-1)', margin: '5px 0' }}>
-                                        Semi Design
-                                        设计系统包含设计语言以及一整套可复用的前端组件，帮助设计师与开发者更容易地打造高质量的、用户体验一致的、符合设计规范的
-                                        Web 应用。
-                                    </p>
-                                </div>
-                            }
+                    renderItem={(item,index) => (
+                        <div className={'comment'} id={index}>
+                            <Avatar className={'comment-avatar'} src={item.avatar}/>
+                            <Text className={'comment-user'}>{item.name}</Text>
+                            <div className={'detail'}>
+                            <Text className={'comment-content'}> Semi Design
+                                设计系统包含设计语言以及一整套可复用的前端组件，帮助设计师与开发者更容易地打造高质量的、用户体验一致的、符合设计规范的
+                                Web 应用。</Text>
+                            <Text className={'comment-time'}>时间</Text>
+                            </div>
+                        </div>
 
-
-                        />
                     )}
                 />
                 {loading && hasMore && (
