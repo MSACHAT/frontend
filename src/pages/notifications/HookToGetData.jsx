@@ -27,9 +27,9 @@ import axios from 'axios';
 // }
 export const GetData = (pageNum, pageSize) => {
   return axios
-    .get('http://localhost:8085/notif/getbypagenumandpagesize/test', {
+    .get('http://172.10.23.38:8085/notif/getbypagenumandpagesize/test', {
       params: {
-        pageNum: pageNum,
+        pageNum: 0, //TODO 改
         pageSize: pageSize,
       },
       headers: {

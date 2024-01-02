@@ -1,39 +1,23 @@
 import React, {useRef} from 'react';
-import { Layout, Typography, Table, Toast } from '@douyinfe/semi-ui';
+import { Layout, Typography, List, Toast } from '@douyinfe/semi-ui';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { GetData } from './HookToGetData.jsx';
 import { useState, useEffect } from 'react';
 import { Notif } from '../../components/NotifComponent.jsx';
 import './notifStyle.scss';
 import apiClient from "../../middlewares/axiosInterceptors";
-import InfiniteScroll from 'react-infinite-scroll-component'
+import InfiniteScroll from 'react-infinite-scroller';
 export function Notifications() {
   const [pageSize, setPageSize] = useState(12); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const { Header, Content, Footer } = Layout;
-  const { Column } = Table;
   const [notifs, setNotifs] = useState({ data: [] });
   const { Text } = Typography;
   const contentRef = useRef(null);
   let notifTag=null;
   let notifNums = 0;
-  window.addEventListener('scroll', function() {
-    let content = document.getElementById("notifs");
-    if (content!=null) {
-      content.addEventListener("scroll", function () {
-        let scrollTop = content.scrollTop;
-        let windowHeight = content.clientHeight;
-        let scrollHeight = content.scrollHeight;
-
-        if (scrollTop + windowHeight >= scrollHeight*0.9) {
-          console.log("到底了");
-          // 对于手机端来说，中间的符号可能用===比较好
-          loadMoreData();
-        }
-      });
-    }
-  })
+console.log(notifs)
   function timeAgo(isoString) {
     const pastTime = new Date(isoString);
     const now = new Date();
@@ -85,7 +69,7 @@ export function Notifications() {
   useEffect(() => {
     const header = { 'Content-Type': 'application/json' };
     const interval = setInterval(() => {
-      apiClient.get('http://localhost:8085/notif/getbypagenumandpagesize/test', {
+      apiClient.get('http://172.10.23.38:8085/notif/getbypagenumandpagesize/test', {
           params: {
             pageNum: pageNum,
             pageSize: pageSize,
@@ -123,41 +107,37 @@ export function Notifications() {
       </Header>
       <div className={'notif-content'}
            ref={contentRef}
+
       >
         <InfiniteScroll
-            next={loadMoreData}
-            hasMore={pageNum < totalPages}
-            loader={<div key={0} style={{ textAlign: 'center', margin: '12px 0' }}>Loading...</div>}
-            dataLength={notifs.data.length}
-            scrollThreshold={0.8}
+            initialLoad={false}
+            pageStart={0}
+            threshold={20}
+            loadMore={loadMoreData}
+            hasMore={true}//TODO 改
+            useWindow={false}
         >
-        <Table
-          dataSource={notifs.data}
-          pagination={false}
-          className={'notif-table'}
-        >
-          <Column
-            dataIndex="MessageType"
-            key="key"
-            render={(text, record) => (
-              <Notif
-                previewType={record.previewType}
-                previewString={record.previewString}
-                isRead={notifTag===null?true:notifTag < record.timeStamp ? true : false}
-                messageType={
-                  record.commentContent == undefined ? 'Like' : 'Comment'
-                }
-                userIcon={
-                  'https://th.bing.com/th/id/OIP.M3gZXiFf0RuvTbbZn8SI8AHaHa?w=198&h=198&c=7&r=0&o=5&dpr=1.1&pid=1.7'
-                } //由于后端没有传头像，暂时先用网上的url凑合一下
-                userName={record.userName}
-                sendTime={timeAgo(record.timeStamp)}
-                // postIMG={record.postIMG} 暂无
-                commentContent={record.commentContent}
-              ></Notif>
-            )}
+          <List
+              // loadMore={}
+              dataSource={notifs.data}
+              renderItem={record => (
+                  <Notif //TODO 在这个组件里直接改样式
+                      previewType={record.previewType}
+                      previewString={record.previewString}
+                      isRead={notifTag===null?true:notifTag < record.timeStamp ? true : false}
+                      messageType={
+                        record.commentContent == undefined ? 'Like' : 'Comment'
+                      }
+                      userIcon={
+                        'https://th.bing.com/th/id/OIP.M3gZXiFf0RuvTbbZn8SI8AHaHa?w=198&h=198&c=7&r=0&o=5&dpr=1.1&pid=1.7'
+                      } //由于后端没有传头像，暂时先用网上的url凑合一下
+                      userName={record.userName}
+                      sendTime={timeAgo(record.timeStamp)}
+                      // postIMG={record.postIMG} 暂无
+                      commentContent={record.commentContent}
+                  ></Notif>
+              )}
           />
-        </Table>
         </InfiniteScroll>
       </div>
       {/*<Footer style={{...commonStyle,display: "flex", textAlign: "center"}} className="Align-Bottom" >*/}
