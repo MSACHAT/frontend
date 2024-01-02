@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Button, Table } from '@douyinfe/semi-ui';
+import { Layout, Typography, Table, Toast } from '@douyinfe/semi-ui';
 // @ts-ignore
 import { Post } from '../../components/PostComponent.jsx';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
@@ -9,11 +9,18 @@ import { useState, useEffect } from 'react';
 // @ts-ignore
 import { Notif } from '../../components/NotifComponent.jsx';
 import axios from 'axios';
+import './notifStyle.scss';
 
 export function Notifications() {
   const [pageSize, setPageSize] = useState(10); //修改这个值来调整一次获取的数据量
-  const [pageNum, setpageNum] = useState(0);
+  const [pageNum, setPageNum] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const { Header, Content, Footer } = Layout;
+  const { Column } = Table;
+  const [notifs, setNotifs] = useState({ data: [] });
+  const { Text } = Typography;
+  const [newestNotifId, setNewestNotifId] = useState(null);
+  let notifNums = 0;
   window.onscroll = function () {
     //变量scrollTop是滚动条滚动时，滚动条上端距离顶部的距离
     var scrollTop =
@@ -34,64 +41,123 @@ export function Notifications() {
     }
   };
 
+  function timeAgo(isoString) {
+    const pastTime = new Date(isoString);
+    const now = new Date();
+
+    const msPerMinute = 60 * 1000;
+    const msPerHour = msPerMinute * 60;
+    const msPerDay = msPerHour * 24;
+    const msPerYear = msPerDay * 365;
+
+    const elapsed = now - pastTime;
+
+    if (elapsed < msPerHour) {
+      return (
+        pastTime.getHours() +
+        ':' +
+        pastTime.getMinutes().toString().padStart(2, '0')
+      );
+    } else if (elapsed < msPerDay) {
+      return Math.round(elapsed / msPerHour) + ' 小时前';
+    } else if (elapsed < msPerYear) {
+      return Math.round(elapsed / msPerDay) + ' 天前';
+    } else {
+      return Math.round(elapsed / msPerYear) + ' 年前';
+    }
+  }
+
   function loadMoreData() {
-    // 请求API加载数据
-    // @ts-ignore
-    console.log(pageNum);
-    console.log(totalPages);
     if (pageNum > totalPages) {
       return;
     }
     GetData(pageNum, pageSize).then(result => {
+      const header = { 'Content-Type': 'application/json' };
       result.data = [...notifs.data, ...result.data];
       setNotifs(result);
       setTotalPages(result.totalPages);
-      axios.post('http://localhost:8085/notif/isread', result.data);
+      console.log(result.data);
     });
-    setpageNum(pageNum + 1);
+    setPageNum(pageNum + 1);
   }
 
-  const { Header, Content, Footer } = Layout;
-  const { Column } = Table;
-  const [notifs, setNotifs] = useState({ data: [] });
+  useEffect(() => {
+    if (newestNotifId != null) {
+      const header = { 'Content-Type': 'application/json' };
+      axios.post('http://localhost:8085/notif/isread', newestNotifId, {
+        headers: header,
+      });
+    }
+  }, [newestNotifId]); // 依赖于 newestNotif 的变化
+
   useEffect(() => {
     GetData(pageNum, pageSize).then(result => {
       setNotifs(result);
       setTotalPages(result.totalPages);
-      const header = { 'Content-Type': 'application/json' };
-      axios.post('http://localhost:8085/notif/isread', result.data, {
-        headers: header,
-      });
+      notifNums = result.totalNotifs;
+      setNewestNotifId(result.data[0].id);
     });
-    setpageNum(pageNum + 1);
-    // @ts-ignore
+    setPageNum(pageNum + 1);
   }, []);
-  console.log(notifs.data);
+  useEffect(() => {
+    const header = { 'Content-Type': 'application/json' };
+    const interval = setInterval(() => {
+      axios
+        .get('http://localhost:8085/notif/getbypagenumandpagesize/test', {
+          params: {
+            pageNum: pageNum,
+            pageSize: pageSize,
+          },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(res => {
+          console.log('resdtttfnotis' + res.data.totalNotifs);
+          if (res.data.totalNotifs > notifNums) {
+            const notifyNewNotifs = {
+              content: '有新通知,请下拉刷新',
+              duration: 3,
+              icon: null,
+            };
+            Toast.info(notifyNewNotifs);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }, 1000 * 20);
+    console.log(notifNums, '22222');
+
+    return () => clearInterval(interval);
+  }, []);
   return (
-    <Layout>
-      <Header
-        style={{
-          position: 'fixed',
-          zIndex: 999,
-          backgroundColor: '#9C9EA1',
-          width: '100%',
-        }}
-      >
-        <Button
-          theme={'borderless'}
-          icon={<IconChevronLeft />}
+    <div className={'notif-page'}>
+      <Header className={'notif-header'}>
+        <IconChevronLeft
+          className={'notif-iconchevronleft'}
           onClick={() => {
             window.history.go(-1);
           }}
-        ></Button>
+        />
+        <Text className={'notif-title'}>消息中心</Text>
+        <span style={{ width: '16px', marginRight: '16px' }}></span>
       </Header>
-      <Content style={{ height: 300, lineHeight: '300px' }}>
-        <Table dataSource={notifs.data} pagination={false}>
+      <Content className={'notif-content'}>
+        <Table
+          dataSource={notifs.data}
+          pagination={false}
+          style={{ height: '80%' }}
+        >
           <Column
             dataIndex="MessageType"
             key="key"
+            className={'notif-column'}
             render={(text, record) => (
               <Notif
+                previewType={record.previewType}
+                previewString={record.previewString}
+                isRead={record.isRead}
                 messageType={
                   record.commentContent == undefined ? 'Like' : 'Comment'
                 }
@@ -99,7 +165,7 @@ export function Notifications() {
                   'https://th.bing.com/th/id/OIP.M3gZXiFf0RuvTbbZn8SI8AHaHa?w=198&h=198&c=7&r=0&o=5&dpr=1.1&pid=1.7'
                 } //由于后端没有传头像，暂时先用网上的url凑合一下
                 userName={record.userName}
-                sendTime={record.timeStamp}
+                sendTime={timeAgo(record.timeStamp)}
                 // postIMG={record.postIMG} 暂无
                 commentContent={record.commentContent}
               ></Notif>
@@ -112,6 +178,6 @@ export function Notifications() {
       {/*    <Button icon={<IconPlus/>} aria-label="截屏"/>*/}
       {/*    <Button theme='borderless' type='primary' style={{marginRight: 8}}>我的</Button>*/}
       {/*</Footer>*/}
-    </Layout>
+    </div>
   );
 }

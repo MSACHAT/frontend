@@ -82,6 +82,13 @@ export function Feed() {
     setPageNum(pageNum + 1);
     // setPosts(data);
   }, []);
+  useEffect(() => {
+    // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
+    return () => {
+      setPageNum(0)
+      setTotalPages(0)
+    };
+  }, []);
   return (
     <Layout>
       <Header

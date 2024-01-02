@@ -3,7 +3,8 @@ import { Button, TextArea, Toast, Upload } from '@douyinfe/semi-ui';
 import {IconChevronLeft, IconPlus} from '@douyinfe/semi-icons';
 import axios from "axios";
 import './PostPushingStyle.scss'
-
+import config from "../../config/config";
+import apiClient from "../../middlewares/axiosInterceptors";
 
 const PublishPost = () => {
     const [saveLoading, setSaveLoading] = useState(false);
@@ -74,15 +75,11 @@ const PublishPost = () => {
     const action = 'https://api.semi.design/upload';
 
 
-/*    async function putPost(postData){
+    async function putPost(postData){
         try {
-            const instance = axios.create({
-                baseURL: 'http://localhost:8085/post',
-                timeout: 1000,
 
-            });
 
-            const response = await instance.post('/add/test', postData);
+            const response = await apiClient.post('/post/add', postData);
 
             console.log(response.data);
 
@@ -96,7 +93,7 @@ const PublishPost = () => {
         }
 
         setSaveLoading(false);
-    }*/
+    }
 
 
 
@@ -110,11 +107,11 @@ const PublishPost = () => {
 
         const postData = {
             content: content,
-            images:imagesObject.map(items => items.url)
+            image:imagesObject.map(items => items.url)
 
         };
 
-        // await putPost(postData);
+        await putPost(postData);
 
 
 
@@ -125,7 +122,7 @@ const PublishPost = () => {
 
             <div >
                 <div className={"head"}>
-                    <Button iconSize={"large"} icon={<IconChevronLeft />} theme="borderless" disabled={readyPublish}/>
+                    <Button iconSize={"extra-large"} icon={<IconChevronLeft />} theme="borderless" color={"grey"}  />
 
                     <Button
                         size='small'
@@ -161,6 +158,7 @@ const PublishPost = () => {
 
                     <Upload
                         className="imageUpload"
+
                         accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
                         action={action}
                         uploadTrigger="custom"
@@ -171,6 +169,7 @@ const PublishPost = () => {
                                 setImagesObject(v[2]);
                             }
                         }}
+
                         onError={(...v) => {setSaveLoading(false);Toast.error("图片上传失败");console.log(...v)}}
                         listType="picture"
                         draggable={true}
@@ -185,6 +184,7 @@ const PublishPost = () => {
                            }
 
                        }}
+
                         onFileChange={(...v)=>{
                             if (v.length>0) {
                                 setReadyPublish(false)
