@@ -3,7 +3,7 @@
 
   .head {
     display: inline-flex;
-    width: 100%;
+    width: 95%;
     padding: 12px var(--semi-border-radius-circle, 16px) 12px 20px;
 
     justify-content: space-between;
@@ -20,7 +20,7 @@
   
 
   .mainContent{
-    width: 100%;
+    width: 95%;
     padding-left: 20px;
     padding-right: 20px;
     .semi-input-textarea{
@@ -62,7 +62,7 @@
     .semi-upload-picture-file-card{
       width: 100%;
       height: 100%;
-      aspect-ratio: 1 / 1; /* 使用 aspect-ratio 属性创建正方形格子 */
+      aspect-ratio: 1 / 1;
       border-radius: 4px;
       overflow: hidden;
     }
@@ -70,7 +70,7 @@
   .semi-upload-picture-file-card img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 或者使用其他适合的值 */
+    object-fit: cover;
     border-radius: 4px;
   }
   .semi-upload-file-list-main{
@@ -84,9 +84,9 @@
     }
     .semi-upload-add{
       display: flex;
-      justify-content: center; /* 水平居中 */
-      align-items: center; /* 垂直居中 */
-      /* 可选：设置容器的宽度和高度 */
+      justify-content: center;
+      align-items: center;
+
       width: 100%;
       aspect-ratio: 1 / 1;
       height: 100%;
@@ -94,12 +94,13 @@
 
     .semi-upload-picture-add{
       display: flex;
-      justify-content: center; /* 水平居中 */
-      align-items: center; /* 垂直居中 */
-      /* 可选：设置容器的宽度和高度 */
+      justify-content: center;
+      align-items: center;
+
       width: 100%;
       height: 100%;
     }
+
   }
 
 
