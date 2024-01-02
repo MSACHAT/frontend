@@ -2,75 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import {ImagePreview, Image, Typography, Avatar, Button} from '@douyinfe/semi-ui';
 import axios from "axios";
 import {IconChevronLeft, } from "@douyinfe/semi-icons";
+
 import PropTypes from "prop-types";
 import { useParams } from 'react-router-dom';
+import {FormattedTime} from "../../components/formateDate";
 
-const LikesCount = ({ likes }) => {
-
-  const formatLikesCount = (likes) => {
-
-    if (likes < 1000) {
-      return `${likes}赞`;
-    } else if (likes < 1000000) {
-      const roundedLikes = (likes / 1000).toFixed(1);
-      return `${roundedLikes}K赞`;
-    } else {
-      const roundedLikes = (likes / 1000000).toFixed(1);
-      return `${roundedLikes}M赞`;
-    }
-  }
-  const formattedLikes = formatLikesCount(likes);
-
-  return <p>{formattedLikes}</p>;
-}
-LikesCount.propTypes = {
-  likes: PropTypes.number.isRequired,
-};
-const FormattedTime = ({num}) => {
-
-
-  const format = (num) => {
-    const currentTime = new Date();
-    const postTime = new Date(num);
-    const timeDifference = currentTime - postTime;
-    let formatted = ''
-
-    if (timeDifference < 60 * 1000) {
-      // 不到1分钟
-
-      formatted = '刚刚'
-    } else if (timeDifference < 60 * 60 * 1000) {
-      // 不到1小时
-      const minutes = Math.floor(timeDifference / (1000 * 60));
-
-      formatted = `${minutes}分钟前`
-    } else if (timeDifference < 24 * 60 * 60 * 1000) {
-      // 不到1天
-      const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-
-      formatted = `${hours}小时前`
-    } else if (timeDifference < 7 * 24 * 60 * 60 * 1000) {
-      // 不到7天
-      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-      formatted=`${days}天前`
-
-    } else {
-      // 超过7天，显示实际日期和时间
-      const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-      const formattedTime = postTime.toLocaleDateString('en-US', options);
-
-      formatted = formattedTime
-    }
-    return formatted
-
-  }
-
-  const formattedTime = format(num)
-  return <p>{formattedTime}</p>
-}
-FormattedTime.propTypes = {
-  num: PropTypes.string.isRequired,
-};
 const DetailedPost = () => {
 
   const { Title, Paragraph,Text} = Typography;

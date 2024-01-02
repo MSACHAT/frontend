@@ -6,6 +6,10 @@ import { Feed } from './pages/feed/FeedPage.jsx';
 import { Notifications } from './pages/notifications/NotificationsPage.jsx';
 import PushPost from './pages/post/PostPushingPage.jsx';
 import DetailPost from './pages/post/PostDetailedPage.jsx';
+import ScrollLoad from "./components/Comments";
+import Comment from "./components/Comment";
+import NavigationBar from "./components/NavigationBar";
+
 
 const App = () => {
   return (
@@ -18,6 +22,8 @@ const App = () => {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/pushpost" element={<PushPost />} />
         <Route path="/detailedpost" element={<DetailPost />} />
+          <Route path={"/test"} element={<NavigationBar/>}/>
+
       </Routes>
     </Router>
   );
@@ -26,7 +32,7 @@ const App = () => {
 const Home = () => {
   return (
     <>
-      <br />
+      <br />686876
       <br />
       <br />
       <br />
@@ -43,6 +49,7 @@ const Home = () => {
         <Link to="/notifications">通知</Link>
         <Link to="/detailedpost">帖子</Link>
         <Link to="/pushpost">发布</Link>
+          <Link to={'/test'}>test</Link>
       </Space>
     </>
   );

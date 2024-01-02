@@ -1,0 +1,123 @@
+.notif-page {
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  background-image: url('../../assets/Notifications/backgroundImg.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-attachment: fixed;
+
+  .notif-header {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    margin-top: 5.8%;
+    height: 6.5%;
+    display: flex;
+    color: rgba(10, 0, 1, 1);
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .notif-title {
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  .notif-iconchevronleft {
+    width: 16px;
+    height: 16px;
+    vertical-align: center;
+    margin-left: 5.1%;
+  }
+
+  .notif-content {
+    margin-top: 20%;
+    background-color: transparent;
+    height: 80vh;
+    overflow: scroll;
+  }
+
+  .semi-table-thead .semi-table-row {
+    height: 0;
+  }
+
+  .semi-table-row-head {
+    background-color: transparent !important;
+    border: none !important;
+  }
+
+  .semi-table-tbody * {
+    background-color: transparent;
+    border: none !important;
+  }
+
+  .semi-table-thead * {
+    background-color: transparent;
+  }
+
+  .notif-column.semi-table-row-cell {
+    padding: 0 5.1% 0 5.1%;
+  }
+
+  .semi-table-row {
+    height: 74px;
+    width: 100%;
+  }
+
+  .notif-newnotif {
+    align-self: center;
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+    background-color: red;
+  }
+
+  .notif-read {
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+    background-color: transparent;
+  }
+
+  .notif-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+  }
+
+  .notif-username {
+    font-size: 16px;
+    font-family: "PingFang SC";
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  .notif-notifcontent {
+    font-weight: 400;
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    max-width: 40vw;
+  }
+
+  .notif-postpreview {
+    height: 50px;
+    width: 50px;
+    border-radius: 8px;
+    font-weight: 400;
+    color: rgba(24, 0, 1, 0.4);
+    line-height: 16px;
+    font-size: 12px;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 最大行数，根据需要调整 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
