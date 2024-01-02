@@ -23,7 +23,7 @@ const Comment = () => {
 
     return (
         <div className={'root'}>
-            <div style={{ height: '20%', position: "fixed", bottom: 1, width: '100%', display: 'flex', justifyContent: 'center', alignItems: "end", paddingBottom:"10px" }}>
+            <div style={{ height: '10%', position: "fixed", bottom: 1, width: '100%', display: 'flex', justifyContent: 'center', alignItems: "end", paddingBottom:"10px",backgroundColor:"white" }}>
                 <TextArea
                     style={{ width: '90%' ,borderRadius:'12px'}}
                     autosize={true}

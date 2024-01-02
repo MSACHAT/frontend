@@ -10,6 +10,7 @@ import ScrollLoad from "./components/Comments";
 import Comment from "./components/Comment";
 import NavigationBar from "./components/NavigationBar";
 import AddPost from "./pages/post/AddPost";
+import PostDetail from "./pages/post/PostDetail";
 
 
 const App = () => {
@@ -23,7 +24,7 @@ const App = () => {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/pushpost" element={<AddPost />} />
         <Route path="/detailedpost" element={<DetailPost />} />
-          <Route path={"/test"} element={<NavigationBar/>}/>
+          <Route path={"/test"} element={<PostDetail/>}/>
 
       </Routes>
     </Router>

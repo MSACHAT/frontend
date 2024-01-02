@@ -139,7 +139,13 @@ const PublishPost = () => {
                 data.onSuccess(response.data);
 
 
-                setImageLists(ImageLists.set(data.fileName,response.data))
+
+
+                const newImageLists = new Map(ImageLists);
+                newImageLists.set(data.fileName, response.data);
+
+
+                setImageLists(newImageLists);
 
 
                 console.log(ImageLists)
