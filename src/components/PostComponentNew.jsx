@@ -57,16 +57,15 @@ export const PostStatsBar = props => {
   return (
     <>
       <Space className={'alternation'} align={'center'}>
-        <Space align={'center'}>
+        <Space align={'start'}>
 
         
-          <IconHeartStroked
-            style={{ color }}
+          <IconHeartStroked style={{ color,marginRight: 5 }}
             size="default"
             onClick={() => handleClickOnLike(color, postId)}
           />
-          <Text size="small" color='#180001' style={{ marginRight: 5 }}>{likeLocalCount}</Text>
-          <IconCommentStroked  size={'default'} />
+          <Text size="small" color='#180001' style={{ marginRight: 12 }}>{likeLocalCount}</Text>
+          <IconCommentStroked style={{ marginRight: 6 }}  size={'default'} />
           <Text size='small' >{commentCount}</Text>
           </Space>
 
@@ -82,26 +81,27 @@ const TimeDisplay = ({ timeStamp }) => {
   const [timeDifference, setTimeDifference] = useState('');
   const { Text } = Typography;
 
-  useEffect(() => {
-    // 在组件挂载时执行一次
-    const currentTime = new Date();
+useEffect(() => {
     const backendTime = new Date(timeStamp);
+    const options = { year: '2-digit', month: 'numeric', day: 'numeric' };
+    const formattedDate = backendTime.toLocaleDateString('en-US', options);
+    
+    const currentTime = new Date();
     const timeDiffInSeconds = Math.floor((currentTime - backendTime) / 1000);
 
     if (timeDiffInSeconds < 3600) {
       const minutes = Math.floor(timeDiffInSeconds / 60);
       setTimeDifference(`${minutes} 分钟前`);
     } else {
-      const formattedDate = backendTime.toLocaleDateString();
-      setTimeDifference(`${formattedDate}`);
+      setTimeDifference(formattedDate);
     }
-  }, []); // 空数组表示只在组件挂载时执行一次
+}, [timeStamp]);
 
-  return (
-    <Text size="default" type="quaternary">
+return (
+    <Text size="small" type="quaternary">
       {timeDifference}
     </Text>
-  );
+);
 };
 
 export const Post = props => {
