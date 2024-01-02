@@ -2,11 +2,10 @@ import { Typography, TextArea, Image, Space } from '@douyinfe/semi-ui';
 import { Avatar } from '@douyinfe/semi-ui';
 import Icon, { IconLikeHeart, IconComment } from '@douyinfe/semi-icons';
 import React, { useEffect, useState } from 'react';
-import { PostImgs  } from '../components/PostImgs';
-
-
+import { PostImgs } from '../components/PostImgs';
+import './postStyle.scss';
 export const PostStatsBar = props => {
-  const { likeCount, commentCount, postId } = props;
+  const { likeCount, commentCount, postId, time } = props;
   const [color, setColor] = useState('gray');
   const [likeLocalCount, setLikeLocalCount] = useState();
   const { Text } = Typography;
@@ -39,34 +38,72 @@ export const PostStatsBar = props => {
         'LocalStorage(postsLiked): ' + localStorage.getItem('postsLiked')
       );
     }
+
+    const currentTime = new Date();
+    const backendTime = new Date(time);
+    const timeDiffInSeconds = Math.floor((currentTime - backendTime) / 1000);
+
+    if (timeDiffInSeconds < 60) {
+      setTimeDifference(`${timeDiffInSeconds} 秒前`);
+    } else if (timeDiffInSeconds < 3600) {
+      const minutes = Math.floor(timeDiffInSeconds / 60);
+      setTimeDifference(`${minutes} 分钟前`);
+    } else {
+      const formattedDate = backendTime.toLocaleDateString();
+      setTimeDifference(`${formattedDate}`);
+    }
   };
-  
+
   return (
     <>
-      <Space align={'center'}>
-        <IconLikeHeart
-          style={{ color }}
-          size="extra-large"
-          onClick={() => handleClickOnLike(color, postId)}
-        />
-        <Text style={{ marginRight: 5 }}>{likeLocalCount}</Text>
-        <IconComment size={'extra-large'} />
-        <Text>{commentCount}</Text>
-        <TextArea
-          style={{
-            width: '40%',
-            display: 'inline-block',
-            position: 'absolute',
-            right: '10%',
-          }}
-          placeholder={'请输入评论'}
-          autosize
-          rows={1}
-        />
+      <Space className={'alternation'} align={'center'}>
+        <Space align={'center'}>
+
+        
+          <IconLikeHeart
+            style={{ color }}
+            size="default"
+            onClick={() => handleClickOnLike(color, postId)}
+          />
+          <Text size="small" style={{ marginRight: 5 }}>{likeLocalCount}</Text>
+          <IconComment size={'default'} />
+          <Text size='small' >{commentCount}</Text>
+          </Space>
+
+
+        <TimeDisplay className={'feed-time'} timeStamp={time} />
+
       </Space>
     </>
   );
 };
+
+const TimeDisplay = ({ timeStamp }) => {
+  const [timeDifference, setTimeDifference] = useState('');
+  const { Text } = Typography;
+
+  useEffect(() => {
+    // 在组件挂载时执行一次
+    const currentTime = new Date();
+    const backendTime = new Date(timeStamp);
+    const timeDiffInSeconds = Math.floor((currentTime - backendTime) / 1000);
+
+    if (timeDiffInSeconds < 3600) {
+      const minutes = Math.floor(timeDiffInSeconds / 60);
+      setTimeDifference(`${minutes} 分钟前`);
+    } else {
+      const formattedDate = backendTime.toLocaleDateString();
+      setTimeDifference(`${formattedDate}`);
+    }
+  }, []); // 空数组表示只在组件挂载时执行一次
+
+  return (
+    <Text size="default" type="quaternary">
+      {timeDifference}
+    </Text>
+  );
+};
+
 export const Post = props => {
   const {
     userName,
@@ -90,30 +127,22 @@ export const Post = props => {
     <>
 
       <Paragraph>
-        <Avatar
-          size="small"
-          alt="User"
-          style={{ marginRight: 5, color: 'red' }}
-        ></Avatar>
-        <Space align={'center'}>
-          <Text strong>{userName}</Text>
-          <Text size={'small'} type="quaternary">
-            {timeStamp}
-          </Text>
-        </Space>
-        <br />
 
         <Text type={'secondary'} strong={true}>
           {content}
         </Text>
+
         <br />
-        <PostImgs imgUrls={images} />;
+        <PostImgs imgUrls={images} />
         <br />
+
         <PostStatsBar
           likeCount={likeCount}
           commentCount={commentCount}
           postId={postId}
+          time={timeStamp}
         />
+
       </Paragraph>
     </>
   );

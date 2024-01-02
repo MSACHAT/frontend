@@ -8,6 +8,8 @@
     width: 100%;
     padding-top: 100%; /* 使用padding-top以百分比形式设置高度，保持正方形 */
     overflow: hidden; /* 超出的内容将被隐藏，用于裁剪 */
+ 
+
     .image {
       border-radius: 0;
       width: 100%; /* 让图像宽度自动调整以保持纵横比 */
@@ -21,9 +23,13 @@
         object-fit: cover;
         width: 100%; /* 让图像宽度自动调整以保持纵横比 */
         height: 100%; /* 让图像高度自动调整以保持纵横比 */
+        border-radius: 12px; /* 添加圆角 */
       }
     }
   }
+}
+.semi-image-preview-group{
+  margin-top: 20px;
 }
 
 /* 单独处理只有1张图片 */
