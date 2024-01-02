@@ -9,6 +9,7 @@ import DetailPost from './pages/post/PostDetailedPage.jsx';
 import ScrollLoad from "./components/Comments";
 import Comment from "./components/Comment";
 import NavigationBar from "./components/NavigationBar";
+import AddPost from "./pages/post/AddPost";
 
 
 const App = () => {
@@ -20,7 +21,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/notifications" element={<Notifications />} />
-        <Route path="/pushpost" element={<PushPost />} />
+        <Route path="/pushpost" element={<AddPost />} />
         <Route path="/detailedpost" element={<DetailPost />} />
           <Route path={"/test"} element={<NavigationBar/>}/>
 

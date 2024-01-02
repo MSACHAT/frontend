@@ -10,11 +10,13 @@ const PublishPost = () => {
     const [saveLoading, setSaveLoading] = useState(false);
     const [post,setPost] =useState(false)
     const [readyPublish,setReadyPublish] = useState(false)
+    const [ReadyPublishContent,setReadyPublishContent] = useState(false)
     const [content, setContent] = useState('');
     const [list, updateList] = useState();
     const [imagesObject, setImagesObject] = useState(undefined);
     const uploadRef = useRef();
     const [shouldCallEffect, setShouldCallEffect] = useState(false);
+    const [Ready,setReady]=useState(false)
 
 
     /*    //Mock代码
@@ -46,15 +48,17 @@ const PublishPost = () => {
         };*/
     //Mock结束
 
-    const manulUpload = () => {
-        uploadRef.current.upload();
+    const manulUpload = async () => {
+        await uploadRef.current.upload();
+
+
     };
     useEffect(()=>{
         if (content.length > 0){
-            setReadyPublish(false)
+            setReadyPublishContent(false)
         }
         if (content.length=== 0){
-            setReadyPublish(true)
+            setReadyPublishContent(true)
         }
         },[content])
 
@@ -62,8 +66,9 @@ const PublishPost = () => {
         if (shouldCallEffect){
 
             console.log(imagesObject)
+            setReady(true)
 
-            handlePublish()
+
         }else {
             setShouldCallEffect(true)
 
@@ -103,15 +108,25 @@ const PublishPost = () => {
     };
 
     const handlePublish = async () => {
+        if (imagesObject===undefined){
+            const postData = {
+                content: content,
+                image:null
+
+            };
+            await putPost(postData);
+        } else {
+            const postData = {
+                content: content,
+                image:imagesObject.map(items => items.url)
+
+            };
+            await putPost(postData);
+        }
 
 
-        const postData = {
-            content: content,
-            image:imagesObject.map(items => items.url)
 
-        };
 
-        await putPost(postData);
 
 
 
@@ -131,7 +146,7 @@ const PublishPost = () => {
                         loading={saveLoading}
 
                         onClick={()=>{manulUpload();setSaveLoading(true)}}
-                        disabled={readyPublish}
+                        disabled={readyPublish||ReadyPublishContent}
 
                     >
                         发布
