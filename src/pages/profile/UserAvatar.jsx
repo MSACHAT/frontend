@@ -55,14 +55,33 @@ export const UserAvatar = () => {
       //   })
       //   .then(data => console.log(data, '11'))
       //   .catch(error => Toast.error('上传失败'));
+      setVisible(false);
+      Toast.success('更换成功');
       setAvatarUrl(
         'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/sky.jpg'
       );
     }
   };
   return (
-    <div id="avatar-container">
+    <div
+      id="avatar-container"
+      onClick={() => {
+        setVisible(false);
+      }}
+    >
+      <div className={'image-item'}>
+        <img
+          className={'image'}
+          src={avtarUrl}
+          onClick={event => {
+            setVisible(true);
+            event.stopPropagation();
+          }}
+        />
+      </div>
       <ImagePreview
+        visible={visible}
+        src={avtarUrl}
         closable={false}
         renderHeader={() => (
           <div className={'avartar-preview-top'}>
@@ -73,9 +92,12 @@ export const UserAvatar = () => {
             />
           </div>
         )}
-        // visible={visible}
         renderPreviewMenu={() => (
-          <div>
+          <div
+            onClick={event => {
+              event.stopPropagation();
+            }}
+          >
             <input
               type="file"
               accept="image/*"
@@ -94,11 +116,7 @@ export const UserAvatar = () => {
           const node = document.getElementById('avatar-container');
           return node;
         }}
-      >
-        <div className={'image-item'}>
-          <Image className={'image'} src={avtarUrl} />
-        </div>
-      </ImagePreview>
+      />
     </div>
   );
 };
