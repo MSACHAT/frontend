@@ -5,7 +5,6 @@ export const PostImgs = ({ imgUrls }) => {
   if (!imgUrls.length) {
     return null;
   }
-  console.log(imgUrls);
   return (
     <ImagePreview
       className={`image-container ${imgUrls.length === 1 && 'container-1'} ${

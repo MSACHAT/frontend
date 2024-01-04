@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './profileStyle.scss';
 import fakeData from '../../mockdata/ProfileMockData.json';
 import { Post } from '../../components/PostComponentNew.jsx';
-import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
+import { List, Button, Image, Spin,ImagePreview } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
-
+import { IconCamera } from "@douyinfe/semi-icons";
 export const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
@@ -50,13 +50,18 @@ export const Profile = () => {
     <div className="profile-page">
       <div className="empty-space"></div>
       <div className="headtab">
-        <Avatar
-          shape="circul"
-          style={{ margin: 8, width: 80, height: 80 }}
-          alt="User"
-        >
-          U
-        </Avatar>
+          <ImagePreview
+              renderPreviewMenu={()=><Button icon={<IconCamera size="large" />}/>}
+              type="tertiary"
+              className={'avatar-preview'}
+          >
+            <Image
+              shape="circul"
+              style={{ margin: 8, width: 80, height: 80 }}
+              alt="User"
+              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg"
+            />
+          </ImagePreview>
         <div>Haha ha</div>
       </div>
       <div
