@@ -11,11 +11,17 @@ export const Notif = props => {
     userName,
     sendTime,
     commentContent,
-    isRead,
+    notifTag,
     previewType,
     previewString,
+    timeStamp,
   } = props;
-console.log("IsRead"+isRead)
+  let isRead=true;
+  if(notifTag==null||notifTag<timeStamp){
+      isRead=false
+  }
+  console.log('notiftag' + notifTag);
+  console.log("time"+timeStamp)
   const expandIconForComments =
     previewType === 'image' ? (
       <Space style={{ height: '100%', display: 'inline-flex', float: 'right' }}>
@@ -42,23 +48,23 @@ console.log("IsRead"+isRead)
                 <Avatar src={userIcon} className={'notif-avatar'} />
                 <Space align={screenLeft} vertical>
                   <Text className={'notif-username'}>{userName}</Text>
-                    <Text
-                      ellipsis={{
-                        showTooltip: {
-                          opts: {
-                            content: '架构|Semi-inf|graph.cheet.relation',
-                            className: 'components-typography-demo',
-                          },
+                  <Text
+                    ellipsis={{
+                      showTooltip: {
+                        opts: {
+                          content: '架构|Semi-inf|graph.cheet.relation',
+                          className: 'components-typography-demo',
                         },
-                      }}
-                      className={'notif-notifcontent'}
-                    >
-                      {commentContent}
-                    </Text>
-                </Space>
-                  <Text type="quaternary" className={'notif-sendtime'}>
-                      {sendTime}
+                      },
+                    }}
+                    className={'notif-notifcontent'}
+                  >
+                    {commentContent}
                   </Text>
+                </Space>
+                <Text type="quaternary" className={'notif-sendtime'}>
+                  {sendTime}
+                </Text>
               </Space>
             </div>
           }
@@ -83,10 +89,8 @@ console.log("IsRead"+isRead)
           header={
             <div>
               <Space align={'end'}>
-                <div
-                  className={isRead ? 'notif-read' : 'notif-newnotif'}
-                ></div>
-                <Avatar src={userIcon} />
+                <div className={isRead ? 'notif-read' : 'notif-newnotif'}></div>
+                <Avatar src={userIcon} className={'notif-avatar'} />
                 <Space vertical align={screenLeft}>
                   <Text className={'notif-username'}>{userName}</Text>
                   <Text className={'notif-notifcontent'}>{likedYourNotif}</Text>

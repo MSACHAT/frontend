@@ -15,9 +15,8 @@ export function Notifications() {
   const [notifs, setNotifs] = useState({ data: [] });
   const { Text } = Typography;
   const contentRef = useRef(null);
-  let notifTag=null;
+  const [notifTag,setNotifTag]=useState(null)
   let notifNums = 0;
-console.log(notifs)
   function timeAgo(isoString) {
     const pastTime = new Date(isoString);
     const now = new Date();
@@ -46,7 +45,6 @@ console.log(notifs)
 
   function loadMoreData() {
     GetData(pageNum, pageSize).then(result => {
-      const header = { 'Content-Type': 'application/json' };
       result.data = [...notifs.data, ...result.data];
       setNotifs(result);
       setTotalPages(result.totalPages);
@@ -61,15 +59,15 @@ console.log(notifs)
       setNotifs(result);
       setTotalPages(result.totalPages);
       notifNums = result.totalNotifs;
-      notifTag=new Date(result.notifTag).getTime();
-      console.log("NotifTag"+new Date(result.notifTag))
+      setNotifTag(new Date(result.notifTag).getTime());
+      console.log("NotifTag"+notifTag)
     });
     setPageNum(pageNum + 1);
   }, []);
   useEffect(() => {
     const header = { 'Content-Type': 'application/json' };
     const interval = setInterval(() => {
-      apiClient.get('http://172.10.23.38:8085/notif/getbypagenumandpagesize/test', {
+      apiClient.get('http://localhost:8085/notif/getbypagenumandpagesize/test', {
           params: {
             pageNum: pageNum,
             pageSize: pageSize,
@@ -105,26 +103,22 @@ console.log(notifs)
         <Text className={'notif-title'}>消息中心</Text>
         <span style={{ width: '16px', marginRight: '16px' }}></span>
       </Header>
-      <div className={'notif-content'}
-           ref={contentRef}
-
-      >
+      <div className={'notif-content'}>
         <InfiniteScroll
             initialLoad={false}
             pageStart={0}
             threshold={20}
             loadMore={loadMoreData}
-            hasMore={true}//TODO 改
+            hasMore={pageNum<=totalPages}
             useWindow={false}
         >
           <List
-              // loadMore={}
               dataSource={notifs.data}
               renderItem={record => (
-                  <Notif //TODO 在这个组件里直接改样式
+                  <Notif
                       previewType={record.previewType}
                       previewString={record.previewString}
-                      isRead={notifTag===null?true:notifTag < record.timeStamp ? true : false}
+                      notifTag={notifTag}
                       messageType={
                         record.commentContent == undefined ? 'Like' : 'Comment'
                       }
@@ -133,7 +127,7 @@ console.log(notifs)
                       } //由于后端没有传头像，暂时先用网上的url凑合一下
                       userName={record.userName}
                       sendTime={timeAgo(record.timeStamp)}
-                      // postIMG={record.postIMG} 暂无
+                      timeStamp={new Date(record.timeStamp).getTime()}
                       commentContent={record.commentContent}
                   ></Notif>
               )}
