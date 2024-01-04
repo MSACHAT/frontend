@@ -5,6 +5,8 @@ import { Post } from '../../components/PostComponentNew.jsx';
 import { List, Button, Image, Spin,ImagePreview } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
 import { IconCamera } from "@douyinfe/semi-icons";
+import Text from '@douyinfe/semi-ui/lib/es/typography/text';
+import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 export const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
@@ -50,19 +52,29 @@ export const Profile = () => {
     <div className="profile-page">
       <div className="empty-space"></div>
       <div className="headtab">
+      <div
+          id="avatar-container"
+      >
           <ImagePreview
-              renderPreviewMenu={()=><Button icon={<IconCamera size="large" />}/>}
+              renderPreviewMenu={()=><Title heading={3}>修改个人头像</Title>}
               type="tertiary"
               className={'avatar-preview'}
+              getPopupContainer={() => {
+                  const node = document.getElementById("avatar-container");
+                  return node;
+              }}
           >
-            <Image
-              shape="circul"
-              style={{ margin: 8, width: 80, height: 80 }}
-              alt="User"
-              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg"
-            />
+              <div className={'image-item'}>
+                  <Image
+                      className={'image'}
+                      src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg"
+
+                  />
+              </div>
+
           </ImagePreview>
-        <div>Haha ha</div>
+      </div>
+    <div>Haha ha</div>
       </div>
       <div
         className="light-scrollbar"
