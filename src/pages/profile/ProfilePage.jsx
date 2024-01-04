@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './profileStyle.scss';
 import fakeData from '../../mockdata/ProfileMockData.json';
 import { Post } from '../../components/PostComponentNew.jsx';
-import { List, Button, Image, Spin,ImagePreview } from '@douyinfe/semi-ui';
+import { List, Button, Image, Spin, ImagePreview } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
-import {IconCamera, IconChevronLeft} from "@douyinfe/semi-icons";
+import { IconCamera, IconChevronLeft } from '@douyinfe/semi-icons';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
+import { UserAvatar } from './UserAvatar';
 export const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [dataCount, setDataCount] = useState(0);
   const [postData, setPostData] = useState([]);
+
   const fetchData = () => {
     setLoading(true);
     return new Promise(res => {
@@ -52,35 +54,8 @@ export const Profile = () => {
     <div className="profile-page">
       <div className="empty-space"></div>
       <div className="headtab">
-      <div
-          id="avatar-container"
-      >
-          <ImagePreview
-              closable={false}
-              renderHeader={() => (
-                  <div className={'avartar-preview-top'} >
-                      <IconChevronLeft onClick={(event) => { event.stopPropagation() }}/>
-                  </div>
-              )}
-              renderPreviewMenu={()=><Title heading={3}>修改个人头像</Title>}
-              type="tertiary"
-              className={'avatar-preview'}
-              getPopupContainer={() => {
-                  const node = document.getElementById("avatar-container");
-                  return node;
-              }}
-          >
-              <div className={'image-item'}>
-                  <Image
-                      className={'image'}
-                      src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg"
-
-                  />
-              </div>
-
-          </ImagePreview>
-      </div>
-    <div>Haha ha</div>
+        <UserAvatar />
+        <div>Haha ha</div>
       </div>
       <div
         className="light-scrollbar"
