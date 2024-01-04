@@ -4,7 +4,7 @@ import fakeData from '../../mockdata/ProfileMockData.json';
 import { Post } from '../../components/PostComponentNew.jsx';
 import { List, Button, Image, Spin,ImagePreview } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
-import { IconCamera } from "@douyinfe/semi-icons";
+import {IconCamera, IconChevronLeft} from "@douyinfe/semi-icons";
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 export const Profile = () => {
@@ -56,6 +56,12 @@ export const Profile = () => {
           id="avatar-container"
       >
           <ImagePreview
+              closable={false}
+              renderHeader={() => (
+                  <div className={'avartar-preview-top'} >
+                      <IconChevronLeft onClick={(event) => { event.stopPropagation() }}/>
+                  </div>
+              )}
               renderPreviewMenu={()=><Title heading={3}>修改个人头像</Title>}
               type="tertiary"
               className={'avatar-preview'}
