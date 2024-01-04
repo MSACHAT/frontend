@@ -11,23 +11,31 @@ import Comment from "./components/Comment";
 import NavigationBar from "./components/NavigationBar";
 import AddPost from "./pages/post/AddPost";
 import PostDetail from "./pages/post/PostDetail";
+import NavigationBarthDeleteButton from "./components/NavigationBarwithDeleteButtom";
+import React from 'react';
+
+import CommentList from "./components/CommentList";
+
 
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/feed" element={<Feed />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/pushpost" element={<AddPost />} />
-        <Route path="/detailedpost" element={<DetailPost />} />
-          <Route path={"/test"} element={<PostDetail/>}/>
 
-      </Routes>
-    </Router>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/pushpost" element={<AddPost />} />
+            <Route path="/detailedpost" element={<PostDetail/>} />
+            <Route path="/test" element={<CommentList postId={2}/>} />
+
+
+          </Routes>
+        </Router>
+
   );
 };
 

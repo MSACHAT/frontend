@@ -6,8 +6,12 @@ import Comment from "../../components/Comment";
 import navigationBar from "../../components/NavigationBar";
 import Comments from "../../components/Comments";
 import {Post} from "../../components/PostComponentNew";
+import './postStyle.scss'
+import {useParams} from "react-router-dom";
+import CommentList from "../../components/CommentList";
 
 const PostDetail = () => {
+    const {postId } = useParams();
     const testData = {
         userName: "JohnDoe",
         timeStamp: "2024-01-02T10:30:00",
@@ -21,15 +25,21 @@ const PostDetail = () => {
     };
 
 
+
     return(
-        <div>
-            <NavigationBar/>
-            <Post {...testData}/>
-            <Comments/>
-            <Comment/>
+
+            <div>
+                <NavigationBar/>
+                <div className={'content'}>
+                    <Post {...testData}/>
+                </div>
+                <CommentList/>
 
 
-        </div>
+
+
+            </div>
+
     )
 }
 

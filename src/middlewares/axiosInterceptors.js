@@ -4,8 +4,8 @@ import config from "../config/config";
 
 const apiClient = axios.create({
     baseURL:config.apiUrl,
-    timeout: 1000
-    // headers:{'ent-Type':'application/json'}
+    timeout: 1000,
+    headers:{'Content-Type':'application/json'}
 });
 apiClient.interceptors.request.use((config) => {
     console.log('请求拦截器');

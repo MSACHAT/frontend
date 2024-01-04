@@ -3,8 +3,14 @@ import { List, Button, Avatar, Spin ,Typography} from '@douyinfe/semi-ui';
 
 import InfiniteScroll from 'react-infinite-scroller';
 import './postStyle.scss'
+
+
 const { Text } = Typography;
+
+
 const ScrollLoad = () => {
+
+
     const count = 5;
     const dataList = [];
     for (let i = 0; i < 10; i++) {
@@ -27,12 +33,13 @@ const ScrollLoad = () => {
             setCountState(countState + 1);
             setData([...data, ...dataSource]);
             setLoading(false);
+            setHasMore(hasMore)
         }, 1000);
     };
 
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
+    useEffect(() => {
+        fetchData();
+    }, [])
 
     return (
         <div
@@ -41,23 +48,25 @@ const ScrollLoad = () => {
                 <Text className={'content'} >评论</Text>
             </div>
             <InfiniteScroll
-                style={{width:'100%'}}
+                style={{ width: '100%' }}
                 initialLoad={false}
                 pageStart={0}
-                threshold={200}
-                loadMore={false}
-                hasMore={hasMore} // 始终保持为true，以实现无限滚动加载
+                threshold={100}
+                loadMore={fetchData}
+                hasMore={hasMore}
 
 
             >
                 <List
-                    style={{width:'100%'}}
+
                     split={false}
                     dataSource={data}
                     renderItem={(item,index) => (
                         <div className={'comment'} id={index}>
                             <Avatar className={'comment-avatar'} src={item.avatar}/>
-                            <Text className={'comment-user'}>{item.name}</Text>
+                            <div className={'name'}>
+                                <Text className={'comment-user'}>{item.name}</Text>
+                            </div>
                             <div className={'detail'}>
                             <Text className={'comment-content'}> Semi Design
                                 设计系统包含设计语言以及一整套可复用的前端组件，帮助设计师与开发者更容易地打造高质量的、用户体验一致的、符合设计规范的
@@ -83,6 +92,7 @@ const ScrollLoad = () => {
                     </div>
                 )
             }
+            <div style={{height:'100px'}}/>
 
         </div>
     );
