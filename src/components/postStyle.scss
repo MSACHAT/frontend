@@ -1,0 +1,34 @@
+.light-scrollbar{
+    .semi-list-items {
+       background-color: rgba(0, 0, 0, 0);
+      }
+      
+      .semi-list-items > * {
+        margin-bottom: 16px; /* 为直接子元素添加底部间距 */
+
+      }
+    .post-detail {
+        padding: 20px;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-bottom: 10px;
+        background-color: #FFFFFE;
+        border-radius: 12px; /* 添加圆角 */
+    }
+
+    
+}
+.light-scrollbar{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.feed-time{
+    display: flex;
+    justify-content: flex-end;
+}
+.alternation{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

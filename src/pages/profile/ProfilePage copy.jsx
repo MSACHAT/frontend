@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './profileStyle.scss';
 import fakeData from '../../mockdata/ProfileMockData.json';
 import { Post } from '../../components/PostComponentNew.jsx';
 import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
@@ -47,24 +46,17 @@ export const Profile = () => {
     ) : null;
 
   return (
-    <div className="profile-page">
-      <div className="empty-space"></div>
-      <div className="headtab">
-        <Avatar
-          shape="circul"
-          style={{ margin: 8, width: 80, height: 80 }}
-          alt="User"
-        >
-          U
+    <div>
+      <div>
+        <Avatar size="default" style={{ margin: 4 }} alt="User">
+          <img src={postData.protrait} alt="User" />
         </Avatar>
-        <div>Haha ha</div>
+      </div>
+      <div>
+        <h1>个人页面</h1>
       </div>
       <div
         className="light-scrollbar"
-        style={{
-          overflow: 'auto',
-          padding: 10,
-        }}
       >
         <InfiniteScroll
           initialLoad={false}
