@@ -14,7 +14,7 @@ const CommentList = () => {
     const postId= 2;
     const dataList = [];
 
-    const [Refresh,setRefresh]=useState(0)
+
     const [hasMore,setHasMore] = useState(true)
     const [data, setData] = useState(dataList);
     const [countState, setCountState] = useState(0);
@@ -24,7 +24,7 @@ const CommentList = () => {
         setLoading(true);
 
         try {
-            // 替换为你的API端点
+
             const response = await apiClient.get(`/comments/${postId}?pageNum=`+ countState);
 
             console.log(response);
@@ -40,21 +40,19 @@ const CommentList = () => {
             setLoading(false);
         }
     };
-    useEffect(()=>{
-        handeScroll()
-    },[Refresh])
+
 
     async function handeScroll() {
 
             setLoading(true);
 
             try {
-                // 替换为你的API端点
+
                 const response = await apiClient.get(`/comments/${postId}?pageNum=` + countState);
                 const result = await response.data;
 
                 console.log(result);
-                setData([ ...result.comments,...data]); // 假设返回的数据在result.comments中
+                setData([ ...result.comments]);
                 setCountState(countState + 1);
                 setHasMore(result.hasMore);
             } catch (error) {
@@ -101,11 +99,11 @@ const CommentList = () => {
 
             const responseData = await response.json();
             console.log('Response Data:', responseData);
-            // 这里可以根据响应数据进行更多处理
+
 
         } catch (e) {
             console.error('Error sending data:', e);
-            // 根据错误类型进行更多的错误处理
+
         }
     }
 
@@ -121,7 +119,7 @@ const CommentList = () => {
         }
         await sendData(value,postId)
         scrollToTop()
-        setRefresh(Refresh+1)
+        await handeScroll()
         await setValue('');
     };
     function handleResize(height) {

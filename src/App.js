@@ -31,6 +31,7 @@ const App = () => {
             <Route path="/pushpost" element={<AddPost />} />
             <Route path="/detailedpost" element={<PostDetail/>} />
             <Route path="/test" element={<CommentList postId={2}/>} />
+              <Route path="/test2" element={<NavigationBar/>} />
 
 
           </Routes>
@@ -60,6 +61,7 @@ const Home = () => {
         <Link to="/detailedpost">帖子</Link>
         <Link to="/pushpost">发布</Link>
           <Link to={'/test'}>test</Link>
+          <Link to={'/test2'}>test2</Link>
       </Space>
     </>
   );
