@@ -2,16 +2,18 @@
   background: url('../../resource/my_post_content_bg.png') center/cover no-repeat;
   height: 100vh;
   position: relative;
-  .semi-avatar {
 
-    border-radius: 50%;
-  }
   .headtab {
     margin-left: 20px;
     margin-right: 20px;
     display: flex;
     align-items: center;
-    /* 用于垂直居中对齐 */
+    .avartar-preview-top{
+      width:100%;
+      * {
+        pointer-events: none;
+      }
+    }
   }
   .empty-space {
   height: 52px;
@@ -20,6 +22,51 @@
   background-color: transparent;
 }
 }
+#avatar-container .semi-typography-h3 {
+  color: white;
+  margin-bottom: 52px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: 0em;
+  text-align: center;
+
+}
+#avatar-container .image-item {
+  position: relative;
+  width: 80px;
+  height:80px;
+  margin:8px;
+  overflow: hidden; /* 超出的内容将被隐藏，用于裁剪 */
+  .image {
+    border-radius: 40px;
+    width: 100%; /* 让图像宽度自动调整以保持纵横比 */
+    height: 100%; /* 让图像高度自动调整以保持纵横比 */
+    position: absolute; /* 绝对定位，用于水平垂直居中 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 水平垂直居中 */
+    .semi-image-img-preview {
+      object-fit: cover;
+      width: 100%; /* 让图像宽度自动调整以保持纵横比 */
+      height: 100%; /* 让图像高度自动调整以保持纵横比 */
+      border-radius: 12px; /* 添加圆角 */
+    }
+
+  }
+}
+#avatar-container .semi-image-preview-image {
+  background: black;
+  .semi-image-preview-image-img{
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important; /* 向上和向左偏移自身的50% */
+    width:100% !important;
+    height:auto !important;
+  }
+}
+
 
 
 .light-scrollbar {
@@ -40,6 +87,7 @@
   letter-spacing: 0em;
   text-align: left;
   color: white;
+
 }
 
 .light-scrollbar {

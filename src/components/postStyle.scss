@@ -32,3 +32,54 @@
     justify-content: space-between;
     width: 100%;
 }
+
+.comments {
+  height:200px;
+  padding: 20px 16px;
+  .text{
+    margin-bottom: 20px;
+    .content{
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+    }
+  }
+
+  .comment{
+    margin-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+
+
+
+    .comment-avatar {
+      margin-right: 5px;
+      width:30px;
+      height:30px
+      
+    }
+    .name{
+      display: flex;
+      align-items: center;
+      height: 30px;
+    }
+    .comment-user{
+      color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
+
+    }
+    .detail {
+      margin-left: 35px;
+
+      display: flex;
+      flex-direction: column;
+      .comment-content{
+
+      }
+      .comment-time{
+        color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
+      }
+    }
+  }
+
+  // 限制高度
+}
