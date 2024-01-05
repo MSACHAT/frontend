@@ -2,11 +2,7 @@ import axios from "axios";
 import {Toast} from "@douyinfe/semi-ui";
 import config from "../config/config";
 
-const apiClient = axios.create({
-    baseURL:config.apiUrl,
-    timeout: 1000
-    // headers:{'ent-Type':'application/json'}
-});
+const apiClient = axios.create();
 apiClient.interceptors.request.use((config) => {
     console.log('请求拦截器');
     const token = "eyJhbGciOiJIUzM4NCJ9.eyJVc2VySWQiOjIsInN1YiI6IjE3MzU0NDM2MzRAcXEuY29tIiwiaWF0IjoxNzA0MTgzNTc5LCJleHAiOjE3MDQ3ODgzNzl9.IcxQJXseHAf05a491GMWEKW7IZLVg7QncMhIuNQ8WB_NowOQC_w3R7zTAqnvaW4n";
@@ -14,9 +10,6 @@ apiClient.interceptors.request.use((config) => {
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
         config.headers['Content-Type']='application/json';
-        console.log(token)
-        config.headers['Authorization'] = 'Bearer eyJhbGciOiJIUzM4NCJ9.eyJVc2VySWQiOjIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzAzODM5MjEzLCJleHAiOjE3MDQ0NDQwMTN9.iWghs7FuE-ypReLxJtDYI83jbauAnByPysmteRevK2IQ2mFRuVNJfh1X_Mdbs7SM';
-
     }
     return config;
 })
