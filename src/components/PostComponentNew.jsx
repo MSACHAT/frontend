@@ -57,19 +57,15 @@ export const PostStatsBar = props => {
   return (
     <>
       <Space className={'alternation'} align={'center'}>
-        <Space align={'start'}>
-
-        
-          <IconHeartStroked style={{ color,marginRight: 5 }}
+        <div className='icon'>
+          <IconHeartStroked  style={{ color,marginRight: 5 }}
             size="default"
             onClick={() => handleClickOnLike(color, postId)}
           />
           <Text size="small" color='#180001' style={{ marginRight: 12 }}>{likeLocalCount}</Text>
           <IconCommentStroked style={{ marginRight: 6 }}  size={'default'} />
           <Text size='small' >{commentCount}</Text>
-          </Space>
-
-
+          </div>
         <TimeDisplay className={'feed-time'} timeStamp={time} />
 
       </Space>
@@ -128,7 +124,7 @@ export const Post = props => {
 
       <Paragraph>
 
-        <Text type={'secondary'} strong={true}>
+        <Text className='content' heading={5}>
           {content}
         </Text>
 

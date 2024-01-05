@@ -4,6 +4,7 @@ import fakeData from '../../mockdata/ProfileMockData.json';
 import { Post } from '../../components/PostComponentNew.jsx';
 import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
+import BottomBar from '../../components/BottomBarComponent.jsx';
 
 
 export const Profile = () => {
@@ -77,6 +78,7 @@ export const Profile = () => {
           hasMore={!loading && hasMore && !showLoadMore}
           useWindow={true}
         >
+
           <List
             loadMore={loadMore}
             dataSource={dataSource}
@@ -89,6 +91,7 @@ export const Profile = () => {
           )}
         </InfiniteScroll>
       </div>
+            <BottomBar></BottomBar>
     </div>
   );
 };

@@ -36,4 +36,15 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    .icon{
+        display: flex;
+        justify-self: start;
+        text-align:left;
+        vertical-align:middle;
+
+    }
+}
+.content{
+    color: var(--semi-color-text-1);
+    width: 400;
 }
