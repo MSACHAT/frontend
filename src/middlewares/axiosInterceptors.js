@@ -2,11 +2,7 @@ import axios from "axios";
 import {Toast} from "@douyinfe/semi-ui";
 import config from "../config/config";
 
-const apiClient = axios.create({
-    baseURL:config.apiUrl,
-    timeout: 1000,
-    headers:{'Content-Type':'application/json'}
-});
+const apiClient = axios.create();
 apiClient.interceptors.request.use((config) => {
     console.log('请求拦截器');
     const token = localStorage.getItem('token');

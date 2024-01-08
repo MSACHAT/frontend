@@ -10,6 +10,7 @@ export const UserAvatar = () => {
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
     return new Promise(res => {
+      //TODO 换成获取头像链接
       res(
         'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg'
       );
@@ -38,7 +39,7 @@ export const UserAvatar = () => {
       const formData = new FormData();
       formData.append('file', selectedFile);
 
-      // 发送请求到服务器 (示例 URL)
+      // TODO 发送请求到服务器 (示例 URL)
       // axios
       //   .post(
       //     'https://bytedance.larkoffice.com/docx/SPILdDbBioK4t7xpb2kcQB0unqd',
