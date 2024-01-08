@@ -19,14 +19,13 @@ const PublishPost = () => {
   const [ReadyPublishContent, setReadyPublishContent] = useState(false);
   const [content, setContent] = useState('');
   const [list, updateList] = useState([]);
-  const [imagesObject, setImagesObject] = useState(undefined);
   const uploadRef = useRef();
   const [shouldCallEffect, setShouldCallEffect] = useState(false);
   const [Ready, setReady] = useState();
 
   const [ImageLists, setImageLists] = useState(new Map());
   const navigate = useNavigate();
-
+  console.log(list);
   /*    //Mock代码
 
 
@@ -66,15 +65,13 @@ const PublishPost = () => {
   }, [content]);
 
   useEffect(() => {
-    if (ImageLists.size > 0) {
+    if (list.length > 0) {
       setReadyPublish(true);
-      console.log(10);
     }
-    if (ImageLists.size === 0) {
+    if (list.length === 0) {
       setReadyPublish(false);
-      console.log(11);
     }
-  }, [ImageLists.size]);
+  }, [list.length]);
 
   const action = '';
 
@@ -99,7 +96,7 @@ const PublishPost = () => {
   };
 
   const handlePublish = async () => {
-    if (ImageLists.size === 0) {
+    if (list.length === 0) {
       const postData = {
         content: content,
         image: [],
@@ -109,8 +106,9 @@ const PublishPost = () => {
     } else {
       const postData = {
         content: content,
-        image: Array.from(ImageLists.values()),
+        image: list.map(x => x.response),
       };
+      console.log(postData, '2222');
       await putPost(postData);
       navigate(url.feed);
     }
@@ -134,16 +132,6 @@ const PublishPost = () => {
       })
       .then(response => {
         data.onSuccess(response.data);
-        console.log(response);
-        async function setImage(data) {
-          const newImageLists = new Map(ImageLists);
-          await newImageLists.set(data.fileName, response.data);
-
-          await setImageLists(newImageLists);
-        }
-        setImage(data);
-
-        console.log(ImageLists);
       })
       .catch(error => {
         const status = error.response ? error.response.status : 500;
@@ -196,12 +184,20 @@ const PublishPost = () => {
           listType="picture"
           draggable={true}
           multiple={true}
-          onRemove={(currentFile, fileList, currentFileItem) => {
-            ImageLists.delete(currentFileItem.name);
-            setImageLists(new Map(ImageLists));
-
-            console.log(currentFileItem);
+          // onRemove={(currentFile, fileList, currentFileItem) => {
+          //   ImageLists.delete(currentFileItem.name);
+          //   setImageLists(new Map(ImageLists));
+          //
+          //   console.log(currentFileItem);
+          // }}
+          onChange={({ fileList, currentFile }) => {
+            console.log('onChange');
+            console.log(fileList);
+            console.log(currentFile);
+            let newFileList = [...fileList]; // spread to get new array
+            updateList(newFileList);
           }}
+          fileList={list}
           limit={9}
         >
           <IconPlus size="large" />
