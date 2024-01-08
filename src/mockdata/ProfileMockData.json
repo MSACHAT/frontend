@@ -17,7 +17,7 @@
 },{
   "userName": "John Doe",
   "timeStamp": "2023-01-01 12:00 PM",
-  "images": ["https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/sky.jpg"],
+  "images": [],
   "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   "likeCount": 42,
   "commentCount": 10,
@@ -28,7 +28,7 @@
   "userName": "John Doe",
   "timeStamp": "2023-01-01 12:00 PM",
   "images": ["https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/sky.jpg"],
-  "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "content": "",
   "likeCount": 42,
   "commentCount": 10,
   "title": "Post Title",

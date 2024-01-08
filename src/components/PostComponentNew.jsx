@@ -59,8 +59,11 @@ export const PostStatsBar = props => {
 
   return (
     <>
+
       <Space className={'alternation'} align={'center'}>
-        <Space align={'start'}>
+     
+        <div className='alternation'>
+          <div className='icon'>
           <IconHeartStroked
             style={{ color, marginRight: 5 }}
             size="default"
@@ -71,9 +74,15 @@ export const PostStatsBar = props => {
           </Text>
           <IconCommentStroked style={{ marginRight: 6 }} size={'default'} />
           <Text size="small">{commentCount}</Text>
-        </Space>
+          </div>
 
-        <TimeDisplay className={'feed-time'} timeStamp={time} />
+          <div className='feed-time'>
+          <TimeDisplay className={'feed-time'} timeStamp={time} />
+          </div>
+          
+        </div>
+
+        
       </Space>
     </>
   );
