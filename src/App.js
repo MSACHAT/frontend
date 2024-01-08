@@ -9,23 +9,34 @@ import DetailPost from './pages/post/PostDetailedPage.jsx';
 import ScrollLoad from "./components/Comments";
 import Comment from "./components/Comment";
 import NavigationBar from "./components/NavigationBar";
+import AddPost from "./pages/post/AddPost";
+import PostDetail from "./pages/post/PostDetail";
+import NavigationBarthDeleteButton from "./components/NavigationBarwithDeleteButtom";
+import React from 'react';
+
+import CommentList from "./components/CommentList";
+
 
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/feed" element={<Feed />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/pushpost" element={<PushPost />} />
-        <Route path="/detailedpost" element={<DetailPost />} />
-          <Route path={"/test"} element={<NavigationBar/>}/>
 
-      </Routes>
-    </Router>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/feed" element={<Feed />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/pushpost" element={<AddPost />} />
+            <Route path="/detailedpost" element={<PostDetail/>} />
+            <Route path="/test" element={<CommentList postId={2}/>} />
+              <Route path="/test2" element={<NavigationBar/>} />
+
+
+          </Routes>
+        </Router>
+
   );
 };
 
@@ -50,6 +61,7 @@ const Home = () => {
         <Link to="/detailedpost">帖子</Link>
         <Link to="/pushpost">发布</Link>
           <Link to={'/test'}>test</Link>
+          <Link to={'/test2'}>test2</Link>
       </Space>
     </>
   );

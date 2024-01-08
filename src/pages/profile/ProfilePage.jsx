@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './profileStyle.scss';
 import fakeData from '../../mockdata/ProfileMockData.json';
 import { Post } from '../../components/PostComponentNew.jsx';
-import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
+import { List, Button, Image, Spin, ImagePreview } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
-import BottomBar from '../../components/BottomBarComponent.jsx';
-
-
+import { IconCamera, IconChevronLeft } from '@douyinfe/semi-icons';
+import Text from '@douyinfe/semi-ui/lib/es/typography/text';
+import Title from '@douyinfe/semi-ui/lib/es/typography/title';
+import { UserAvatar } from './UserAvatar';
 export const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [dataCount, setDataCount] = useState(0);
   const [postData, setPostData] = useState([]);
+
   const fetchData = () => {
     setLoading(true);
     return new Promise(res => {
@@ -48,22 +50,14 @@ export const Profile = () => {
       </div>
     ) : null;
 
-
   return (
-    <div className='profile-page'>
-        
-      <div className='empty-space'>
-
+    <div className="profile-page">
+      <div className="empty-space"></div>
+      <div className="headtab">
+        <UserAvatar />
+        <div>Haha ha</div>
       </div>
-      <div className='headtab'>
-      <Avatar shape="circul" style={{ margin: 8, width: 80, height: 80 }} alt='User'>
-            U
-        </Avatar>
-        <div>
-          Haha ha
-        </div>
-      </div>
-<div
+      <div
         className="light-scrollbar"
         style={{
           overflow: 'auto',

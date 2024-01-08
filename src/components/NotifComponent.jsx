@@ -11,11 +11,17 @@ export const Notif = props => {
     userName,
     sendTime,
     commentContent,
-    isRead,
+    notifTag,
     previewType,
     previewString,
+    timeStamp,
   } = props;
-
+  let isRead=true;
+  if(notifTag==null||notifTag<timeStamp){
+      isRead=false
+  }
+  console.log('notiftag' + notifTag);
+  console.log("time"+timeStamp)
   const expandIconForComments =
     previewType === 'image' ? (
       <Space style={{ height: '100%', display: 'inline-flex', float: 'right' }}>
@@ -28,11 +34,7 @@ export const Notif = props => {
       </Space>
     ) : (
       <Space style={{ height: '100%', display: 'inline-flex', float: 'right' }}>
-        <Text
-          className={'notif-postpreview'}
-        >
-            {previewString}
-        </Text>
+        <Text className={'notif-postpreview'}>{previewString}</Text>
       </Space>
     );
   if (messageType === 'Comment') {
@@ -60,7 +62,7 @@ export const Notif = props => {
                     {commentContent}
                   </Text>
                 </Space>
-                <Text type="quaternary" size={'small'}>
+                <Text type="quaternary" className={'notif-sendtime'}>
                   {sendTime}
                 </Text>
               </Space>
@@ -87,16 +89,13 @@ export const Notif = props => {
           header={
             <div>
               <Space align={'end'}>
-                <div
-                  className={isRead ? 'notif-read' : 'notif-newnotif'}
-                  style={{ backgroundColor: 'transparent' }}
-                ></div>
-                <Avatar src={userIcon} />
+                <div className={isRead ? 'notif-read' : 'notif-newnotif'}></div>
+                <Avatar src={userIcon} className={'notif-avatar'} />
                 <Space vertical align={screenLeft}>
                   <Text className={'notif-username'}>{userName}</Text>
                   <Text className={'notif-notifcontent'}>{likedYourNotif}</Text>
                 </Space>
-                <Text type={'quaternary'} size={'small'}>
+                <Text type={'quaternary'} className={'notif-sendtime'}>
                   {sendTime}
                 </Text>
               </Space>

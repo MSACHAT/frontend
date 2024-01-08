@@ -1,5 +1,4 @@
 .light-scrollbar{
-
     .semi-list-items {
        background-color: rgba(0, 0, 0, 0);
       }
@@ -8,19 +7,15 @@
         margin-bottom: 16px; /* 为直接子元素添加底部间距 */
 
       }
-
-
-    p{
+    .post-detail {
         padding: 20px;
         margin-left: 0px;
         margin-right: 0px;
         margin-bottom: 10px;
         background-color: #FFFFFE;
         border-radius: 12px; /* 添加圆角 */
-
-
-        
     }
+
     
 }
 .light-scrollbar{
@@ -47,4 +42,55 @@
 .content{
     color: var(--semi-color-text-1);
     width: 400;
+}
+
+.comments {
+  height:200px;
+  padding: 20px 16px;
+  .text{
+    margin-bottom: 20px;
+    .content{
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+    }
+  }
+
+  .comment{
+    margin-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+
+
+
+    .comment-avatar {
+      margin-right: 5px;
+      width:30px;
+      height:30px
+      
+    }
+    .name{
+      display: flex;
+      align-items: center;
+      height: 30px;
+    }
+    .comment-user{
+      color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
+
+    }
+    .detail {
+      margin-left: 35px;
+
+      display: flex;
+      flex-direction: column;
+      .comment-content{
+
+      }
+      .comment-time{
+        color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
+      }
+    }
+  }
+
+  // 限制高度
 }
