@@ -4,10 +4,13 @@ import {IconChevronLeft, IconPlus} from '@douyinfe/semi-icons';
 import axios from "axios";
 import './PostPushingStyle.scss'
 import config from "../../config/config";
-import apiClient from "../../middlewares/axiosInterceptors";
+
 import {NavigationBackButton} from "../../components/NavigationBackButton";
 import {useNavigate} from "react-router-dom";
 import url from "../../config/RouteConfig";
+import upload from "../../middlewares/uploadImage";
+import apiClient from "../../middlewares/axiosInterceptors";
+import async from "async";
 
 const PublishPost = () => {
     const [saveLoading, setSaveLoading] = useState(false);
@@ -77,7 +80,7 @@ const PublishPost = () => {
     }, [ImageLists.size]);
 
 
-    const action = 'https://api.semi.design/upload';
+    const action=''
 
 
     async function putPost(postData){
@@ -123,34 +126,38 @@ const PublishPost = () => {
 
             };
             await putPost(postData);
+            navigate(url.feed)
         }
 
     };
 
 
-    function uploadFileToImage(data) {
+    async function uploadFileToImage(data) {
         const formData = new FormData();
 
         formData.append("file", data.fileInstance);
 
-        apiClient.post( '/upload',formData, {
+        upload.post( '/images/uploadimage',formData, {
             onUploadProgress: (progressEvent) => {
                 const total = progressEvent.total;
                 const loaded = progressEvent.loaded;
                 data.onProgress({ total, loaded });
+            },
+            headers: {
+                'Content-Type': 'multipart/form-data',
             }
         })
             .then((response) => {
                 data.onSuccess(response.data);
+                console.log(response)
+                async function setImage(data){
+                    const newImageLists = new Map(ImageLists);
+                    await newImageLists.set(data.fileName, response.data);
 
 
-
-
-                const newImageLists = new Map(ImageLists);
-                newImageLists.set(data.fileName, response.data);
-
-
-                setImageLists(newImageLists);
+                    await setImageLists(newImageLists);
+                }
+                setImage(data)
 
 
                 console.log(ImageLists)
@@ -211,7 +218,7 @@ const PublishPost = () => {
                     onError={(...v) => {setSaveLoading(false);Toast.error("图片上传失败");console.log(...v)}}
                     listType="picture"
                     draggable={true}
-                    multiple
+
 
                     onRemove={(currentFile, fileList,currentFileItem)=>{
                         ImageLists.delete(currentFileItem.name);

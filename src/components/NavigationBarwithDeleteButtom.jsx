@@ -47,7 +47,7 @@ const NavigationBar = ({postId}) => {
             <div style={{display:"flex",justifyContent:"start",width:'100%',alignItems:"center",paddingTop:'12px',height:'56px',position:"fixed",top:0,backgroundColor:"white",color:"white",zIndex:1000}}>
                 <Button color={"black"} icon={<IconChevronLeft />} size={"large"} iconSize={"large"}  theme={"borderless"}/>
                 <Title style={{marginLeft:"auto",marginRight:"auto"} } heading={3}>帖子详情</Title>
-                <Button onClick={showDialog} icon={<IconDeleteStroked />} size={"large"} iconSize={"large"}  theme={"borderless"}/>
+                <Button onClick={showDialog} icon={<IconDeleteStroked />} size={"large"} style={{color:"gray"}} iconSize={"large"}  theme={"borderless"}/>
                 <Modal
                     className={'modal'}
                     icon={<IconAlertTriangle />}
