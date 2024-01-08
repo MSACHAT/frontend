@@ -1,12 +1,55 @@
 import React from 'react';
-import {Layout, Button, Table, List} from '@douyinfe/semi-ui';
+import { Layout, Button, Table, List, Badge, Toast } from '@douyinfe/semi-ui';
 import { Post } from '../../components/PostComponent.jsx';
-import { IconChevronLeft, IconPlus } from '@douyinfe/semi-icons';
+import { IconBellStroked } from '@douyinfe/semi-icons';
+import './FeedStyle.scss';
 import { GetData } from './HookToGetData.jsx';
 import { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
-import {NavigationBackButton} from "../../components/NavigationBackButton";
+import { NavigationBackButton } from '../../components/NavigationBackButton';
+import apiClient from '../../middlewares/axiosInterceptors';
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import { Notifications } from '../notifications/NotificationsPage';
+import { RecoilRoot } from 'recoil';
+import ErrorBoundary from '../Error';
+import { Login } from '../login/LoginPage';
+import { Profile } from '../profile/ProfilePage';
+import AddPost from '../post/AddPost';
+import PostDetail from '../post/PostDetail';
+import CommentList from '../../components/CommentList';
+import NavigationBarthDeleteButton from '../../components/NavigationBarwithDeleteButtom';
+export function NewNotif() {
+  const [newNotifCount, setNewNotifCount] = useState(0);
+  apiClient
+    .get('http://localhost:8085/notif/countnewnotifs/test', {
+      params: {
+        userId: 1,
+      },
+    })
+    .then(res => {
+      setNewNotifCount(res.data.newNotifCounts);
+    });
+  if (newNotifCount > 0) {
+    return (
+      <Link to={'/notifications'} className={'feed-link'}>
+        <Badge
+          count={newNotifCount}
+          className={'feed-badge'}
+          position={'rightTop'}
+        >
+          <IconBellStroked className={'feed-iconbellstroked'}></IconBellStroked>
+        </Badge>
+      </Link>
+    );
+  } else {
+    return (
+      <Link to={'/notifications'} className={'feed-link'}>
+        <IconBellStroked className={'feed-iconbellstroked'}></IconBellStroked>
+      </Link>
+    );
+  }
+}
 export function Feed() {
   const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
@@ -60,7 +103,6 @@ export function Feed() {
     GetData(pageNum, pageSize).then(result => {
       setPosts(result);
       setTotalPages(result.totalPages);
-      
     });
     setPageNum(pageNum + 1);
     // setPosts(data);
@@ -68,67 +110,62 @@ export function Feed() {
   useEffect(() => {
     // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
     return () => {
-      setPageNum(0)
-      setTotalPages(0)
+      setPageNum(0);
+      setTotalPages(0);
     };
   }, []);
   return (
-    <Layout>
-      <Header
-        style={{
-          position: 'fixed',
-          zIndex: 999,
-          backgroundColor: '#9C9EA1',
-          width: '100%',
-        }}
-      >
-        <NavigationBackButton/>
+    <div className={'feed-page'}>
+      <Header className={'feed-header'}>
+        <span></span>
+        <NewNotif></NewNotif>
       </Header>
-      <Content style={{ height: 300, lineHeight: '300px' }}>
+      <div className={'feed-content'}>
         <InfiniteScroll loadMore={loadMoreData} hasMore={pageNum <= totalPages}>
-        <List dataSource={posts.data}
-              renderItem={record => (
-                  <Post
-                      userName={record.userName}
-                      // userIcon={record.userIcon}
-                      timeStamp={record.timeStamp}
-                      images={record.images}
-                      content={record.content}
-                      likeCount={record.likeCount}
-                      commentCount={record.commentCount}
-                      liked={record.isLiked}
-                      title={record.title}
-                      postId={record.id}
-                  ></Post>
-              )}
-        >
-          {/*<Column*/}
-          {/*  dataIndex="id"*/}
-          {/*  key="id"*/}
-          {/*  render={record => (*/}
-          {/*    <Post*/}
-          {/*      userName={record.userName}*/}
-          {/*      // userIcon={record.userIcon}*/}
-          {/*      timeStamp={record.timeStamp}*/}
-          {/*      images={record.images}*/}
-          {/*      content={record.content}*/}
-          {/*      likeCount={record.likeCount}*/}
-          {/*      commentCount={record.commentCount}*/}
-          {/*      liked={record.isLiked}*/}
-          {/*      title={record.title}*/}
-          {/*      postId={record.id}*/}
-          {/*    ></Post>*/}
-          {/*  )}*/}
-          {/*/>*/}
-        </List>
+          <List
+            dataSource={posts.data}
+            renderItem={record => (
+              <Post
+                userName={record.userName}
+                // userIcon={record.userIcon}
+                timeStamp={record.timeStamp}
+                images={record.images}
+                content={record.content}
+                likeCount={record.likeCount}
+                commentCount={record.commentCount}
+                liked={record.isLiked}
+                title={record.title}
+                postId={record.id}
+              ></Post>
+            )}
+          >
+            {/*<Column*/}
+            {/*  dataIndex="id"*/}
+            {/*  key="id"*/}
+            {/*  render={record => (*/}
+            {/*    <Post*/}
+            {/*      userName={record.userName}*/}
+            {/*      // userIcon={record.userIcon}*/}
+            {/*      timeStamp={record.timeStamp}*/}
+            {/*      images={record.images}*/}
+            {/*      content={record.content}*/}
+            {/*      likeCount={record.likeCount}*/}
+            {/*      commentCount={record.commentCount}*/}
+            {/*      liked={record.isLiked}*/}
+            {/*      title={record.title}*/}
+            {/*      postId={record.id}*/}
+            {/*    ></Post>*/}
+            {/*  )}*/}
+            {/*/>*/}
+          </List>
         </InfiniteScroll>
-      </Content>
+      </div>
       {/*以下的代码是用来做footer的navigation的*/}
       {/*<Footer style={{...commonStyle,display: "flex", textAlign: "center"}} className="Align-Bottom" >*/}
       {/*    <Button theme='borderless' type='primary' style={{marginRight: 8}}>首页</Button>*/}
       {/*    <Button icon={<IconPlus/>} aria-label="截屏"/>*/}
       {/*    <Button theme='borderless' type='primary' style={{marginRight: 8}}>我的</Button>*/}
       {/*</Footer>*/}
-    </Layout>
+    </div>
   );
 }

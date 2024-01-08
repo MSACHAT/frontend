@@ -16,12 +16,12 @@ export const Notif = props => {
     previewString,
     timeStamp,
   } = props;
-  let isRead=true;
-  if(notifTag==null||notifTag<timeStamp){
-      isRead=false
+  let isRead = true;
+  if (notifTag == null || notifTag < timeStamp) {
+    isRead = false;
   }
   console.log('notiftag' + notifTag);
-  console.log("time"+timeStamp)
+  console.log('time' + timeStamp);
   const expandIconForComments =
     previewType === 'image' ? (
       <Space style={{ height: '100%', display: 'inline-flex', float: 'right' }}>
@@ -48,17 +48,7 @@ export const Notif = props => {
                 <Avatar src={userIcon} className={'notif-avatar'} />
                 <Space align={screenLeft} vertical>
                   <Text className={'notif-username'}>{userName}</Text>
-                  <Text
-                    ellipsis={{
-                      showTooltip: {
-                        opts: {
-                          content: '架构|Semi-inf|graph.cheet.relation',
-                          className: 'components-typography-demo',
-                        },
-                      },
-                    }}
-                    className={'notif-notifcontent'}
-                  >
+                  <Text ellipsis={{}} className={'notif-notifcontent'}>
                     {commentContent}
                   </Text>
                 </Space>
