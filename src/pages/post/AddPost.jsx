@@ -5,6 +5,9 @@ import axios from "axios";
 import './PostPushingStyle.scss'
 import config from "../../config/config";
 import apiClient from "../../middlewares/axiosInterceptors";
+import {NavigationBackButton} from "../../components/NavigationBackButton";
+import {useNavigate} from "react-router-dom";
+import url from "../../config/RouteConfig";
 
 const PublishPost = () => {
     const [saveLoading, setSaveLoading] = useState(false);
@@ -19,7 +22,7 @@ const PublishPost = () => {
     const [Ready,setReady]=useState()
 
     const [ImageLists,setImageLists] = useState(new Map)
-
+    const navigate = useNavigate()
 
 
 
@@ -51,6 +54,7 @@ const PublishPost = () => {
 
         };*/
     //Mock结束
+
 
     useEffect(()=>{
         if (content.length > 0){
@@ -111,6 +115,7 @@ const PublishPost = () => {
 
             };
             await putPost(postData);
+            navigate(url.feed)
         } else {
             const postData = {
                 content: content,
@@ -155,14 +160,14 @@ const PublishPost = () => {
                 data.onError({ status }, error);
             });
     }
-console.log(ImageLists,'111')
+
 
     return (
 
 
         <div >
             <div className={"head"}>
-                <Button iconSize={"extra-large"} icon={<IconChevronLeft />} theme="borderless" color={"grey"}  />
+                <NavigationBackButton/>
 
                 <Button
                     size='small'
@@ -209,7 +214,7 @@ console.log(ImageLists,'111')
                     multiple
 
                     onRemove={(currentFile, fileList,currentFileItem)=>{
-                        ImageLists.delete(currentFileItem.name); // Delete the item from the map
+                        ImageLists.delete(currentFileItem.name);
                         setImageLists(new Map(ImageLists));
 
                         console.log(currentFileItem)

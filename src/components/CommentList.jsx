@@ -7,18 +7,22 @@ import './CommentStyle.scss'
 import { Typography } from '@douyinfe/semi-ui';
 import { animateScroll as scroll } from 'react-scroll';
 import apiClient from "../middlewares/axiosInterceptors";
+import {useRecoilState} from "recoil";
+import {CommentCount} from "../store";
 
 
-const CommentList = () => {
+const CommentList = ({postId}) => {
+
     const { Text } = Typography;
-    const postId= 2;
+
     const dataList = [];
+    const [commentCount, setCommentCount] = useRecoilState(CommentCount);
 
 
     const [hasMore,setHasMore] = useState(true)
     const [data, setData] = useState(dataList);
     const [countState, setCountState] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     const fetchData = async () => {
         setLoading(true);
@@ -33,7 +37,7 @@ const CommentList = () => {
             setCountState(countState + 1);
             setHasMore(result.hasMore);
         } catch (error) {
-            console.log(response);
+
             console.error('Fetching data failed', error);
 
         } finally {
@@ -118,6 +122,7 @@ const CommentList = () => {
             return
         }
         await sendData(value,postId)
+        await setCommentCount(commentCount+1)
         scrollToTop()
         await handeScroll()
         await setValue('');

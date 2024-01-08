@@ -9,22 +9,33 @@ import { useState } from 'react';
 import './loginStyle.scss';
 import { IconArrowRight } from '@douyinfe/semi-icons';
 import apiClient from "../../middlewares/axiosInterceptors"
+import {useNavigate} from "react-router-dom";
+import loginClient from "../../middlewares/loginMiddleWare";
+import url from "../../config/RouteConfig";
 export const Login = () => {
-  async function fetchData(header) {
-    try {
-      const res = await apiClient.get('http://localhost:8085/post/getbypagenumandpagesize/test?pageNum=0', {
-        headers: header,
-      });
-      console.log(res.data);
-    } catch (err) {
-      // 处理错误
-      console.error("An error occurred:", err);
-    }
-  }
+  const navigate = useNavigate();
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
-    const header = {'Content-Type': 'application/json'};
-    fetchData(header)
+
+    const data = {
+      usernameOrEmail: values.email,
+      password: values.password
+    }
+    console.log(data);
+    try {
+
+      const res = await loginClient.post('/login', data);
+
+      if (res && res.data) {
+        Toast.success('登录成功');
+        localStorage.setItem('token', res.data.token);
+        navigate(url.feed);
+      } else {
+        setLoginFailInfo('登录失败');
+      }
+    } catch (error) {
+      setLoginFailInfo('登录失败')
+    }
   }
   const { Title, Text } = Typography;
   const ConfirmButton = () => {

@@ -5,6 +5,7 @@ import { IconChevronLeft, IconPlus } from '@douyinfe/semi-icons';
 import { GetData } from './HookToGetData.jsx';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {NavigationBackButton} from "../../components/NavigationBackButton";
 export function Feed() {
   const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
@@ -99,13 +100,7 @@ export function Feed() {
           width: '100%',
         }}
       >
-        <Button
-          theme={'borderless'}
-          icon={<IconChevronLeft />}
-          onClick={() => {
-            window.history.go(-1);
-          }}
-        ></Button>
+        <NavigationBackButton/>
       </Header>
       <Content style={{ height: 300, lineHeight: '300px' }}>
         <Table dataSource={posts.data} pagination={false}>
