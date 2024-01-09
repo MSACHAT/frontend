@@ -20,10 +20,12 @@ import BottomNavigationBar from "./components/BottomNavigationBar";
 import url from "./config/RouteConfig";
 import { RecoilRoot } from 'recoil';
 import ErrorBoundary from "./pages/Error";
+import {ProtectedRoute} from "./Route/ProtectedRoute";
 
 
 
 const App = () => {
+
 
   return (
     <RecoilRoot>
@@ -32,11 +34,11 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/feed" element={<Feed />} />
-                <Route path="/notifications" element={<Notifications />} />
-                <Route path="/add" element={<AddPost />} />
-                <Route path="/post/:postId" element={<PostDetail/>} />
+                <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+                <Route path="/add" element={<ProtectedRoute><AddPost /></ProtectedRoute>} />
+                <Route path="/post/:postId" element={<ProtectedRoute><PostDetail/></ProtectedRoute>} />
                 <Route path="/test" element={<CommentList postId={2}/>} />
                   <Route path="/test2" element={<NavigationBarthDeleteButton/>} />
 
