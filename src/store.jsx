@@ -6,6 +6,10 @@ export const CommentCount = atom({
     default: 0,
 });
 
+export const IsAuthenticated = atom({
+    key: 'IsAuthenticated',
+    default: false,
+})
 
 
 

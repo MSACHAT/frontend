@@ -12,8 +12,11 @@ import apiClient from "../../middlewares/axiosInterceptors"
 import {useNavigate} from "react-router-dom";
 import loginClient from "../../middlewares/loginMiddleWare";
 import url from "../../config/RouteConfig";
+import {useRecoilState} from "recoil";
+import {IsAuthenticated} from "../../store";
 export const Login = () => {
   const navigate = useNavigate();
+  const [isAuthenticated,setIsAuthenticated] = useRecoilState(IsAuthenticated)
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
 
@@ -28,7 +31,9 @@ export const Login = () => {
 
       if (res && res.data) {
         Toast.success('登录成功');
+        setIsAuthenticated(true)
         localStorage.setItem('token', res.data.token);
+
         navigate(url.feed);
       } else {
         setLoginFailInfo('登录失败');

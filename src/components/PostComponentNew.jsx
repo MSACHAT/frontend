@@ -1,4 +1,4 @@
-import { Typography, TextArea, Image, Space } from '@douyinfe/semi-ui';
+import {Typography, TextArea, Image, Space, Avatar} from '@douyinfe/semi-ui';
 import {
   IconHeartStroked,
   IconCommentStroked,
@@ -114,9 +114,9 @@ export const Post = props => {
     content,
     likeCount,
     commentCount,
-    title,
     isLiked,
     postId,
+      avatar
   } = props;
   const { Paragraph, Text, Title } = Typography;
   const inputList = [
@@ -126,7 +126,9 @@ export const Post = props => {
   console.log(images);
 
   return (
+
     <div className={'post-detail'}>
+      <Avatar src={avatar}/>
       <Text type={'secondary'} strong={true}>
         {content}
       </Text>
