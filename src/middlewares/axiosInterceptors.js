@@ -8,6 +8,7 @@ const apiClient = axios.create({
 });
 apiClient.interceptors.request.use(config => {
   console.log('请求拦截器');
+  // const token = localStorage.getItem('token');
   const token = localStorage.getItem('token');
   console.log('TOKEN' + token);
   if (token) {
@@ -22,6 +23,7 @@ apiClient.interceptors.response.use(
   response => {
     console.log('响应拦截器');
     console.log('请求成功');
+    console.log(response.data);
     return response;
   },
   error => {

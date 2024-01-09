@@ -1,27 +1,19 @@
 import React from 'react';
-import { Layout, Button, Table, List, Badge, Toast } from '@douyinfe/semi-ui';
+import { Layout, List, Badge } from '@douyinfe/semi-ui';
 import { Post } from '../../components/PostComponent.jsx';
 import { IconBellStroked } from '@douyinfe/semi-icons';
 import './FeedStyle.scss';
 import { GetData } from './HookToGetData.jsx';
 import { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import axios from 'axios';
-import { NavigationBackButton } from '../../components/NavigationBackButton';
 import apiClient from '../../middlewares/axiosInterceptors';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 export function NewNotif() {
   const [newNotifCount, setNewNotifCount] = useState(0);
-  apiClient
-    .get('http://localhost:8085/notif/countnewnotifs/test', {
-      params: {
-        userId: 1,
-      },
-    })
-    .then(res => {
-      setNewNotifCount(res.data.newNotifCounts);
-    });
+  apiClient.get('/notif/countnewnotifs').then(res => {
+    setNewNotifCount(res.data.newNotifCounts);
+  });
   if (newNotifCount > 0) {
     return (
       <Link to={'/notifications'} className={'feed-link'}>
@@ -43,7 +35,7 @@ export function NewNotif() {
   }
 }
 export function Feed() {
-  const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
+  const pageSize = 5; //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   function loadMoreData() {
     // @ts-ignore
@@ -54,45 +46,40 @@ export function Feed() {
     setPageNum(pageNum + 1);
     GetData(pageNum, pageSize).then(result => {
       result.data = [...posts.data, ...result.data];
-      console.log(result.data);
       setPosts(result);
       setTotalPages(result.totalPages);
     });
   }
 
   const { Header, Content, Footer } = Layout;
-  const { Column } = Table;
-  const commonStyle = {
-    height: 64,
-    lineHeight: '64px',
-    background: 'var(--semi-color-fill-0)',
-  };
   const [posts, setPosts] = useState({ data: [] });
   const [totalPages, setTotalPages] = useState();
+  // useEffect(() => {
+  //用于往后端发送前端本地保存的点赞
+  // const header = { 'Content-Type': 'application/json' };
+  // const interval = setInterval(() => {
+  //   console.log('Start Backend' + localStorage.getItem('postsLiked'));
+  //   if (localStorage.getItem('postsLiked') != null) {
+  //     apiClient
+  //       .patch(
+  //         'http://localhost:8085/post/like/test',
+  //         localStorage.getItem('postsLiked'),
+  //         {
+  //           headers: header,
+  //         }
+  //       )
+  //       .then(res => {
+  //         localStorage.clear();
+  //       });
+  //   }
+  // }, 1000 * 10 * 60); // 10分钟间隔,单位毫秒
+  //
+  //   return () => clearInterval(interval);
+  // }, []);
   useEffect(() => {
-    //用于往后端发送前端本地保存的点赞
-    const header = { 'Content-Type': 'application/json' };
-    const interval = setInterval(() => {
-      console.log('Start Backend' + localStorage.getItem('postsLiked'));
-      if (localStorage.getItem('postsLiked') != null) {
-        axios
-          .patch(
-            'http://localhost:8085/post/like/test',
-            localStorage.getItem('postsLiked'),
-            {
-              headers: header,
-            }
-          )
-          .then(res => {
-            localStorage.clear();
-          });
-      }
-    }, 1000 * 10 * 60); // 10分钟间隔,单位毫秒
-
-    return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
+    console.log('Getting Data');
     GetData(pageNum, pageSize).then(result => {
+      console.log(result);
       setPosts(result);
       setTotalPages(result.totalPages);
     });
@@ -102,22 +89,8 @@ export function Feed() {
   useEffect(() => {
     // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
     return () => {
-      const header = { 'Content-Type': 'application/json' };
       setPageNum(0);
       setTotalPages(0);
-      if (localStorage.getItem('postsLiked') != null) {
-        axios
-          .patch(
-            'http://localhost:8085/post/like/test',
-            localStorage.getItem('postsLiked'),
-            {
-              headers: header,
-            }
-          )
-          .then(res => {
-            localStorage.clear();
-          });
-      }
     };
   }, []);
   return (
@@ -138,7 +111,6 @@ export function Feed() {
             renderItem={record => (
               <Post
                 userName={record.userName}
-                // userIcon={record.userIcon}
                 timeStamp={record.timeStamp}
                 images={record.images}
                 content={record.content}
@@ -149,26 +121,7 @@ export function Feed() {
                 postId={record.id}
               ></Post>
             )}
-          >
-            {/*<Column*/}
-            {/*  dataIndex="id"*/}
-            {/*  key="id"*/}
-            {/*  render={record => (*/}
-            {/*    <Post*/}
-            {/*      userName={record.userName}*/}
-            {/*      // userIcon={record.userIcon}*/}
-            {/*      timeStamp={record.timeStamp}*/}
-            {/*      images={record.images}*/}
-            {/*      content={record.content}*/}
-            {/*      likeCount={record.likeCount}*/}
-            {/*      commentCount={record.commentCount}*/}
-            {/*      liked={record.isLiked}*/}
-            {/*      title={record.title}*/}
-            {/*      postId={record.id}*/}
-            {/*    ></Post>*/}
-            {/*  )}*/}
-            {/*/>*/}
-          </List>
+          ></List>
         </InfiniteScroll>
       </div>
       <BottomNavigationBar></BottomNavigationBar>
