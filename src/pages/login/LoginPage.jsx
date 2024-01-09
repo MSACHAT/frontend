@@ -21,7 +21,7 @@ export const Login = () => {
   const handleSubmit = async values => {
 
     const data = {
-      usernameOrEmail: values.email,
+      email: values.email,
       password: values.password
     }
     console.log(data);
@@ -33,7 +33,6 @@ export const Login = () => {
         Toast.success('登录成功');
         setIsAuthenticated(true)
         localStorage.setItem('token', res.data.token);
-
         navigate(url.feed);
       } else {
         setLoginFailInfo('登录失败');

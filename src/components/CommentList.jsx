@@ -29,7 +29,7 @@ const CommentList = ({postId}) => {
 
         try {
 
-            const response = await apiClient.get(`/comments/${postId}?pageNum=`+ countState);
+            const response = await apiClient.get(`/get/${postId}?pageNum=`+ countState);
 
             console.log(response);
             const result = await response.data;

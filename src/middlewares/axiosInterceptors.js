@@ -2,12 +2,19 @@ import axios from "axios";
 import {Toast} from "@douyinfe/semi-ui";
 import config from "../config/config";
 
-const apiClient = axios.create();
+const apiClient = axios.create(
+    {
+        baseURL: config.apiUrl,
+        timeout: 1000 * 60,
+
+    }
+);
 apiClient.interceptors.request.use((config) => {
     console.log('请求拦截器');
     const token = localStorage.getItem('token');
     if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
+        // config.headers['Authorization'] = `Bearer ${token}`;
+        config.headers['Authorization'] = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJVc2VySWQiOjIsInN1YiI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTcwNDcxMjMxMiwiZXhwIjoxNzA1MzE3MTEyfQ.XrAzZgsbLZ6S8DazSfx0FiPxL_V7f0mX_2RzoynWiXcZH6kkrorKtR9KHV-z8jV8";
         config.headers['Content-Type']='application/json';
         console.log(token)
 
