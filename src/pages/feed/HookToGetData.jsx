@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Toast } from '@douyinfe/semi-ui';
-// import data from "../../mockdata/FeedMockData.json"
+// import MockData from '../../mockdata/FeedMockData.json';
 // export const GetData = (currentData,pageSize) => {
 //             let isSuccessful = Math.random() >= 0;  // 随机成功或失败
 //             console.log(isSuccessful)

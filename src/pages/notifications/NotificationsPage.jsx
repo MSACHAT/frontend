@@ -63,26 +63,16 @@ export function Notifications() {
       console.log('GetFirstNotifNums' + result.totalNotifs);
     });
     setPageNum(pageNum + 1);
-    apiClient
-      .get('http://localhost:8085/notif/countnewnotifs/test', {
-        params: {
-          userId: 1,
-        },
-      })
-      .then(result => {
-        console.log(result)
-        setNotifTag(new Date(result.data.notifTag).getTime())
-        console.log('NotifTag' + notifTag);
-      });
+    apiClient.get('http://localhost:8085/notif/countnewnotifs').then(result => {
+      console.log(result);
+      setNotifTag(new Date(result.data.notifTag).getTime());
+      console.log('NotifTag' + notifTag);
+    });
   }, []);
   useEffect(() => {
     const interval = setInterval(() => {
       apiClient
-        .get('http://localhost:8085/notif/countnewnotifs/test', {
-          params: {
-            userId: 1,
-          },
-        })
+        .get('http://localhost:8085/notif/countnewnotifs')
         .then(res => {
           console.log(res.data);
           console.log('notifnums' + notifNums);

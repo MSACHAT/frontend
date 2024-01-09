@@ -9,16 +9,8 @@ import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
 import { NavigationBackButton } from '../../components/NavigationBackButton';
 import apiClient from '../../middlewares/axiosInterceptors';
+import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
-import { Notifications } from '../notifications/NotificationsPage';
-import { RecoilRoot } from 'recoil';
-import ErrorBoundary from '../Error';
-import { Login } from '../login/LoginPage';
-import { Profile } from '../profile/ProfilePage';
-import AddPost from '../post/AddPost';
-import PostDetail from '../post/PostDetail';
-import CommentList from '../../components/CommentList';
-import NavigationBarthDeleteButton from '../../components/NavigationBarwithDeleteButtom';
 export function NewNotif() {
   const [newNotifCount, setNewNotifCount] = useState(0);
   apiClient
@@ -110,8 +102,22 @@ export function Feed() {
   useEffect(() => {
     // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
     return () => {
+      const header = { 'Content-Type': 'application/json' };
       setPageNum(0);
       setTotalPages(0);
+      if (localStorage.getItem('postsLiked') != null) {
+        axios
+          .patch(
+            'http://localhost:8085/post/like/test',
+            localStorage.getItem('postsLiked'),
+            {
+              headers: header,
+            }
+          )
+          .then(res => {
+            localStorage.clear();
+          });
+      }
     };
   }, []);
   return (
@@ -121,7 +127,12 @@ export function Feed() {
         <NewNotif></NewNotif>
       </Header>
       <div className={'feed-content'}>
-        <InfiniteScroll loadMore={loadMoreData} hasMore={pageNum <= totalPages}>
+        <InfiniteScroll
+          loadMore={loadMoreData}
+          hasMore={pageNum <= totalPages}
+          pageStart={0}
+          threshold={20}
+        >
           <List
             dataSource={posts.data}
             renderItem={record => (
@@ -160,12 +171,7 @@ export function Feed() {
           </List>
         </InfiniteScroll>
       </div>
-      {/*以下的代码是用来做footer的navigation的*/}
-      {/*<Footer style={{...commonStyle,display: "flex", textAlign: "center"}} className="Align-Bottom" >*/}
-      {/*    <Button theme='borderless' type='primary' style={{marginRight: 8}}>首页</Button>*/}
-      {/*    <Button icon={<IconPlus/>} aria-label="截屏"/>*/}
-      {/*    <Button theme='borderless' type='primary' style={{marginRight: 8}}>我的</Button>*/}
-      {/*</Footer>*/}
+      <BottomNavigationBar></BottomNavigationBar>
     </div>
   );
 }

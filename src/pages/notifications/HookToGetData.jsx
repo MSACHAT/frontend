@@ -3,14 +3,14 @@ import { useState } from 'react';
 // @ts-ignore
 // import data from "../../mockdata/NotificationMockData.json"
 import axios from 'axios';
-import apiClient from "../../middlewares/axiosInterceptors";
+import apiClient from '../../middlewares/axiosInterceptors';
 export const GetData = (pageNum, pageSize) => {
   return apiClient
-    .get('http://localhost:8085/notif/getbypagenumandpagesize/test', {
+    .get('http://localhost:8085/notif/getbypagenumandpagesize', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,
-      }
+      },
     })
     .then(res => {
       console.log(res.data);
@@ -22,14 +22,13 @@ export const GetData = (pageNum, pageSize) => {
         senderId: notif.senderId,
         timeStamp: new Date(notif.timeStamp).getTime(),
         receiverId: notif.receiverId,
-        previewType:notif.previewType,
-        previewString:notif.previewString
+        previewType: notif.previewType,
+        previewString: notif.previewString,
       }));
       const result = {
         data: data,
         totalPages: res.data.totalPages,
         totalNotifs: res.data.totalNotifs,
-        notifTag:res.data.notifTag
       };
       console.log(result);
       return result;

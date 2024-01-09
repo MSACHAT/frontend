@@ -8,35 +8,36 @@ import {
 import { useState } from 'react';
 import './loginStyle.scss';
 import { IconArrowRight } from '@douyinfe/semi-icons';
-import apiClient from "../../middlewares/axiosInterceptors"
-import {useNavigate} from "react-router-dom";
-import loginClient from "../../middlewares/loginMiddleWare";
-import url from "../../config/RouteConfig";
+import apiClient from '../../middlewares/axiosInterceptors';
+import { useNavigate } from 'react-router-dom';
+import loginClient from '../../middlewares/loginMiddleWare';
+import url from '../../config/RouteConfig';
+import { changePwdToUuid } from '../../middlewares/uuidMiddleWare';
 export const Login = () => {
   const navigate = useNavigate();
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
-
     const data = {
-      usernameOrEmail: values.email,
-      password: values.password
-    }
+      email: values.email,
+      password: changePwdToUuid(values.password),
+    };
     console.log(data);
     try {
-
-      const res = await loginClient.post('/login', data);
-
-      if (res && res.data) {
-        Toast.success('登录成功');
-        localStorage.setItem('token', res.data.token);
-        navigate(url.feed);
-      } else {
-        setLoginFailInfo('登录失败');
-      }
+      loginClient.post('/login', data).then(res => {
+        if (res && res.data) {
+          Toast.success('登录成功');
+          console.log('wfeif8ehfh783f873dyv87eyrf87y78y');
+          console.log(res.data);
+          localStorage.setItem('token', res.data.accessToken);
+          navigate(url.feed);
+        } else {
+          setLoginFailInfo('登录失败');
+        }
+      });
     } catch (error) {
-      setLoginFailInfo('登录失败')
+      setLoginFailInfo('登录失败');
     }
-  }
+  };
   const { Title, Text } = Typography;
   const ConfirmButton = () => {
     const formState = useFormState();
