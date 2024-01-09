@@ -21,6 +21,7 @@ import url from "./config/RouteConfig";
 import { RecoilRoot } from 'recoil';
 import ErrorBoundary from "./pages/Error";
 import {ProtectedRoute} from "./Route/ProtectedRoute";
+import {PostWithAvatar} from "./pages/post/PostWithUserInfo";
 
 
 
@@ -40,7 +41,7 @@ const App = () => {
                 <Route path="/add" element={<ProtectedRoute><AddPost /></ProtectedRoute>} />
                 <Route path="/post/:postId" element={<ProtectedRoute><PostDetail/></ProtectedRoute>} />
                 <Route path="/test" element={<CommentList postId={2}/>} />
-                  <Route path="/test2" element={<NavigationBarthDeleteButton/>} />
+                  <Route path="/test2" element={<PostWithAvatar/> } />
 
               </Routes>
             </Router>
