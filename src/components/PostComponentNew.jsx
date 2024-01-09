@@ -5,7 +5,6 @@ import {
   IconLikeHeart,
 } from '@douyinfe/semi-icons';
 import React, { useEffect, useState } from 'react';
-import { PostImgs } from '../components/PostImgs';
 import './postStyle.scss';
 export const PostStatsBar = props => {
   const { likeCount, commentCount, postId, time } = props;
@@ -132,7 +131,7 @@ export const Post = props => {
       <Text type={'secondary'} strong={true}>
         {content}
       </Text>
-      <PostImgs imgUrls={images} />
+
       <PostStatsBar
         likeCount={likeCount}
         commentCount={commentCount}

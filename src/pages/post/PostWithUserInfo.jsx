@@ -5,7 +5,7 @@ import {
     IconLikeHeart,
 } from '@douyinfe/semi-icons';
 import React, { useEffect, useState } from 'react';
-import { PostImgs } from '../components/PostImgs';
+
 import './postStyle.scss';
 import {useNavigate} from "react-router-dom";
 export const PostStatsBar = props => {
