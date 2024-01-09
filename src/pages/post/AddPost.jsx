@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import url from '../../config/RouteConfig';
 import upload from '../../middlewares/uploadImage';
 import apiClient from '../../middlewares/axiosInterceptors';
-import async from 'async';
+
 
 const PublishPost = () => {
   const [saveLoading, setSaveLoading] = useState(false);
@@ -140,7 +140,7 @@ const PublishPost = () => {
   }
 
   return (
-    <div>
+    <div style={{maxWidth:'100%',}}>
       <div className={'head'}>
         <NavigationBackButton />
 
