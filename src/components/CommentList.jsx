@@ -9,10 +9,11 @@ import { animateScroll as scroll } from 'react-scroll';
 import apiClient from "../middlewares/axiosInterceptors";
 import {useRecoilState} from "recoil";
 import {CommentCount} from "../store";
+import {useNavigate} from "react-router-dom";
 
 
 const CommentList = ({postId}) => {
-
+    const navigate =useNavigate()
     const { Text } = Typography;
 
     const dataList = [];
@@ -29,13 +30,20 @@ const CommentList = ({postId}) => {
 
         try {
 
-            const response = await apiClient.get(`/get/${postId}?pageNum=`+ countState);
+            const response = await apiClient.get(`/comments/get/${postId}`,{
+                params: {
+                    pageNum: countState,
+                    pageSize: 10,
+                }
+            });
 
             console.log(response);
             const result = await response.data;
             setData([...data, ...result.comments]);
             setCountState(countState + 1);
-            setHasMore(result.hasMore);
+            const hasMore   = result.totalPages >= countState;
+
+            setHasMore(hasMore);
         } catch (error) {
 
             console.error('Fetching data failed', error);
@@ -52,13 +60,19 @@ const CommentList = ({postId}) => {
 
             try {
 
-                const response = await apiClient.get(`/comments/${postId}?pageNum=` + countState);
+                const response = await apiClient.get(`/comments/get/${postId}` ,{
+                    params: {
+                        pageNum: countState,
+                        pageSize: 10,
+                    },});
                 const result = await response.data;
 
                 console.log(result);
+                setCountState(0)
                 setData([ ...result.comments]);
-                setCountState(countState + 1);
-                setHasMore(result.hasMore);
+                setCountState(countState+1)
+                const hasMore   = result.totalPages >= countState;
+                setHasMore(hasMore);
             } catch (error) {
                 console.error('Fetching data failed', error);
 
@@ -94,14 +108,11 @@ const CommentList = ({postId}) => {
             content: value,
         };
         try {
-            const response = await apiClient.put(`/post/2/comment/test`, data);
+            const response = await apiClient.put(`/post/${postId}/comment/test`, data);
 
 
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
-            }
 
-            const responseData = await response.json();
+            const responseData = await response.data;
             console.log('Response Data:', responseData);
 
 
@@ -133,6 +144,11 @@ const CommentList = ({postId}) => {
         setSize(newHeight)
 
     }
+    function route(userId) {
+
+        navigate(`/user/${userId}`);
+    }
+
     return(
         <div className={'root'}>
 
@@ -152,13 +168,14 @@ const CommentList = ({postId}) => {
 
 
                 >
+
                     <List
 
                         split={false}
                         dataSource={data}
                         renderItem={(item,index) => (
                             <div className={'comment'} id={index}>
-                                <Avatar className={'comment-avatar'} src={item.avatar}/>
+                                <Avatar className={'comment-avatar'} src={item.avatar} onClick={()=>{route(item.userId)}}/>
                                 <div className={'name'}>
                                     <Text className={'comment-user'}>{item.userId}</Text>
                                 </div>
