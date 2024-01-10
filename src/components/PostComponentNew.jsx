@@ -56,7 +56,7 @@ export const PostStatsBar = props => {
       setTimeDifference(`${formattedDate}`);
     }
   };
-
+  
   return (
     <>
 
@@ -128,10 +128,7 @@ export const Post = props => {
     postId,
   } = props;
   const { Paragraph, Text, Title } = Typography;
-  const inputList = [
-    'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg',
-    'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/sky.jpg',
-  ];
+
   console.log(images);
 
   return (
