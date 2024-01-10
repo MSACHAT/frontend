@@ -1,16 +1,17 @@
-import {Navigate, useLocation} from "react-router-dom";
-import {useRecoilValue} from "recoil";
-import {IsAuthenticated} from "../store";
-import routeConfig from "../config/RouteConfig";
+import { Navigate, useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { IsAuthenticated } from '../store';
+import routeConfig from '../config/RouteConfig';
 
 export const ProtectedRoute = ({ children }) => {
-    const isAuthenticated = useRecoilValue(IsAuthenticated)
-    const location = useLocation();
+  const isAuthenticated = useRecoilValue(IsAuthenticated);
+  const location = useLocation();
 
-    if (!isAuthenticated) {
+  if (!isAuthenticated) {
+    return (
+      <Navigate to={routeConfig.login} state={{ from: location }} replace />
+    );
+  }
 
-        return <Navigate to={routeConfig.login} state={{ from: location }} replace />;
-    }
-
-    return children;
+  return children;
 };

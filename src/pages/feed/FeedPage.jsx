@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, List, Badge } from '@douyinfe/semi-ui';
-import { Post } from '../../components/PostComponent.jsx';
+import { Post } from '../../components/PostComponentNew.jsx';
 import { IconBellStroked } from '@douyinfe/semi-icons';
 import './FeedStyle.scss';
 import { GetData } from './HookToGetData.jsx';
@@ -54,28 +54,6 @@ export function Feed() {
   const { Header, Content, Footer } = Layout;
   const [posts, setPosts] = useState({ data: [] });
   const [totalPages, setTotalPages] = useState();
-  // useEffect(() => {
-  //用于往后端发送前端本地保存的点赞
-  // const header = { 'Content-Type': 'application/json' };
-  // const interval = setInterval(() => {
-  //   console.log('Start Backend' + localStorage.getItem('postsLiked'));
-  //   if (localStorage.getItem('postsLiked') != null) {
-  //     apiClient
-  //       .patch(
-  //         'http://localhost:8085/post/like/test',
-  //         localStorage.getItem('postsLiked'),
-  //         {
-  //           headers: header,
-  //         }
-  //       )
-  //       .then(res => {
-  //         localStorage.clear();
-  //       });
-  //   }
-  // }, 1000 * 10 * 60); // 10分钟间隔,单位毫秒
-  //
-  //   return () => clearInterval(interval);
-  // }, []);
   useEffect(() => {
     console.log('Getting Data');
     GetData(pageNum, pageSize).then(result => {

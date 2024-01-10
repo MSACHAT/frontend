@@ -33,6 +33,7 @@ export const GetData = (pageNum, pageSize) => {
       },
     })
     .then(res => {
+      console.log('获取Feed数据');
       console.log(res.data);
       const data = res.data.posts.map(post => ({
         id: post.id,
@@ -43,7 +44,7 @@ export const GetData = (pageNum, pageSize) => {
         likeCount: post.likeCount,
         timeStamp: post.timeStamp,
         images: post.images,
-        isLiked: post.liked,
+        isLiked: post.isLiked,
       }));
       const result = {
         data: data,

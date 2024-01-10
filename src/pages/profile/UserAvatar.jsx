@@ -4,20 +4,16 @@ import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import React, { useEffect, useRef, useState } from 'react';
 import './profileStyle.scss';
 import axios from 'axios';
-
+import apiClient from '../../middlewares/axiosInterceptors';
+import uploadImage from '../../middlewares/uploadImage';
 export const UserAvatar = () => {
   const [avtarUrl, setAvatarUrl] = useState('');
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
-    return new Promise(res => {
-      //TODO 换成获取头像链接
-      res(axios.get('http://localhost:8085/images/getavatar/test'));
-    })
-      .then(r => {
-          console.log(r.data)
-        setAvatarUrl(r.data);
-      })
-      .catch(() => {});
+    apiClient.get('/images/getavatar').then(res => {
+      setAvatarUrl(res.data);
+      return res.data;
+    });
   };
 
   useEffect(() => {
@@ -39,14 +35,10 @@ export const UserAvatar = () => {
       formData.append('file', selectedFile);
       console.log('FormDataUploading');
       console.log(formData);
-      axios
-        .post('http://localhost:8085/images/uploadavatar/test', formData, {
-          headers: {
-            enctype: 'multipart/form-data',
-          },
-        })
+      uploadImage
+        .post('/images/uploadavatar', formData)
         .then(response => {
-          setAvatarUrl(response.data)
+          setAvatarUrl(response.data);
         })
         .then(data => console.log(data, '11'))
         .catch(error => Toast.error('上传失败'));

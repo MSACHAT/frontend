@@ -9,12 +9,14 @@ import { useState } from 'react';
 import './loginStyle.scss';
 import { IconArrowRight } from '@douyinfe/semi-icons';
 import { useNavigate } from 'react-router-dom';
-import loginClient from "../../middlewares/loginMiddleWare";
-import url from "../../config/RouteConfig";
-import {changePwdToUuid} from "../../middlewares/uuidMiddleWare";
+import loginClient from '../../middlewares/loginMiddleWare';
+import url from '../../config/RouteConfig';
+import { changePwdToUuid } from '../../middlewares/uuidMiddleWare';
+import { useRecoilState } from 'recoil';
+import { IsAuthenticated } from '../../store';
 export const Login = () => {
   const navigate = useNavigate();
-  const [isAuthenticated,setIsAuthenticated] = useRecoilState(IsAuthenticated)
+  const [isAuthenticated, setIsAuthenticated] = useRecoilState(IsAuthenticated);
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
     const data = {
@@ -26,6 +28,7 @@ export const Login = () => {
       loginClient.post('/login', data).then(res => {
         if (res && res.data) {
           Toast.success('登录成功');
+          setIsAuthenticated(true);
           console.log(res.data);
           localStorage.setItem('token', res.data.accessToken);
           navigate(url.feed);
