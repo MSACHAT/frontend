@@ -31,9 +31,6 @@ export const GetData = (pageNum, pageSize) => {
         pageNum: pageNum,
         pageSize: pageSize,
       },
-      headers: {
-        'Content-Type': 'application/json',
-      },
     })
     .then(res => {
       console.log(res.data);
