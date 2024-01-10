@@ -38,6 +38,7 @@ export const Profile = () => {
   // }, []);
   const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
+  // const [userId] =3;
   function loadMoreData() {
     // @ts-ignore
     if (pageNum > totalPages) {
@@ -45,7 +46,7 @@ export const Profile = () => {
       return;
     }
     setPageNum(pageNum + 1);
-    GetData(header,pageNum, pageSize).then(result => {
+    GetData(pageNum, pageSize).then(result => {
       result.data = [...posts.data, ...result.data];
       console.log(result.data);
       setPosts(result);

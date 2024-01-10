@@ -23,7 +23,10 @@ import { Toast } from '@douyinfe/semi-ui';
 //                 return ({msg: '请求失败'})
 //             }
 //     }
-export const GetData = (userId,pageNum, pageSize) => {
+
+const userId = 123; // 一个整数值
+
+export const GetData = (pageNum, pageSize) => {
   return axios
     .get('http://localhost:8085/post/getbypagenumandpagesize/${userId}/test', {
       params: {
