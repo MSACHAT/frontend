@@ -1,11 +1,10 @@
-import { Typography, TextArea, Image, Space } from '@douyinfe/semi-ui';
+import {Typography, TextArea, Image, Space, Avatar} from '@douyinfe/semi-ui';
 import {
   IconHeartStroked,
   IconCommentStroked,
   IconLikeHeart,
 } from '@douyinfe/semi-icons';
 import React, { useEffect, useState } from 'react';
-import { PostImgs } from '../components/PostImgs';
 import './postStyle.scss';
 export const PostStatsBar = props => {
   const { likeCount, commentCount, postId, time } = props;
@@ -123,20 +122,22 @@ export const Post = props => {
     content,
     likeCount,
     commentCount,
-    title,
     isLiked,
     postId,
+      avatar
   } = props;
   const { Paragraph, Text, Title } = Typography;
 
   console.log(images);
 
   return (
+
     <div className={'post-detail'}>
+      <Avatar src={avatar}/>
       <Text type={'secondary'} strong={true}>
         {content}
       </Text>
-      <PostImgs imgUrls={images} />
+
       <PostStatsBar
         likeCount={likeCount}
         commentCount={commentCount}

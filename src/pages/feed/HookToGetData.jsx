@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Toast } from '@douyinfe/semi-ui';
-// import data from "../../mockdata/FeedMockData.json"
+import apiClient from '../../middlewares/axiosInterceptors';
+// import MockData from '../../mockdata/FeedMockData.json';
 // export const GetData = (currentData,pageSize) => {
 //             let isSuccessful = Math.random() >= 0;  // 随机成功或失败
 //             console.log(isSuccessful)
@@ -24,14 +25,11 @@ import { Toast } from '@douyinfe/semi-ui';
 //             }
 //     }
 export const GetData = (pageNum, pageSize) => {
-  return axios
-    .get('http://localhost:8085/post/getbypagenumandpagesize/test', {
+  return apiClient
+    .get('/post/getbypagenumandpagesize', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,
-      },
-      headers: {
-        'Content-Type': 'application/json',
       },
     })
     .then(res => {

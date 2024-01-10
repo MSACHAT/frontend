@@ -9,6 +9,6 @@ export function NavigationBackButton(){
 
     }
     return (
-        <Button color={"black"} iconStyle={{color:"black"}} icon={<IconChevronLeft />} size={"large"} iconSize={"large"}  theme={"borderless"} onClick={onBackClick}/>
+        <Button color={"black"} style={{color:"gray"}} iconStyle={{color:"black"}} icon={<IconChevronLeft />} size={"large"} iconSize={"large"}  theme={"borderless"} onClick={onBackClick}/>
     )
 }

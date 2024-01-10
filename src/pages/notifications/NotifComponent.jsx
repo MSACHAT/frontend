@@ -1,6 +1,6 @@
 //思路:IF ELSE判断传入的Comment Type,根据不同的Comment Type返回不同的样式
 import { Avatar, Collapse, Typography, Image, Space } from '@douyinfe/semi-ui';
-import '../pages/notifications/notifStyle.scss';
+import './notifStyle.scss';
 
 export const Notif = props => {
   const likedYourNotif = '赞了你的动态';
@@ -11,17 +11,10 @@ export const Notif = props => {
     userName,
     sendTime,
     commentContent,
-    notifTag,
     previewType,
     previewString,
-    timeStamp,
+    isRead,
   } = props;
-  let isRead=true;
-  if(notifTag==null||notifTag<timeStamp){
-      isRead=false
-  }
-  console.log('notiftag' + notifTag);
-  console.log("time"+timeStamp)
   const expandIconForComments =
     previewType === 'image' ? (
       <Space style={{ height: '100%', display: 'inline-flex', float: 'right' }}>
@@ -48,17 +41,7 @@ export const Notif = props => {
                 <Avatar src={userIcon} className={'notif-avatar'} />
                 <Space align={screenLeft} vertical>
                   <Text className={'notif-username'}>{userName}</Text>
-                  <Text
-                    ellipsis={{
-                      showTooltip: {
-                        opts: {
-                          content: '架构|Semi-inf|graph.cheet.relation',
-                          className: 'components-typography-demo',
-                        },
-                      },
-                    }}
-                    className={'notif-notifcontent'}
-                  >
+                  <Text ellipsis={{}} className={'notif-notifcontent'}>
                     {commentContent}
                   </Text>
                 </Space>

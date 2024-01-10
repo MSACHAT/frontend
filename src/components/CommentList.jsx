@@ -7,33 +7,46 @@ import './CommentStyle.scss'
 import { Typography } from '@douyinfe/semi-ui';
 import { animateScroll as scroll } from 'react-scroll';
 import apiClient from "../middlewares/axiosInterceptors";
+import {useRecoilState} from "recoil";
+import {CommentCount} from "../store";
+import {useNavigate} from "react-router-dom";
+import {FormattedTime} from "./formatDate";
 
 
-const CommentList = () => {
+const CommentList = ({postId}) => {
+    const navigate =useNavigate()
     const { Text } = Typography;
-    const postId= 2;
+
     const dataList = [];
+    const [commentCount, setCommentCount] = useRecoilState(CommentCount);
 
 
     const [hasMore,setHasMore] = useState(true)
     const [data, setData] = useState(dataList);
     const [countState, setCountState] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     const fetchData = async () => {
         setLoading(true);
 
         try {
 
-            const response = await apiClient.get(`/comments/${postId}?pageNum=`+ countState);
+            const response = await apiClient.get(`/comments/get/${postId}`,{
+                params: {
+                    pageNum: countState,
+                    pageSize: 25,
+                }
+            });
 
             console.log(response);
             const result = await response.data;
             setData([...data, ...result.comments]);
             setCountState(countState + 1);
-            setHasMore(result.hasMore);
+            const hasMore   = result.totalPages >= countState;
+
+            setHasMore(hasMore);
         } catch (error) {
-            console.log(response);
+
             console.error('Fetching data failed', error);
 
         } finally {
@@ -47,14 +60,19 @@ const CommentList = () => {
             setLoading(true);
 
             try {
-
-                const response = await apiClient.get(`/comments/${postId}?pageNum=` + countState);
+                const response = await apiClient.get(`/comments/get/${postId}` ,{
+                    params: {
+                        pageNum: 0,
+                        pageSize: 25,
+                    },});
                 const result = await response.data;
-
+                setCountState(0)
                 console.log(result);
+
                 setData([ ...result.comments]);
-                setCountState(countState + 1);
-                setHasMore(result.hasMore);
+                setCountState(countState+1)
+                const hasMore   = result.totalPages >= countState;
+                setHasMore(hasMore);
             } catch (error) {
                 console.error('Fetching data failed', error);
 
@@ -90,14 +108,11 @@ const CommentList = () => {
             content: value,
         };
         try {
-            const response = await apiClient.put(`/post/2/comment/test`, data);
+            const response = await apiClient.put(`/post/${postId}/comment/test`, data);
 
 
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
-            }
 
-            const responseData = await response.json();
+            const responseData = await response.data;
             console.log('Response Data:', responseData);
 
 
@@ -118,6 +133,7 @@ const CommentList = () => {
             return
         }
         await sendData(value,postId)
+        await setCommentCount(commentCount+1)
         scrollToTop()
         await handeScroll()
         await setValue('');
@@ -128,6 +144,11 @@ const CommentList = () => {
         setSize(newHeight)
 
     }
+    function route(userId) {
+
+        navigate(`/user/${userId}`);
+    }
+
     return(
         <div className={'root'}>
 
@@ -147,19 +168,21 @@ const CommentList = () => {
 
 
                 >
+
                     <List
 
                         split={false}
                         dataSource={data}
                         renderItem={(item,index) => (
                             <div className={'comment'} id={index}>
-                                <Avatar className={'comment-avatar'} src={item.avatar}/>
-                                <div className={'name'}>
-                                    <Text className={'comment-user'}>{item.userId}</Text>
-                                </div>
+                                <Avatar className={'comment-avatar'} src={item.avatar} onClick={()=>{route(item.userId)}}/>
+
                                 <div className={'detail'}>
-                                    <Text className={'comment-content'}>{item.content}</Text>
-                                    <Text className={'comment-time'}>{item.timeStamp}</Text>
+                                    <div className={'userName'}>
+                                        <Text className={'comment-user'}>{item.userName}</Text>
+                                    </div>
+                                   <Text className={'comment-content'}>{item.content}</Text>
+                                    <Text className={'comment-time'}><FormattedTime num={item.timeStamp}/></Text>
                                 </div>
                             </div>
 

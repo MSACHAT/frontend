@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import {Button, Modal} from "@douyinfe/semi-ui";
+import {Button, Modal, Toast} from "@douyinfe/semi-ui";
 import {
     IconAlertTriangle,
     IconAlignLeft,
@@ -10,7 +10,10 @@ import {
 } from "@douyinfe/semi-icons";
 import Title from "@douyinfe/semi-ui/lib/es/typography/title";
 import './NavigationBarWithDeleteButtom.scss'
-const NavigationBar = () => {
+import apiClient from "../middlewares/axiosInterceptors";
+import {useNavigate} from "react-router-dom";
+const NavigationBar = ({postId}) => {
+    const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
 
     const showDialog = useCallback(() => {
@@ -19,7 +22,21 @@ const NavigationBar = () => {
 
     const handleOk = useCallback(() => {
         setVisible(false);
+        console.log("delete post");
+        sendRequest();
+        navigate("/post");
+
     }, []);
+    async function sendRequest() {
+        console.log("delete post");
+        try {
+            const res = await apiClient.delete(`/post/${postId}/delete`)
+        } catch (e) {
+            Toast.error('删除失败')
+        }
+
+
+    }
 
     const handleCancel = useCallback(() => {
         setVisible(false);
@@ -30,7 +47,7 @@ const NavigationBar = () => {
             <div style={{display:"flex",justifyContent:"start",width:'100%',alignItems:"center",paddingTop:'12px',height:'56px',position:"fixed",top:0,backgroundColor:"white",color:"white",zIndex:1000}}>
                 <Button color={"black"} icon={<IconChevronLeft />} size={"large"} iconSize={"large"}  theme={"borderless"}/>
                 <Title style={{marginLeft:"auto",marginRight:"auto"} } heading={3}>帖子详情</Title>
-                <Button onClick={showDialog} icon={<IconDeleteStroked />} size={"large"} iconSize={"large"}  theme={"borderless"}/>
+                <Button onClick={showDialog} icon={<IconDeleteStroked />} size={"large"} style={{color:"gray"}} iconSize={"large"}  theme={"borderless"}/>
                 <Modal
                     className={'modal'}
                     icon={<IconAlertTriangle />}

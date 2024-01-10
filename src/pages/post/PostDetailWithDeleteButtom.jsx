@@ -8,9 +8,10 @@ import apiClient from "../../middlewares/axiosInterceptors";
 import {Toast} from "@douyinfe/semi-ui";
 import {useRecoilState} from "recoil";
 import {CommentCount} from "../../store";
+import NavigationBarwithDeleteButtom from "../../components/NavigationBarwithDeleteButtom";
 
 const PostDetail = () => {
-    const postId = useParams().postId;
+  const postId = useParams().postId;
   const [Data, setData] = React.useState(null);
   const [commentCount, setCommentCount] = useRecoilState(CommentCount);
   async function getPostDetail(postId) {
@@ -37,9 +38,9 @@ const PostDetail = () => {
       }
   }
 
-  useEffect(() => {
+    useEffect(() => {
         getPostDetail(postId)
-  }, []);
+    }, []);
   useEffect(
       () => {
           getPostDetail(postId);
@@ -52,7 +53,7 @@ const PostDetail = () => {
   return (
     <div>
         <Suspense fallback={<div>Loading...</div>}>
-          <NavigationBar />
+         <NavigationBarwithDeleteButtom/>
           <div className={'content'}>
             <Post {...Data} />
           </div>

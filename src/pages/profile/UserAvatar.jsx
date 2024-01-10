@@ -1,21 +1,21 @@
-import { Image, ImagePreview, Toast } from '@douyinfe/semi-ui';
+import { ImagePreview, Toast } from '@douyinfe/semi-ui';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import React, { useEffect, useRef, useState } from 'react';
 import './profileStyle.scss';
-import fakeData from '../../mockdata/ProfileMockData.json';
 import axios from 'axios';
+
 export const UserAvatar = () => {
   const [avtarUrl, setAvatarUrl] = useState('');
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
     return new Promise(res => {
-      res(
-        'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg'
-      );
+      //TODO 换成获取头像链接
+      res(axios.get('http://localhost:8085/images/getavatar/test'));
     })
       .then(r => {
-        setAvatarUrl(r);
+          console.log(r.data)
+        setAvatarUrl(r.data);
       })
       .catch(() => {});
   };
@@ -37,29 +37,21 @@ export const UserAvatar = () => {
       // 创建 FormData 并将文件加入
       const formData = new FormData();
       formData.append('file', selectedFile);
-
-      // 发送请求到服务器 (示例 URL)
-      // axios
-      //   .post(
-      //     'https://bytedance.larkoffice.com/docx/SPILdDbBioK4t7xpb2kcQB0unqd',
-      //     {
-      //       method: 'POST',
-      //       body: formData,
-      //     }
-      //   )
-      //   .then(response => {
-      //     if (!response.ok) {
-      //       throw new Error('上传失败');
-      //     }
-      //     return response.json();
-      //   })
-      //   .then(data => console.log(data, '11'))
-      //   .catch(error => Toast.error('上传失败'));
+      console.log('FormDataUploading');
+      console.log(formData);
+      axios
+        .post('http://localhost:8085/images/uploadavatar/test', formData, {
+          headers: {
+            enctype: 'multipart/form-data',
+          },
+        })
+        .then(response => {
+          setAvatarUrl(response.data)
+        })
+        .then(data => console.log(data, '11'))
+        .catch(error => Toast.error('上传失败'));
       setVisible(false);
       Toast.success('更换成功');
-      setAvatarUrl(
-        'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/sky.jpg'
-      );
     }
   };
   return (
@@ -71,6 +63,7 @@ export const UserAvatar = () => {
     >
       <div className={'image-item'}>
         <img
+          alt={'图片未加载'}
           className={'image'}
           src={avtarUrl}
           onClick={event => {
