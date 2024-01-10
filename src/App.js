@@ -38,8 +38,8 @@ const App = () => {
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/feed" element={<Feed />} />
                 <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-                <Route path="/add" element={<ProtectedRoute><AddPost /></ProtectedRoute>} />
-                <Route path="/post/:postId" element={<ProtectedRoute><PostDetail/></ProtectedRoute>} />
+                <Route path="/add" element={<AddPost />} />
+                <Route path="/post/:postId" element={<PostDetail/>} />
                 <Route path="/test" element={<CommentList postId={2}/>} />
                   <Route path="/test2" element={<PostWithAvatar/> } />
 

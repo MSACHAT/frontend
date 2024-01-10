@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import './profileStyle.scss';
 import fakeData from '../../mockdata/ProfileMockData.json';
 import { Post } from '../../components/PostComponentNew.jsx';
-import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
+import { List, Button, Image, Spin, ImagePreview } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
+import { IconCamera, IconChevronLeft } from '@douyinfe/semi-icons';
+import Text from '@douyinfe/semi-ui/lib/es/typography/text';
+import Title from '@douyinfe/semi-ui/lib/es/typography/title';
+import BottomBar from '../../components/BottomBarComponent.jsx';
 
+import { UserAvatar } from './UserAvatar';
 export const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [dataCount, setDataCount] = useState(0);
   const [postData, setPostData] = useState([]);
+
   const fetchData = () => {
     setLoading(true);
     return new Promise(res => {
@@ -46,17 +53,18 @@ export const Profile = () => {
     ) : null;
 
   return (
-    <div>
-      <div>
-        <Avatar size="default" style={{ margin: 4 }} alt="User">
-          <img src={postData.protrait} alt="User" />
-        </Avatar>
-      </div>
-      <div>
-        <h1>个人页面</h1>
+    <div className="profile-page">
+      <div className="empty-space"></div>
+      <div className="headtab">
+        <UserAvatar />
+        <div>Haha ha</div>
       </div>
       <div
         className="light-scrollbar"
+        style={{
+          overflow: 'auto',
+          padding: 10,
+        }}
       >
         <InfiniteScroll
           initialLoad={false}
@@ -66,6 +74,7 @@ export const Profile = () => {
           hasMore={!loading && hasMore && !showLoadMore}
           useWindow={true}
         >
+
           <List
             loadMore={loadMore}
             dataSource={dataSource}
@@ -78,6 +87,7 @@ export const Profile = () => {
           )}
         </InfiniteScroll>
       </div>
+            <BottomBar></BottomBar>
     </div>
   );
 };

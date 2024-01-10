@@ -82,6 +82,7 @@ const PublishPost = () => {
       console.log(response.data);
 
       Toast.success('帖子发布成功！');
+      navigate(url.feed);
     } catch (error) {
       console.error(error);
 
@@ -110,7 +111,7 @@ const PublishPost = () => {
       };
       console.log(postData, '2222');
       await putPost(postData);
-      navigate(url.feed);
+
     }
   };
 
@@ -140,7 +141,7 @@ const PublishPost = () => {
   }
 
   return (
-    <div style={{maxWidth:'100%',}}>
+    <div className={'root'}>
       <div className={'head'}>
         <NavigationBackButton />
 

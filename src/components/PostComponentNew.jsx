@@ -55,11 +55,14 @@ export const PostStatsBar = props => {
       setTimeDifference(`${formattedDate}`);
     }
   };
-
+  
   return (
     <>
+
       <Space className={'alternation'} align={'center'}>
-        <Space align={'start'}>
+     
+        <div className='alternation'>
+          <div className='icon'>
           <IconHeartStroked
             style={{ color, marginRight: 5 }}
             size="default"
@@ -70,9 +73,15 @@ export const PostStatsBar = props => {
           </Text>
           <IconCommentStroked style={{ marginRight: 6 }} size={'default'} />
           <Text size="small">{commentCount}</Text>
-        </Space>
+          </div>
 
-        <TimeDisplay className={'feed-time'} timeStamp={time} />
+          <div className='feed-time'>
+          <TimeDisplay className={'feed-time'} timeStamp={time} />
+          </div>
+          
+        </div>
+
+        
       </Space>
     </>
   );
@@ -118,10 +127,7 @@ export const Post = props => {
       avatar
   } = props;
   const { Paragraph, Text, Title } = Typography;
-  const inputList = [
-    'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg',
-    'https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/sky.jpg',
-  ];
+
   console.log(images);
 
   return (
