@@ -32,9 +32,7 @@ export const FormattedTime = ({num}) => {
         } else {
             // 超过7天，显示实际日期和时间
             const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-            const formattedTime = postTime.toLocaleDateString('en-US', options);
-
-            formatted = formattedTime
+            formatted = postTime.toLocaleDateString('zh-CN', options)
         }
         return formatted
 

@@ -10,6 +10,7 @@ import apiClient from "../middlewares/axiosInterceptors";
 import {useRecoilState} from "recoil";
 import {CommentCount} from "../store";
 import {useNavigate} from "react-router-dom";
+import {FormattedTime} from "./formatDate";
 
 
 const CommentList = ({postId}) => {
@@ -33,7 +34,7 @@ const CommentList = ({postId}) => {
             const response = await apiClient.get(`/comments/get/${postId}`,{
                 params: {
                     pageNum: countState,
-                    pageSize: 10,
+                    pageSize: 25,
                 }
             });
 
@@ -59,16 +60,15 @@ const CommentList = ({postId}) => {
             setLoading(true);
 
             try {
-
                 const response = await apiClient.get(`/comments/get/${postId}` ,{
                     params: {
-                        pageNum: countState,
-                        pageSize: 10,
+                        pageNum: 0,
+                        pageSize: 25,
                     },});
                 const result = await response.data;
-
-                console.log(result);
                 setCountState(0)
+                console.log(result);
+
                 setData([ ...result.comments]);
                 setCountState(countState+1)
                 const hasMore   = result.totalPages >= countState;
@@ -176,12 +176,13 @@ const CommentList = ({postId}) => {
                         renderItem={(item,index) => (
                             <div className={'comment'} id={index}>
                                 <Avatar className={'comment-avatar'} src={item.avatar} onClick={()=>{route(item.userId)}}/>
-                                <div className={'name'}>
-                                    <Text className={'comment-user'}>{item.userId}</Text>
-                                </div>
+
                                 <div className={'detail'}>
-                                    <Text className={'comment-content'}>{item.content}</Text>
-                                    <Text className={'comment-time'}>{item.timeStamp}</Text>
+                                    <div className={'userName'}>
+                                        <Text className={'comment-user'}>{item.userName}</Text>
+                                    </div>
+                                   <Text className={'comment-content'}>{item.content}</Text>
+                                    <Text className={'comment-time'}><FormattedTime num={item.timeStamp}/></Text>
                                 </div>
                             </div>
 
