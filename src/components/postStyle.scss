@@ -1,5 +1,4 @@
 .light-scrollbar{
-    
     .semi-list-items {
        background-color: rgba(0, 0, 0, 0);
       }
@@ -10,7 +9,6 @@
       }
     .post-detail {
         padding: 20px;
-
         margin-left: 0px;
         margin-right: 0px;
         margin-bottom: 10px;
@@ -39,18 +37,21 @@
         justify-self: start;
         text-align:left;
         vertical-align:middle;
-        
+
 
     }
 }
 .content{
     color: var(--semi-color-text-1);
-    width: 400;
+    width: 400px;
 }
+.root{
 
+}
 .comments {
-  height:200px;
+
   padding: 20px 20px;
+
   .text{
     margin-bottom: 20px;
     .content{
@@ -63,15 +64,16 @@
   .comment{
     margin-top: 5px;
     display: flex;
-    flex-wrap: wrap;
+
+
 
 
 
     .comment-avatar {
       margin-right: 5px;
       width:30px;
-      height:30px
-      
+      height:30px;
+      flex-shrink: 0;
     }
     .name{
       display: flex;
@@ -81,6 +83,9 @@
     .comment-user{
       color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
 
+    }
+    .comment-content{
+      overflow-wrap: anywhere;
     }
     .detail {
       margin-left: 5px;
@@ -93,18 +98,14 @@
         align-items: center;
       }
 
-    }
-
-  }
-        .comment-time{
-       
+      .comment-time{
         color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
-        
+      }
     }
-
+  }
 
   // 限制高度
 }
-.feed-time{ 
+.feed-time{
     margin-top: 14px;
 }

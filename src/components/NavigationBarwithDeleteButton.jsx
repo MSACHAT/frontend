@@ -9,7 +9,7 @@ import {
     IconDeleteStroked
 } from "@douyinfe/semi-icons";
 import Title from "@douyinfe/semi-ui/lib/es/typography/title";
-import './NavigationBarWithDeleteButtom.scss'
+import './NavigationBarWithDeleteButton.scss'
 import apiClient from "../middlewares/axiosInterceptors";
 import {useNavigate} from "react-router-dom";
 const NavigationBar = ({postId}) => {
@@ -28,7 +28,7 @@ const NavigationBar = ({postId}) => {
 
     }, []);
     async function sendRequest() {
-        console.log("delete post");
+
         try {
             const res = await apiClient.delete(`/post/${postId}/delete`)
         } catch (e) {
@@ -58,7 +58,6 @@ const NavigationBar = ({postId}) => {
                     closeOnEsc={true}
                     okText={'确认删除'}
                     cancelText={'取消'}
-
                 >
                     <div>帖子删除之后将无法恢复，请确认是否要删除本帖子！</div>
                 </Modal>
