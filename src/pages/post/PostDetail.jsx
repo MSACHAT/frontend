@@ -15,7 +15,7 @@ const PostDetail = () => {
   const [commentCount, setCommentCount] = useRecoilState(CommentCount);
   async function getPostDetail(postId) {
       try {
-          const res = await apiClient.get(`/post/${postId}/get/test`)
+          const res = await apiClient.get(`/post/${postId}/get`)
 
           const result = await res.data;
 
