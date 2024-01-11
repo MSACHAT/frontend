@@ -32,10 +32,13 @@
     justify-content: space-between;
     width: 100%;
 }
+.root{
 
+}
 .comments {
-  height:200px;
+
   padding: 20px 20px;
+
   .text{
     margin-bottom: 20px;
     .content{
@@ -48,15 +51,16 @@
   .comment{
     margin-top: 5px;
     display: flex;
-    flex-wrap: wrap;
+
+
 
 
 
     .comment-avatar {
       margin-right: 5px;
       width:30px;
-      height:30px
-      
+      height:30px;
+      flex-shrink: 0;
     }
     .name{
       display: flex;
@@ -66,6 +70,9 @@
     .comment-user{
       color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
 
+    }
+    .comment-content{
+      overflow-wrap: anywhere;
     }
     .detail {
       margin-left: 5px;
@@ -77,6 +84,7 @@
         display: flex;
         align-items: center;
       }
+
       .comment-time{
         color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
       }

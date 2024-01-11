@@ -1,6 +1,6 @@
 import { Login } from './pages/login/LoginPage.jsx';
 import { Space } from '@douyinfe/semi-ui';
-import {BrowserRouter as Router, Route, Routes, Link, useNavigate} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, Link, useNavigate, Navigate} from 'react-router-dom';
 import { Profile } from './pages/profile/ProfilePage.jsx';
 import { Feed } from './pages/feed/FeedPage.jsx';
 import { Notifications } from './pages/notifications/NotificationsPage.jsx';
@@ -11,7 +11,7 @@ import Comment from "./components/Comment";
 import NavigationBar from "./components/NavigationBar";
 import AddPost from "./pages/post/AddPost";
 import PostDetail from "./pages/post/PostDetail";
-import NavigationBarthDeleteButton from "./components/NavigationBarwithDeleteButtom";
+import NavigationBarthDeleteButton from "./components/NavigationBarwithDeleteButton";
 import React, {useEffect} from 'react';
 
 import CommentList from "./components/CommentList";
@@ -22,6 +22,7 @@ import { RecoilRoot } from 'recoil';
 import ErrorBoundary from "./pages/Error";
 import {ProtectedRoute} from "./Route/ProtectedRoute";
 import {PostWithAvatar} from "./pages/post/PostWithUserInfo";
+import routeConfig from "./config/RouteConfig";
 
 
 
@@ -52,28 +53,7 @@ const App = () => {
 
 const Home = () => {
   return (
-    <>
-      <br />686876
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Space>
-        <Link to="/login">登录</Link>
-        <Link to="/profile">个人</Link>
-        <Link to="/feed">首页</Link>
-        <Link to="/notifications">通知</Link>
-        <Link to="/post/2">帖子</Link>
-        <Link to="/pushpost">发布</Link>
-          <Link to={'/test'}>test</Link>
-          <Link to={'/test2'}>test2</Link>
-      </Space>
-    </>
+      <Navigate to={routeConfig.feed} state={{ from: location }} replace />
   );
 };
 

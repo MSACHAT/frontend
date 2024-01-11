@@ -29,7 +29,9 @@ export const Login = () => {
         if (res && res.data) {
           Toast.success('登录成功');
           console.log(res.data);
+          setIsAuthenticated(true)
           localStorage.setItem('token', res.data.accessToken);
+
           navigate(url.feed);
         } else {
           setLoginFailInfo('登录失败');

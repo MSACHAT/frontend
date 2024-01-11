@@ -34,7 +34,7 @@ const CommentList = ({postId}) => {
             const response = await apiClient.get(`/comments/get/${postId}`,{
                 params: {
                     pageNum: countState,
-                    pageSize: 25,
+                    pageSize: 15,
                 }
             });
 
@@ -63,15 +63,17 @@ const CommentList = ({postId}) => {
                 const response = await apiClient.get(`/comments/get/${postId}` ,{
                     params: {
                         pageNum: 0,
-                        pageSize: 25,
+                        pageSize: 15,
                     },});
+
                 const result = await response.data;
                 setCountState(0)
                 console.log(result);
 
-                setData([ ...result.comments]);
+                setData([ ...result.comments,...data]);
                 setCountState(countState+1)
                 const hasMore   = result.totalPages >= countState;
+                console.log(hasMore)
                 setHasMore(hasMore);
             } catch (error) {
                 console.error('Fetching data failed', error);
@@ -165,8 +167,6 @@ const CommentList = ({postId}) => {
                     threshold={100}
                     loadMore={fetchData}
                     hasMore={hasMore}
-
-
                 >
 
                     <List
