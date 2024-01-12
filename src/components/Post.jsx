@@ -1,10 +1,7 @@
 import { Space } from '@douyinfe/semi-ui';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
-import {
-  IconComment,
-  IconLikeHeart,
-  IconHeartStroked,
-} from '@douyinfe/semi-icons';
+import { IconLikeHeart, IconHeartStroked } from '@douyinfe/semi-icons';
+import { useLocation } from 'react-router-dom';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import React, { useState } from 'react';
 import { PostImgs } from './PostImgs';
@@ -36,8 +33,31 @@ export const Post = props => {
       })
       .catch(() => {});
   };
+  const handleParentClick = event => {
+    if (isPostPage()) {
+      return;
+    }
+    // 检查点击事件是否直接发生在父元素上
+    if (event.target === event.currentTarget) {
+      console.log('父元素被点击');
+    } else if (event.target.classList.contains('like')) {
+      handleLike();
+    } else {
+      // 其他子元素的点击行为
+      console.log('其他子元素的点击，但父元素响应');
+      event.stopPropagation();
+    }
+  };
+  const location = useLocation();
+
+  const isPostPage = () => {
+    // 检查当前路径是否符合特定模式
+    const pathRegex = /^\/post\/[^\/]+$/; // 正则表达式匹配 /post/:postId 模式
+    return pathRegex.test(location.pathname);
+  };
+
   return (
-    <div className={'post'}>
+    <div className={'post'} onClick={handleParentClick}>
       {!props?.hideUser ? (
         <Space className={'avatar'}>
           <UserAvatar disableEdit={true} imageUrl={props.avatar} />
@@ -49,7 +69,7 @@ export const Post = props => {
       </Title>
       <PostImgs imgUrls={props.images} />
       <div className={'interact'}>
-        <Space>
+        <Space className={'like'}>
           {like ? (
             <IconLikeHeart onClick={handleLike} />
           ) : (
