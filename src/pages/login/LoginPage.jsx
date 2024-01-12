@@ -14,7 +14,6 @@ import url from '../../config/RouteConfig';
 import { changePwdToUuid } from '../../middlewares/uuidMiddleWare';
 import { useRecoilState } from 'recoil';
 import { IsAuthenticated } from '../../store';
-import { Post } from '../../components/Post';
 export const Login = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useRecoilState(IsAuthenticated);
@@ -59,22 +58,6 @@ export const Login = () => {
       ></Button>
     );
   };
-  const data = {
-    key: 1,
-    avatar:
-      'https://tse3-mm.cn.bing.net/th/id/OIP-C.BVhEvglg97iih04L_d52GgHaFj?w=288&h=215&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-    userName: 'A',
-    timeStamp: '2023-11-5-10:19:01',
-    images: [
-      'https://tse3-mm.cn.bing.net/th/id/OIP-C.e5UQL3Gth_Nt6aMlNfqysAHaHa?pid=imgDet&rs=1',
-      'https://tse3-mm.cn.bing.net/th/id/OIP-C.e5UQL3Gth_Nt6aMlNfqysAHaHa?pid=imgDet&rs=1',
-    ],
-    content: '这是第1条数据',
-    likeCount: 6,
-    commentCount: 10,
-    isLiked: true,
-  };
-  return <Post {...data}></Post>;
   return (
     <div className={'login-page'}>
       <div className={'login-form'}>
