@@ -36,7 +36,6 @@
   position: relative;
   width: var(--custom-image-width);
   height:var(--custom-image-width);
-  margin:8px;
   overflow: hidden; /* 超出的内容将被隐藏，用于裁剪 */
   .image {
     border-radius: calc(var(--custom-image-width) / 2);

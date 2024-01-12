@@ -37,7 +37,7 @@ export const Post = props => {
     <div>
       {!props?.hideUser ? (
         <Space>
-          <UserAvatar enableEdit={false} imageUrl={props.avatar} />
+          <UserAvatar disableEdit={true} imageUrl={props.avatar} />
           <Title heading={5}>{props.userName}</Title>
         </Space>
       ) : null}

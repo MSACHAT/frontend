@@ -6,7 +6,7 @@ import './profileStyle.scss';
 import axios from 'axios';
 import apiClient from '../../middlewares/axiosInterceptors';
 import uploadImage from '../../middlewares/uploadImage';
-export const UserAvatar = ({ enableEdit, imageUrl }) => {
+export const UserAvatar = ({ disableEdit, imageUrl }) => {
   const [avtarUrl, setAvatarUrl] = useState(imageUrl || '');
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
@@ -17,7 +17,7 @@ export const UserAvatar = ({ enableEdit, imageUrl }) => {
   };
 
   useEffect(() => {
-    enableEdit && fetchData();
+    !disableEdit && fetchData();
   }, []);
   const fileInputRef = useRef();
 
@@ -55,7 +55,7 @@ export const UserAvatar = ({ enableEdit, imageUrl }) => {
     >
       <div
         className={'image-item'}
-        style={{ '--custom-image-width': enableEdit ? '80px' : '40px' }}
+        style={{ '--custom-image-width': disableEdit ? '40px' : '80px' }}
       >
         <img
           alt={'图片未加载'}
@@ -67,44 +67,46 @@ export const UserAvatar = ({ enableEdit, imageUrl }) => {
           }}
         />
       </div>
-      <ImagePreview
-        visible={enableEdit && visible}
-        src={avtarUrl}
-        closable={false}
-        renderHeader={() => (
-          <div className={'avartar-preview-top'}>
-            <IconChevronLeft
+      {!disableEdit && (
+        <ImagePreview
+          visible={visible}
+          src={avtarUrl}
+          closable={false}
+          renderHeader={() => (
+            <div className={'avartar-preview-top'}>
+              <IconChevronLeft
+                onClick={event => {
+                  event.stopPropagation();
+                }}
+              />
+            </div>
+          )}
+          renderPreviewMenu={() => (
+            <div
               onClick={event => {
                 event.stopPropagation();
               }}
-            />
-          </div>
-        )}
-        renderPreviewMenu={() => (
-          <div
-            onClick={event => {
-              event.stopPropagation();
-            }}
-          >
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              ref={fileInputRef}
-              style={{ display: 'none' }} // 隐藏原生文件输入框
-            />
-            <Title heading={3} onClick={handleButtonClick}>
-              修改个人头像
-            </Title>
-          </div>
-        )}
-        type="tertiary"
-        className={'avatar-preview'}
-        getPopupContainer={() => {
-          const node = document.getElementById('avatar-container');
-          return node;
-        }}
-      />
+            >
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+                style={{ display: 'none' }} // 隐藏原生文件输入框
+              />
+              <Title heading={3} onClick={handleButtonClick}>
+                修改个人头像
+              </Title>
+            </div>
+          )}
+          type="tertiary"
+          className={'avatar-preview'}
+          getPopupContainer={() => {
+            const node = document.getElementById('avatar-container');
+            return node;
+          }}
+        />
+      )}
     </div>
   );
 };
