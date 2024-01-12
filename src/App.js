@@ -24,7 +24,7 @@ import BottomNavigationBar from "./components/BottomNavigationBar";
 const App = () => {
     const routesConfig = [
         { path: "/", component: <Home />, isPublic: false },
-        { path: "/login", component: <Login />, isPublic: true },
+        { path: "/login", component: <Login />, isPublic: false },
         { path: "/profile", component: <Profile />, isPublic: false },
         { path: '/feed', component: <Feed/>,isPublic: false},
         { path: '/notifications', component: <Notifications/>,isPublic: false},
@@ -38,13 +38,13 @@ const App = () => {
 
   return (
     <RecoilRoot>
-        <ErrorBoundary>
+        {/* <ErrorBoundary> */}
             <Router>
               <Routes>
                   {createRoutes(routesConfig)}
               </Routes>
             </Router>
-        </ErrorBoundary>
+        {/* </ErrorBoundary> */}
     </RecoilRoot>
   );
 };
