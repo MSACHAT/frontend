@@ -17,6 +17,7 @@ export const Post = props => {
   }
   const handleLike = async () => {
     const requestLike = new Promise((resolve, reject) => {
+       //TODO 换成真实的点赞请求
       let isSuccessful = Math.random() >= 0.5; // 随机成功或失败
       console.log(isSuccessful);
       if (isSuccessful) {
@@ -40,6 +41,10 @@ export const Post = props => {
     // 检查点击事件是否直接发生在父元素上
     if (event.target === event.currentTarget) {
       console.log('父元素被点击');
+
+      window.location.href =(`http://localhost:3000/post/${props.id}`);
+
+      //TODO to post detail
     } else if (event.target.classList.contains('like')) {
       handleLike();
     } else {
@@ -55,6 +60,8 @@ export const Post = props => {
     const pathRegex = /^\/post\/[^\/]+$/; // 正则表达式匹配 /post/:postId 模式
     return pathRegex.test(location.pathname);
   };
+
+
 
   return (
     <div className={'post'} onClick={handleParentClick}>

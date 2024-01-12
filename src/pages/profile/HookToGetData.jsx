@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Toast } from '@douyinfe/semi-ui';
+import apiClient from '../../middlewares/axiosInterceptors';
 // import data from "../../mockdata/FeedMockData.json"
 // export const GetData = (currentData,pageSize) => {
 //             let isSuccessful = Math.random() >= 0;  // 随机成功或失败
@@ -26,7 +27,7 @@ import { Toast } from '@douyinfe/semi-ui';
  // 一个整数值
 
 export const GetData = (pageNum, pageSize) => {
-  return axios
+  return apiClient
     .get('http://localhost:8085/post/getbypagenumandpagesize/3', {
       params: {
         pageNum: pageNum,

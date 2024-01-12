@@ -2,6 +2,7 @@ import React from 'react';
 import {Layout, Button, Table, List} from '@douyinfe/semi-ui';
 import { Post } from '../../components/PostComponentNew.jsx';
 import { IconChevronLeft, IconPlus } from '@douyinfe/semi-icons';
+import BottomBar from '../../components/BottomNavigationBar.jsx';
 import { GetData } from './HookToGetData.jsx';
 import { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -78,6 +79,7 @@ export function Feed() {
   }, []);
   return (
     <Layout>
+      <div><BottomBar></BottomBar></div>
       <Header
         style={{
           position: 'fixed',
@@ -110,7 +112,9 @@ export function Feed() {
                       title={record.title}
                       postId={record.id}
                   ></Post>
+                  
               )}
+        
         >
           {/*<Column*/}
           {/*  dataIndex="id"*/}

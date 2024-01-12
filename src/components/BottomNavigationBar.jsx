@@ -10,14 +10,15 @@ export default function BottomNavigationBar() {
     const [State,setState] = useState(true)
     function clickFeed() {
         setState(true)
-        navigate(url.feed);
+        window.location.href = 'http://localhost:3000/feed';
     }
     function clickPersonalArea() {
         setState(false)
-        navigate(url.profile)
+        window.location.href = 'http://localhost:3000/profile';
     }
     function clickAddPost() {
         navigate(url.addPost)
+        window.location.href = 'http://localhost:3000/add'
     }
     return(
         <div className={'footer'}>
