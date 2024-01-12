@@ -16,6 +16,7 @@ export const Profile = () => {
   const [hasMore, setHasMore] = useState(true);
   const [dataCount, setDataCount] = useState(0);
   const [postData, setPostData] = useState([]);
+  
 
   // const fetchData = () => {
   //   setLoading(true);
@@ -38,7 +39,8 @@ export const Profile = () => {
   // }, []);
   const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
-  // const [userId] =3;
+  const [totalPages, setTotalPages] = useState();
+
   function loadMoreData() {
     // @ts-ignore
     if (pageNum > totalPages) {
@@ -56,7 +58,7 @@ export const Profile = () => {
 
 
   const [posts, setPosts] = useState({ data: [] });
-  const [totalPages, setTotalPages] = useState();
+
   useEffect(() => {
     //用于往后端发送前端本地保存的点赞
     const header = { 'Content-Type': 'application/json' };
@@ -79,14 +81,17 @@ export const Profile = () => {
 
     return () => clearInterval(interval);
   }, []);
-  useEffect(() => {
-    GetData(pageNum, pageSize).then(result => {
+  useEffect(async () => {
+    await GetData(pageNum, pageSize).then(result => {
       setPosts(result);
-      setTotalPages(result.totalPages);
+      console.log(result)
+      console.log(1111111111)
+      
       
     });
     setPageNum(pageNum + 1);
-    // setPosts(data);
+    
+    // setPosts();
   }, []);
   useEffect(() => {
     // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码

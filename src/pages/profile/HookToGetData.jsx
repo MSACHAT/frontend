@@ -23,23 +23,21 @@ import { Toast } from '@douyinfe/semi-ui';
 //                 return ({msg: '请求失败'})
 //             }
 //     }
-
-const userId = 123; // 一个整数值
+ // 一个整数值
 
 export const GetData = (pageNum, pageSize) => {
   return axios
-    .get('http://localhost:8085/post/getbypagenumandpagesize/${userId}/test', {
+    .get('http://localhost:8085/post/getbypagenumandpagesize/3', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,
       },
-      headers: {
-        'Content-Type': 'application/json',
-      },
+
     })
     .then(res => {
+      console.log('获取profile数据');
       console.log(res.data);
-      const data = res.data.posts.map(post => ({
+      const data = res.data.data.map(post => ({
         id: post.id,
         userName: post.userName,
         title: post.title,
