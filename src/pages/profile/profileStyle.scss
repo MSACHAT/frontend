@@ -34,7 +34,7 @@
 }
 #avatar-container .image-item {
   position: relative;
-  width: var(--custom-image-width);
+  width: var(--custom-image-width);//个人页改一下margin
   height:var(--custom-image-width);
   overflow: hidden; /* 超出的内容将被隐藏，用于裁剪 */
   .image {

@@ -3,17 +3,20 @@ import { IconChevronLeft } from '@douyinfe/semi-icons';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import React, { useEffect, useRef, useState } from 'react';
 import './profileStyle.scss';
-import axios from 'axios';
 import apiClient from '../../middlewares/axiosInterceptors';
 import uploadImage from '../../middlewares/uploadImage';
 export const UserAvatar = ({ disableEdit, imageUrl }) => {
-  const [avtarUrl, setAvatarUrl] = useState(imageUrl || '');
+  const [avtarUrl, setAvatarUrl] = useState(
+    imageUrl || process.env.PUBLIC_URL + 'ProfilePhoto.png'
+  );
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
-    apiClient.get('/images/getavatar').then(res => {
-      setAvatarUrl(res.data);
-      return res.data;
-    });
+    apiClient
+      .get('/images/getavatar')
+      .then(res => {
+        setAvatarUrl(res.data);
+      })
+      .catch(() => {});
   };
 
   useEffect(() => {
@@ -58,7 +61,7 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
         style={{ '--custom-image-width': disableEdit ? '40px' : '80px' }}
       >
         <img
-          alt={'图片未加载'}
+          alt={'用户头像'}
           className={'image'}
           src={avtarUrl}
           onClick={event => {

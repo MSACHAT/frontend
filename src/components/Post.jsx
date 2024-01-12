@@ -3,13 +3,16 @@ import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import {
   IconComment,
   IconLikeHeart,
-  IconLikeThumb,
+  IconHeartStroked,
 } from '@douyinfe/semi-icons';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import React, { useState } from 'react';
 import { PostImgs } from './PostImgs';
 import { UserAvatar } from '../pages/profile/UserAvatar';
 import './postStyle2.scss';
+
+const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
+
 export const Post = props => {
   const [like, setLike] = useState(props.isLiked);
   if (!props) {
@@ -36,7 +39,7 @@ export const Post = props => {
   return (
     <div className={'post'}>
       {!props?.hideUser ? (
-        <Space>
+        <Space className={'avatar'}>
           <UserAvatar disableEdit={true} imageUrl={props.avatar} />
           <Title heading={5}>{props.userName}</Title>
         </Space>
@@ -50,12 +53,12 @@ export const Post = props => {
           {like ? (
             <IconLikeHeart onClick={handleLike} />
           ) : (
-            <IconLikeThumb onClick={handleLike} />
+            <IconHeartStroked onClick={handleLike} />
           )}
           <Text size={'small'}>{props.likeCount}</Text>
         </Space>
         <Space>
-          <IconComment />
+          <Comment />
           <Text size={'small'}>{props.commentCount}</Text>
         </Space>
         <Text className={'time'} size={'small'}>
