@@ -7,7 +7,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { IconCamera, IconChevronLeft } from '@douyinfe/semi-icons';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
-import BottomBar from '../../components/BottomBarComponent.jsx';
+import BottomBar from '../../components/BottomNavigationBar.jsx';
 import { GetData } from './HookToGetData.jsx';
 import { UserAvatar } from './UserAvatar';
 export const Profile = () => {
@@ -16,6 +16,7 @@ export const Profile = () => {
   const [hasMore, setHasMore] = useState(true);
   const [dataCount, setDataCount] = useState(0);
   const [postData, setPostData] = useState([]);
+  
 
   // const fetchData = () => {
   //   setLoading(true);
@@ -38,7 +39,8 @@ export const Profile = () => {
   // }, []);
   const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
-  // const [userId] =3;
+  const [totalPages, setTotalPages] = useState();
+
   function loadMoreData() {
     // @ts-ignore
     if (pageNum > totalPages) {
@@ -56,45 +58,19 @@ export const Profile = () => {
 
 
   const [posts, setPosts] = useState({ data: [] });
-  const [totalPages, setTotalPages] = useState();
-  useEffect(() => {
-    //用于往后端发送前端本地保存的点赞
-    const header = { 'Content-Type': 'application/json' };
-    const interval = setInterval(() => {
-      console.log('Start Backend' + localStorage.getItem('postsLiked'));
-      if (localStorage.getItem('postsLiked') != null) {
-        axios
-          .patch(
-            'http://localhost:8085/post/like/test',
-            localStorage.getItem('postsLiked'),
-            {
-              headers: header,
-            }
-          )
-          .then(res => {
-            localStorage.clear();
-          });
-      }
-    }, 1000 * 10 * 60); // 10分钟间隔,单位毫秒
 
-    return () => clearInterval(interval);
-  }, []);
   useEffect(() => {
-    GetData(pageNum, pageSize).then(result => {
-      setPosts(result);
+    const fetchData = async () => {
+      const result = await GetData(pageNum, pageSize);
+      setPosts(prevPosts => ({ data: [...prevPosts.data, ...result.data] }));
+      setPageNum(prevPageNum => prevPageNum + 1);
       setTotalPages(result.totalPages);
-      
-    });
-    setPageNum(pageNum + 1);
-    // setPosts(data);
-  }, []);
-  useEffect(() => {
-    // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
-    return () => {
-      setPageNum(0)
-      setTotalPages(0)
     };
+  
+    fetchData();
   }, []);
+  
+
 
 
   const showLoadMore = dataCount % 4 === 0;
@@ -111,6 +87,8 @@ export const Profile = () => {
         <Button onClick={posts.data}>显示更多</Button>
       </div>
     ) : null;
+
+
 
   return (
     <div className="profile-page">
@@ -138,7 +116,7 @@ export const Profile = () => {
           <List
             loadMore={loadMore}
             dataSource={posts.data}
-            renderItem={item => <Post {...item} />}
+            renderItem={item => <Post hideUser {...item} />}
           />
           {loading && hasMore && (
             <div style={{ textAlign: 'center' }}>

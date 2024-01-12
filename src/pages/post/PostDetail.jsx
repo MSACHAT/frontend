@@ -15,10 +15,10 @@ const PostDetail = () => {
   const [commentCount, setCommentCount] = useRecoilState(CommentCount);
   async function getPostDetail(postId) {
       try {
-          const res = await apiClient.get(`/post/${postId}/get/test`)
+          const res = await apiClient.get(`/post/${postId}/get`)
 
           const result = await res.data;
-          console.log(result);
+
           const Data = {
               userName: result.userName,
               timeStamp: result.timeStamp,
@@ -30,7 +30,7 @@ const PostDetail = () => {
               postId: result.id,
 
           }
-          console.log(Data)
+
           await setData(Data)
       } catch (error) {
           Toast.error('获取数据失败');
@@ -40,6 +40,7 @@ const PostDetail = () => {
   useEffect(() => {
         getPostDetail(postId)
   }, []);
+
   useEffect(
       () => {
           getPostDetail(postId);
@@ -51,13 +52,13 @@ const PostDetail = () => {
 
   return (
     <div>
-        <Suspense fallback={<div>Loading...</div>}>
+
           <NavigationBar />
           <div className={'content'}>
             <Post {...Data} />
           </div>
           <CommentList postId={postId}/>
-        </Suspense>
+
     </div>
   );
 };

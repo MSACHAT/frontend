@@ -3,21 +3,24 @@ import { IconChevronLeft } from '@douyinfe/semi-icons';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import React, { useEffect, useRef, useState } from 'react';
 import './profileStyle.scss';
-import axios from 'axios';
 import apiClient from '../../middlewares/axiosInterceptors';
 import uploadImage from '../../middlewares/uploadImage';
-export const UserAvatar = () => {
-  const [avtarUrl, setAvatarUrl] = useState('');
+export const UserAvatar = ({ disableEdit, imageUrl }) => {
+  const [avtarUrl, setAvatarUrl] = useState(
+    imageUrl || process.env.PUBLIC_URL + 'ProfilePhoto.png'
+  );
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
-    apiClient.get('/images/getavatar').then(res => {
-      setAvatarUrl(res.data);
-      return res.data;
-    });
+    apiClient
+      .get('/images/getavatar')
+      .then(res => {
+        setAvatarUrl(res.data);
+      })
+      .catch(() => {});
   };
 
   useEffect(() => {
-    fetchData();
+    !disableEdit && fetchData();
   }, []);
   const fileInputRef = useRef();
 
@@ -53,9 +56,12 @@ export const UserAvatar = () => {
         setVisible(false);
       }}
     >
-      <div className={'image-item'}>
+      <div
+        className={'image-item'}
+        style={{ '--custom-image-width': disableEdit ? '40px' : '80px' }}
+      >
         <img
-          alt={'图片未加载'}
+          alt={'用户头像'}
           className={'image'}
           src={avtarUrl}
           onClick={event => {
@@ -64,44 +70,46 @@ export const UserAvatar = () => {
           }}
         />
       </div>
-      <ImagePreview
-        visible={visible}
-        src={avtarUrl}
-        closable={false}
-        renderHeader={() => (
-          <div className={'avartar-preview-top'}>
-            <IconChevronLeft
+      {!disableEdit && (
+        <ImagePreview
+          visible={visible}
+          src={avtarUrl}
+          closable={false}
+          renderHeader={() => (
+            <div className={'avartar-preview-top'}>
+              <IconChevronLeft
+                onClick={event => {
+                  event.stopPropagation();
+                }}
+              />
+            </div>
+          )}
+          renderPreviewMenu={() => (
+            <div
               onClick={event => {
                 event.stopPropagation();
               }}
-            />
-          </div>
-        )}
-        renderPreviewMenu={() => (
-          <div
-            onClick={event => {
-              event.stopPropagation();
-            }}
-          >
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              ref={fileInputRef}
-              style={{ display: 'none' }} // 隐藏原生文件输入框
-            />
-            <Title heading={3} onClick={handleButtonClick}>
-              修改个人头像
-            </Title>
-          </div>
-        )}
-        type="tertiary"
-        className={'avatar-preview'}
-        getPopupContainer={() => {
-          const node = document.getElementById('avatar-container');
-          return node;
-        }}
-      />
+            >
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+                style={{ display: 'none' }} // 隐藏原生文件输入框
+              />
+              <Title heading={3} onClick={handleButtonClick}>
+                修改个人头像
+              </Title>
+            </div>
+          )}
+          type="tertiary"
+          className={'avatar-preview'}
+          getPopupContainer={() => {
+            const node = document.getElementById('avatar-container');
+            return node;
+          }}
+        />
+      )}
     </div>
   );
 };

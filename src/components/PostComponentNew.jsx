@@ -1,149 +1,97 @@
-import {Typography, TextArea, Image, Space, Avatar} from '@douyinfe/semi-ui';
-import {
-  IconHeartStroked,
-  IconCommentStroked,
-  IconLikeHeart,
-} from '@douyinfe/semi-icons';
-import React, { useEffect, useState } from 'react';
-import './postStyle.scss';
-export const PostStatsBar = props => {
-  const { likeCount, commentCount, postId, time } = props;
-  const [color, setColor] = useState('gray');
-  const [likeLocalCount, setLikeLocalCount] = useState();
-  const { Text } = Typography;
-  useEffect(() => {
-    setLikeLocalCount(likeCount); //这个不能放外面，不然会循环渲染
-  }, []);
-  const handleClickOnLike = (color, postId) => {
-    if (color === 'gray') {
-      setColor('red');
-      setLikeLocalCount(likeLocalCount + 1);
-      if (localStorage.getItem('postsLiked') == null) {
-        localStorage.setItem('postsLiked', JSON.stringify({}));
-      }
-      let obj = JSON.parse(localStorage.getItem('postsLiked'));
-      obj[postId] = true;
-      localStorage.setItem('postsLiked', JSON.stringify(obj));
-      console.log(
-        'LocalStorage(postsLiked): ' + localStorage.getItem('postsLiked')
-      );
-    } else {
-      setColor('gray');
-      setLikeLocalCount(likeLocalCount - 1);
-      if (localStorage.getItem('postsLiked') == null) {
-        localStorage.setItem('postsLiked', JSON.stringify({}));
-      }
-      let obj = JSON.parse(localStorage.getItem('postsLiked'));
-      obj[postId] = false;
-      localStorage.setItem('postsLiked', JSON.stringify(obj));
-      console.log(
-        'LocalStorage(postsLiked): ' + localStorage.getItem('postsLiked')
-      );
-    }
+import { Space } from '@douyinfe/semi-ui';
+import Title from '@douyinfe/semi-ui/lib/es/typography/title';
+import { IconLikeHeart, IconHeartStroked } from '@douyinfe/semi-icons';
+import { useLocation } from 'react-router-dom';
+import Text from '@douyinfe/semi-ui/lib/es/typography/text';
+import React, { useState } from 'react';
+import { PostImgs } from './PostImgs';
+import { UserAvatar } from '../pages/profile/UserAvatar';
+import './postStyle2.scss';
 
-    const currentTime = new Date();
-    const backendTime = new Date(time);
-    const timeDiffInSeconds = Math.floor((currentTime - backendTime) / 1000);
-
-    if (timeDiffInSeconds < 60) {
-      setTimeDifference(`${timeDiffInSeconds} 秒前`);
-    } else if (timeDiffInSeconds < 3600) {
-      const minutes = Math.floor(timeDiffInSeconds / 60);
-      setTimeDifference(`${minutes} 分钟前`);
-    } else {
-      const formattedDate = backendTime.toLocaleDateString();
-      setTimeDifference(`${formattedDate}`);
-    }
-  };
-  
-  return (
-    <>
-
-      <Space className={'alternation'} align={'center'}>
-     
-        <div className='alternation'>
-          <div className='icon'>
-          <IconHeartStroked
-            style={{ color, marginRight: 5 }}
-            size="default"
-            onClick={() => handleClickOnLike(color, postId)}
-          />
-          <Text size="small" color="#180001" style={{ marginRight: 12 }}>
-            {likeLocalCount}
-          </Text>
-          <IconCommentStroked style={{ marginRight: 6 }} size={'default'} />
-          <Text size="small">{commentCount}</Text>
-          </div>
-
-          <div className='feed-time'>
-          <TimeDisplay className={'feed-time'} timeStamp={time} />
-          </div>
-          
-        </div>
-
-        
-      </Space>
-    </>
-  );
-};
-
-const TimeDisplay = ({ timeStamp }) => {
-  const [timeDifference, setTimeDifference] = useState('');
-  const { Text } = Typography;
-
-  useEffect(() => {
-    const backendTime = new Date(timeStamp);
-    const options = { year: '2-digit', month: 'numeric', day: 'numeric' };
-    const formattedDate = backendTime.toLocaleDateString('en-US', options);
-
-    const currentTime = new Date();
-    const timeDiffInSeconds = Math.floor((currentTime - backendTime) / 1000);
-
-    if (timeDiffInSeconds < 3600) {
-      const minutes = Math.floor(timeDiffInSeconds / 60);
-      setTimeDifference(`${minutes} 分钟前`);
-    } else {
-      setTimeDifference(formattedDate);
-    }
-  }, [timeStamp]);
-
-  return (
-    <Text size="small" type="quaternary">
-      {timeDifference}
-    </Text>
-  );
-};
+const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
 
 export const Post = props => {
-  const {
-    userName,
-    timeStamp,
-    images,
-    content,
-    likeCount,
-    commentCount,
-    isLiked,
-    postId,
-      avatar
-  } = props;
-  const { Paragraph, Text, Title } = Typography;
+  const [like, setLike] = useState(props.isLiked);
+  if (!props) {
+    return null;
+  }
+  const handleLike = async () => {
+    const requestLike = new Promise((resolve, reject) => {
+       //TODO 换成真实的点赞请求
+      let isSuccessful = Math.random() >= 0.5; // 随机成功或失败
+      console.log(isSuccessful);
+      if (isSuccessful) {
+        resolve({ success: true });
+        setSaveLoading(false);
+      } else {
+        resolve({ msg: '错误', code: 1001 });
+        setSaveLoading(false);
+      }
+    });
+    await requestLike
+      .then(() => {
+        setLike(!like);
+      })
+      .catch(() => {});
+  };
+  const handleParentClick = event => {
+    if (isPostPage()) {
+      return;
+    }
+    // 检查点击事件是否直接发生在父元素上
+    if (event.target === event.currentTarget) {
+      console.log('父元素被点击');
 
-  console.log(images);
+      window.location.href =(`http://localhost:3000/post/${props.id}`);
+
+      //TODO to post detail
+    } else if (event.target.classList.contains('like')) {
+      handleLike();
+    } else {
+      // 其他子元素的点击行为
+      console.log('其他子元素的点击，但父元素响应');
+      event.stopPropagation();
+    }
+  };
+  const location = useLocation();
+
+  const isPostPage = () => {
+    // 检查当前路径是否符合特定模式
+    const pathRegex = /^\/post\/[^\/]+$/; // 正则表达式匹配 /post/:postId 模式
+    return pathRegex.test(location.pathname);
+  };
+
+
 
   return (
-
-    <div className={'post-detail'}>
-      <Avatar src={avatar}/>
-      <Text type={'secondary'} strong={true}>
-        {content}
-      </Text>
-
-      <PostStatsBar
-        likeCount={likeCount}
-        commentCount={commentCount}
-        postId={postId}
-        time={timeStamp}
-      />
+    <div className={'post'} onClick={handleParentClick}>
+      {!props?.hideUser ? (
+        <Space className={'avatar'}>
+          <UserAvatar disableEdit={true} imageUrl={props.avatar} />
+          <Title heading={5}>{props.userName}</Title>
+        </Space>
+      ) : null}
+      <Title heading={5} className={'content'}>
+        {props.content}
+      </Title>
+      <PostImgs imgUrls={props.images} />
+      <div className={'interact'}>
+        <Space className={'like'}>
+          {like ? (
+            <IconLikeHeart onClick={handleLike} />
+          ) : (
+            <IconHeartStroked onClick={handleLike} />
+          )}
+          <Text size={'small'}>{props.likeCount}</Text>
+        </Space>
+        <Space>
+          <Comment />
+          <Text size={'small'}>{props.commentCount}</Text>
+        </Space>
+        <Text className={'time'} size={'small'}>
+          {props.timeStamp}
+        </Text>
+      </div>
     </div>
   );
 };

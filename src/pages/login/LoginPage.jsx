@@ -21,7 +21,7 @@ export const Login = () => {
   const handleSubmit = async values => {
     const data = {
       email: values.email,
-      password: changePwdToUuid(values.password),
+      password: values.password,
     };
     console.log(data);
     try {
@@ -29,8 +29,9 @@ export const Login = () => {
         if (res && res.data) {
           Toast.success('登录成功');
           setIsAuthenticated(true);
-          console.log(res.data);
+
           localStorage.setItem('token', res.data.accessToken);
+
           navigate(url.feed);
         } else {
           setLoginFailInfo('登录失败');

@@ -7,12 +7,12 @@ const apiClient = axios.create({
   timeout: 1000 * 60,
 });
 apiClient.interceptors.request.use(config => {
-  console.log('请求拦截器');
-  // const token = localStorage.getItem('token');
+
+
   const token = localStorage.getItem('token');
-  console.log('TOKEN' + token);
+
   if (token) {
-    console.log(`Bearer ${token}`); // 确保这里没有额外的空格或换行
+
     config.headers['Authorization'] = `Bearer ${token}`;
     config.headers['Content-Type'] = 'application/json';
   }
@@ -21,9 +21,7 @@ apiClient.interceptors.request.use(config => {
 
 apiClient.interceptors.response.use(
   response => {
-    console.log('响应拦截器');
-    console.log('请求成功');
-    console.log(response.data);
+
     return response;
   },
   error => {
@@ -39,6 +37,7 @@ apiClient.interceptors.response.use(
           Toast.error('未授权');
           break;
         case 403:
+          localStorage.removeItem('token');
           Toast.error('禁止访问');
           break;
         case 404:

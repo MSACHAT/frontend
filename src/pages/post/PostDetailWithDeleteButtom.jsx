@@ -8,7 +8,7 @@ import apiClient from "../../middlewares/axiosInterceptors";
 import {Toast} from "@douyinfe/semi-ui";
 import {useRecoilState} from "recoil";
 import {CommentCount} from "../../store";
-import NavigationBarwithDeleteButtom from "../../components/NavigationBarwithDeleteButtom";
+import NavigationBarWithDeleteButton from "../../components/NavigationBarwithDeleteButton";
 
 const PostDetail = () => {
   const postId = useParams().postId;
@@ -31,7 +31,7 @@ const PostDetail = () => {
               postId: result.id,
 
           }
-          console.log(Data)
+
           await setData(Data)
       } catch (error) {
           Toast.error('获取数据失败');
@@ -53,7 +53,7 @@ const PostDetail = () => {
   return (
     <div>
         <Suspense fallback={<div>Loading...</div>}>
-         <NavigationBarwithDeleteButtom/>
+         <NavigationBarWithDeleteButton postId={postId}/>
           <div className={'content'}>
             <Post {...Data} />
           </div>

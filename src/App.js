@@ -1,79 +1,57 @@
 import { Login } from './pages/login/LoginPage.jsx';
 import { Space } from '@douyinfe/semi-ui';
-import {BrowserRouter as Router, Route, Routes, Link, useNavigate} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, Link, useNavigate, Navigate} from 'react-router-dom';
 import { Profile } from './pages/profile/ProfilePage.jsx';
 import { Feed } from './pages/feed/FeedPage.jsx';
 import { Notifications } from './pages/notifications/NotificationsPage.jsx';
-import PushPost from './pages/post/PostPushingPage.jsx';
-import DetailPost from './pages/post/PostDetailedPage.jsx';
-import ScrollLoad from "./components/Comments";
-import Comment from "./components/Comment";
-import NavigationBar from "./components/NavigationBar";
+
 import AddPost from "./pages/post/AddPost";
 import PostDetail from "./pages/post/PostDetail";
-import NavigationBarthDeleteButton from "./components/NavigationBarwithDeleteButtom";
+
 import React, {useEffect} from 'react';
 
 import CommentList from "./components/CommentList";
-import HomeAddNormalIcon from "./Icon/HomeAddNormalIcon";
-import BottomNavigationBar from "./components/BottomNavigationBar";
-import url from "./config/RouteConfig";
 import { RecoilRoot } from 'recoil';
 import ErrorBoundary from "./pages/Error";
-import {ProtectedRoute} from "./Route/ProtectedRoute";
-import {PostWithAvatar} from "./pages/post/PostWithUserInfo";
+
+import routeConfig from "./config/RouteConfig";
+import createRoutes from "./Route/creatRoutes";
+import PostDetailWithDeleteButtom from "./pages/post/PostDetailWithDeleteButtom";
+import BottomNavigationBar from "./components/BottomNavigationBar";
 
 
 
 const App = () => {
+    const routesConfig = [
+        { path: "/", component: <Home />, isPublic: false },
+        { path: "/login", component: <Login />, isPublic: false },
+        { path: "/profile", component: <Profile />, isPublic: false },
+        { path: '/feed', component: <Feed/>,isPublic: false},
+        { path: '/notifications', component: <Notifications/>,isPublic: false},
+        { path: '/add', component: <AddPost/>,isPublic: false},
+        { path: '/post/:postId', component: <PostDetail/>,isPublic: false},
+        { path: '/test', component:<BottomNavigationBar/>,isPublic: true},
+        { path: '/profile/post/:postId', component: <PostDetailWithDeleteButtom/>,isPublic: false}
+
+    ];
 
 
   return (
     <RecoilRoot>
-        <ErrorBoundary>
+        {/* <ErrorBoundary> */}
             <Router>
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-                <Route path="/feed" element={<Feed />} />
-                <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-                <Route path="/add" element={<AddPost />} />
-                <Route path="/post/:postId" element={<PostDetail/>} />
-                <Route path="/test" element={<CommentList postId={2}/>} />
-                  <Route path="/test2" element={<PostWithAvatar/> } />
-
+                  {createRoutes(routesConfig)}
               </Routes>
             </Router>
-        </ErrorBoundary>
+        {/* </ErrorBoundary> */}
     </RecoilRoot>
   );
 };
 
 const Home = () => {
   return (
-    <>
-      <br />686876
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Space>
-        <Link to="/login">登录</Link>
-        <Link to="/profile">个人</Link>
-        <Link to="/feed">首页</Link>
-        <Link to="/notifications">通知</Link>
-        <Link to="/post/2">帖子</Link>
-        <Link to="/pushpost">发布</Link>
-          <Link to={'/test'}>test</Link>
-          <Link to={'/test2'}>test2</Link>
-      </Space>
-    </>
+      <Navigate to={routeConfig.feed}  />
   );
 };
 
