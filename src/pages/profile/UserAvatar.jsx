@@ -6,8 +6,8 @@ import './profileStyle.scss';
 import axios from 'axios';
 import apiClient from '../../middlewares/axiosInterceptors';
 import uploadImage from '../../middlewares/uploadImage';
-export const UserAvatar = () => {
-  const [avtarUrl, setAvatarUrl] = useState('');
+export const UserAvatar = ({ enableEdit, imageUrl }) => {
+  const [avtarUrl, setAvatarUrl] = useState(imageUrl || '');
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
     apiClient.get('/images/getavatar').then(res => {
@@ -17,7 +17,7 @@ export const UserAvatar = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    enableEdit && fetchData();
   }, []);
   const fileInputRef = useRef();
 
@@ -53,7 +53,10 @@ export const UserAvatar = () => {
         setVisible(false);
       }}
     >
-      <div className={'image-item'}>
+      <div
+        className={'image-item'}
+        style={{ '--custom-image-width': enableEdit ? '80px' : '40px' }}
+      >
         <img
           alt={'图片未加载'}
           className={'image'}
@@ -65,7 +68,7 @@ export const UserAvatar = () => {
         />
       </div>
       <ImagePreview
-        visible={visible}
+        visible={enableEdit && visible}
         src={avtarUrl}
         closable={false}
         renderHeader={() => (

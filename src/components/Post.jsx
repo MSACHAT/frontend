@@ -1,4 +1,4 @@
-import { Avatar } from '@douyinfe/semi-ui';
+import { Space } from '@douyinfe/semi-ui';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import {
   IconComment,
@@ -8,6 +8,7 @@ import {
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import React, { useState } from 'react';
 import { PostImgs } from './PostImgs';
+import { UserAvatar } from '../pages/profile/UserAvatar';
 
 export const Post = props => {
   const [like, setLike] = useState(props.isLiked);
@@ -35,26 +36,26 @@ export const Post = props => {
   return (
     <div>
       {!props?.hideUser ? (
-        <div>
-          <Avatar src={props.avatar} />
-          <Title>{props.userName}</Title>
-        </div>
+        <Space>
+          <UserAvatar enableEdit={false} imageUrl={props.avatar} />
+          <Title heading={5}>{props.userName}</Title>
+        </Space>
       ) : null}
-      <Title>{props.content}</Title>
+      <Title heading={5}>{props.content}</Title>
       <PostImgs imgUrls={props.images} />
       <div>
-        <div>
+        <Space>
           {like ? (
             <IconLikeHeart onClick={handleLike} />
           ) : (
             <IconLikeThumb onClick={handleLike} />
           )}
           <Text>{props.likeCount}</Text>
-        </div>
-        <div>
+        </Space>
+        <Space>
           <IconComment />
           <Text>{props.commentCount}</Text>
-        </div>
+        </Space>
         <Text>{props.timeStamp}</Text>
       </div>
     </div>
