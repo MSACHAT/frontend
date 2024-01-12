@@ -10,7 +10,7 @@ export const PostImgs = ({ imgUrls }) => {
     const pathRegex = /^\/post\/[^\/]+$/; // 正则表达式匹配 /post/:postId 模式
     return pathRegex.test(location.pathname);
   };
-  if (!imgUrls.length) {
+  if (!imgUrls?.length) {
     return null;
   }
   return isPostPage() ? (
