@@ -16,6 +16,8 @@ import ErrorBoundary from "./pages/Error";
 
 import routeConfig from "./config/RouteConfig";
 import createRoutes from "./Route/creatRoutes";
+import PostDetailWithDeleteButtom from "./pages/post/PostDetailWithDeleteButtom";
+import BottomNavigationBar from "./components/BottomNavigationBar";
 
 
 
@@ -28,7 +30,8 @@ const App = () => {
         { path: '/notifications', component: <Notifications/>,isPublic: false},
         { path: '/add', component: <AddPost/>,isPublic: false},
         { path: '/post/:postId', component: <PostDetail/>,isPublic: false},
-        { path: '/test', component: <CommentList postId={2}/>,isPublic: true},
+        { path: '/test', component:<BottomNavigationBar/>,isPublic: true},
+        { path: '/profile/post/:postId', component: <PostDetailWithDeleteButtom/>,isPublic: false}
 
     ];
 

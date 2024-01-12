@@ -21,7 +21,7 @@ export const Login = () => {
   const handleSubmit = async values => {
     const data = {
       email: values.email,
-      password: changePwdToUuid(values.password),
+      password: values.password,
     };
     console.log(data);
     try {
