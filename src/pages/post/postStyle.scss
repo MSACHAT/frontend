@@ -1,11 +1,11 @@
-.bg{
-  margin:20px 0 20px 0;
-  .header{
+/*.bg{*/
+  /*margin:20px 0 20px 0;*/
+  /*.header{
     display:flex;
     justify-content: space-between;
     align-items: center;
-  }
-  .mainContent {
+  }*/
+  /*.mainContent {
     margin-top: 24px;
     .semi-upload{
       width:100%;
@@ -19,16 +19,16 @@
     }
     .semi-upload-file-list-main{
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 创建三列 */
-      gap: 2px; /* 设置图片之间的间隙 */
+      grid-template-columns: repeat(3, 1fr); !* 创建三列 *!
+      gap: 2px; !* 设置图片之间的间隙 *!
       .semi-upload-picture-file-card{
         width:100%;
         height: 100%;
       }
-    }
+    }*/
 
 
-    .semi-upload-file-list-main{
+    /*.semi-upload-file-list-main{
       .semi-upload-picture-file-card img{
         border-radius: 4px;
       }
@@ -44,8 +44,9 @@
 
 
     }
-  }
-  .content{
+  }*/
+ /* .content{
     padding: 20px;
-  }
-}
+  }*/
+/*}*/
+

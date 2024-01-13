@@ -11,14 +11,12 @@ import url from '../../config/RouteConfig';
 import upload from '../../middlewares/uploadImage';
 import apiClient from '../../middlewares/axiosInterceptors';
 
-
 const PublishPost = () => {
   const [saveLoading, setSaveLoading] = useState(false);
   const [ReadyPublish, setReadyPublish] = useState(false);
   const [ReadyPublishContent, setReadyPublishContent] = useState(false);
   const [content, setContent] = useState('');
   const [list, updateList] = useState([]);
-
 
   const navigate = useNavigate();
 
@@ -29,8 +27,6 @@ const PublishPost = () => {
   useEffect(() => {
     setReadyPublish(list.length > 0);
   }, [list.length]);
-
-
 
   async function putPost(postData) {
     try {
@@ -68,7 +64,6 @@ const PublishPost = () => {
       };
       console.log(postData, '2222');
       await putPost(postData);
-
     }
   };
 
@@ -131,18 +126,15 @@ const PublishPost = () => {
         <Upload
           className="imageUpload"
           accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
-
           uploadTrigger="auto"
           customRequest={uploadFileToImage}
           onError={(...v) => {
             setSaveLoading(false);
             Toast.error('图片上传失败');
-
           }}
           listType="picture"
           draggable={true}
           multiple={true}
-
           onChange={({ fileList, currentFile }) => {
             console.log('onChange');
             console.log(fileList);

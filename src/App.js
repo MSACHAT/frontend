@@ -30,7 +30,7 @@ const App = () => {
         { path: '/feed', component: <Feed/>,isPublic: false},
         { path: '/notifications', component: <Notifications/>,isPublic: false},
         { path: '/add', component: <AddPost/>,isPublic: true},
-        { path: '/post/:postId', component: <PostDetail/>,isPublic: false},
+        { path: '/post/:postId', component: <PostDetail/>,isPublic: true},
         { path: '/test', component:<BottomNavigationBar/>,isPublic: true},
         { path: '/test2', component:<NavigationBar showDeleteButton={true}/> ,isPublic: true},
         { path: '/profile/post/:postId', component: <PostDetailWithDeleteButtom/>,isPublic: false}
