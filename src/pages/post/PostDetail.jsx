@@ -1,13 +1,14 @@
 import React, {Suspense, useEffect} from 'react';
-import NavigationBar from '../../components/NavigationBar';
+import DeprecatedNavigationBar from './components/(Deprecated)NavigationBar';
 import { Post } from '../../components/PostComponentNew';
 import './postStyle.scss';
 import { useParams } from 'react-router-dom';
-import CommentList from '../../components/CommentList';
+import CommentList from './components/CommentList';
 import apiClient from "../../middlewares/axiosInterceptors";
 import {Toast} from "@douyinfe/semi-ui";
 import {useRecoilState} from "recoil";
 import {CommentCount} from "../../store";
+import NavigationBar from "./components/NavigationBar";
 
 const PostDetail = () => {
     const postId = useParams().postId;

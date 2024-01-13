@@ -14,66 +14,23 @@ import apiClient from '../../middlewares/axiosInterceptors';
 
 const PublishPost = () => {
   const [saveLoading, setSaveLoading] = useState(false);
-  const [post, setPost] = useState(false);
   const [ReadyPublish, setReadyPublish] = useState(false);
   const [ReadyPublishContent, setReadyPublishContent] = useState(false);
   const [content, setContent] = useState('');
   const [list, updateList] = useState([]);
-  const uploadRef = useRef();
-  const [shouldCallEffect, setShouldCallEffect] = useState(false);
-  const [Ready, setReady] = useState();
 
-  const [ImageLists, setImageLists] = useState(new Map());
+
   const navigate = useNavigate();
-  console.log(list);
-  /*    //Mock代码
-
-
-        // eslint-disable-next-line no-unused-vars
-        const [isSuccess, setIsSuccess] = useState(undefined);
-        const handleSubmit = async () => {
-            const requestLogin= new Promise((resolve, reject) => {
-                let isSuccessful = Math.random() >= 0.5;  // 随机成功或失败
-                console.log(isSuccessful)
-                if (isSuccessful) {
-                    resolve({success:true});
-                    setSaveLoading(false);
-                } else {
-                    resolve({msg:'错误',code:1001})
-                    setSaveLoading(false);
-                }
-            })
-            await requestLogin.then((res)=>{
-                if(res.msg){
-                    Toast.error('失败')
-                } else {
-                    Toast.success('成功')
-                }
-            })
-
-
-        };*/
-  //Mock结束
 
   useEffect(() => {
-    if (content.length > 0) {
-      setReadyPublishContent(true);
-    }
-    if (content.length === 0) {
-      setReadyPublishContent(false);
-    }
+    setReadyPublishContent(content.length > 0);
   }, [content]);
 
   useEffect(() => {
-    if (list.length > 0) {
-      setReadyPublish(true);
-    }
-    if (list.length === 0) {
-      setReadyPublish(false);
-    }
+    setReadyPublish(list.length > 0);
   }, [list.length]);
 
-  const action = '';
+
 
   async function putPost(postData) {
     try {
@@ -174,23 +131,18 @@ const PublishPost = () => {
         <Upload
           className="imageUpload"
           accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
-          action={action}
+
           uploadTrigger="auto"
           customRequest={uploadFileToImage}
           onError={(...v) => {
             setSaveLoading(false);
             Toast.error('图片上传失败');
-            console.log(...v);
+
           }}
           listType="picture"
           draggable={true}
           multiple={true}
-          // onRemove={(currentFile, fileList, currentFileItem) => {
-          //   ImageLists.delete(currentFileItem.name);
-          //   setImageLists(new Map(ImageLists));
-          //
-          //   console.log(currentFileItem);
-          // }}
+
           onChange={({ fileList, currentFile }) => {
             console.log('onChange');
             console.log(fileList);
@@ -201,7 +153,7 @@ const PublishPost = () => {
           fileList={list}
           limit={9}
         >
-          <IconPlus size="large" />
+          <IconPlus size="extra-large" />
         </Upload>
       </div>
     </div>

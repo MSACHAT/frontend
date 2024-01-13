@@ -10,7 +10,7 @@ import PostDetail from "./pages/post/PostDetail";
 
 import React, {useEffect} from 'react';
 
-import CommentList from "./components/CommentList";
+import CommentList from "./pages/post/components/CommentList";
 import { RecoilRoot } from 'recoil';
 import ErrorBoundary from "./pages/Error";
 
@@ -18,6 +18,7 @@ import routeConfig from "./config/RouteConfig";
 import createRoutes from "./Route/creatRoutes";
 import PostDetailWithDeleteButtom from "./pages/post/PostDetailWithDeleteButtom";
 import BottomNavigationBar from "./components/BottomNavigationBar";
+import NavigationBar from "./pages/post/components/NavigationBar";
 
 
 
@@ -28,9 +29,10 @@ const App = () => {
         { path: "/profile", component: <Profile />, isPublic: false },
         { path: '/feed', component: <Feed/>,isPublic: false},
         { path: '/notifications', component: <Notifications/>,isPublic: false},
-        { path: '/add', component: <AddPost/>,isPublic: false},
+        { path: '/add', component: <AddPost/>,isPublic: true},
         { path: '/post/:postId', component: <PostDetail/>,isPublic: false},
         { path: '/test', component:<BottomNavigationBar/>,isPublic: true},
+        { path: '/test2', component:<NavigationBar showDeleteButton={true}/> ,isPublic: true},
         { path: '/profile/post/:postId', component: <PostDetailWithDeleteButtom/>,isPublic: false}
 
     ];

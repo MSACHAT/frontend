@@ -2,15 +2,16 @@ import React, {useEffect, useState} from "react";
 import {Avatar, List, Spin, TextArea, Toast,} from "@douyinfe/semi-ui";
 
 import InfiniteScroll from "react-infinite-scroller";
-import './postStyle.scss'
-import './CommentStyle.scss'
+// import '../../../components/postStyle.scss'
+// import '../../../components/CommentStyle.scss'
+import './CommentListStyle.scss'
 import { Typography } from '@douyinfe/semi-ui';
 import { animateScroll as scroll } from 'react-scroll';
-import apiClient from "../middlewares/axiosInterceptors";
+import apiClient from "../../../middlewares/axiosInterceptors";
 import {useRecoilState} from "recoil";
-import {CommentCount} from "../store";
+import {CommentCount} from "../../../store";
 import {useNavigate} from "react-router-dom";
-import {FormattedTime} from "./formatDate";
+import FormattedTime from "../../../components/formatDate";
 
 
 const CommentList = ({postId}) => {
@@ -110,7 +111,7 @@ const CommentList = ({postId}) => {
             content: value,
         };
         try {
-            const response = await apiClient.put(`/post/${postId}/comment/test`, data);
+            const response = await apiClient.put(`/post/${postId}/comment`, data);
 
 
 
@@ -182,7 +183,7 @@ const CommentList = ({postId}) => {
                                         <Text className={'comment-user'}>{item.userName}</Text>
                                     </div>
                                    <Text className={'comment-content'}>{item.content}</Text>
-                                    <Text className={'comment-time'}><FormattedTime num={item.timeStamp}/></Text>
+                                   <FormattedTime className={'comment-time'} TimeStamp={item.timeStamp}/>
                                 </div>
                             </div>
 
