@@ -1,111 +1,46 @@
-.light-scrollbar{
-    .semi-list-items {
-       background-color: rgba(0, 0, 0, 0);
-      }
-      
-      .semi-list-items > * {
-        margin-bottom: 16px; /* 为直接子元素添加底部间距 */
-
-      }
-    .post-detail {
-        padding: 20px;
-        margin-left: 0px;
-        margin-right: 0px;
-        margin-bottom: 10px;
-        background-color: #FFFFFE;
-        border-radius: 12px; /* 添加圆角 */
-    }
-
-    
-}
-.light-scrollbar{
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-.feed-time{
+.post {
+  display: block;
+  background: white;
+  padding:20px;
+  border-radius: 12px;
+  margin-bottom:16px ;
+  .avatar-space {
+    margin-bottom: 12px;
+  }
+  .avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+  }
+  .content{
+    font-weight: 400;
+    color: rgba(10, 0, 1, 0.8);
+    padding:0;
+    margin-bottom: 12px;
+  }
+  .interact {
+    margin-top: 16px;
     display: flex;
-    justify-content: flex-end;
-}
-.alternation{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    .icon{
-        margin-top: 14px;
-        display: flex;
-        justify-self: start;
-        text-align:left;
-        vertical-align:middle;
-
-
+    justify-content: center; /* 水平居中对齐 */
+    align-items: center;
+    * {
+      font-weight: 400;
+      color:rgba(24, 0, 1, 0.4);
+      background-color: transparent;
     }
-}
-.content{
-    color: var(--semi-color-text-1);
-    width: 400px;
-}
-.root{
-
-}
-.comments {
-
-  padding: 20px 20px;
-
-  .text{
-    margin-bottom: 20px;
-    .content{
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 500;
+    .semi-space{
+      margin-right: 12px;
+    }
+    .semi-space-tight-vertical{
+      gap:4px;
+    }
+    .semi-icon-like_heart {
+      * {
+        color: rgba(255, 72, 2, 1)
+      }
+    }
+    .time {
+      margin-left: auto; /* 最后一个元素靠最右边 */
     }
   }
-
-  .comment{
-    margin-top: 5px;
-    display: flex;
-
-
-
-
-
-    .comment-avatar {
-      margin-right: 5px;
-      width:30px;
-      height:30px;
-      flex-shrink: 0;
-    }
-    .name{
-      display: flex;
-      align-items: center;
-      height: 30px;
-    }
-    .comment-user{
-      color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
-
-    }
-    .comment-content{
-      overflow-wrap: anywhere;
-    }
-    .detail {
-      margin-left: 5px;
-      align-items: flex-start;
-      display: flex;
-      flex-direction: column;
-      .userName{
-        height: 30px;
-        display: flex;
-        align-items: center;
-      }
-
-      .comment-time{
-        color: var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40));
-      }
-    }
-  }
-
-  // 限制高度
-}
-.feed-time{
-    margin-top: 14px;
 }

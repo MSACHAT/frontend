@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Toast } from '@douyinfe/semi-ui';
+import apiClient from '../../middlewares/axiosInterceptors';
 // import data from "../../mockdata/FeedMockData.json"
 // export const GetData = (currentData,pageSize) => {
 //             let isSuccessful = Math.random() >= 0;  // 随机成功或失败
@@ -23,23 +24,20 @@ import { Toast } from '@douyinfe/semi-ui';
 //                 return ({msg: '请求失败'})
 //             }
 //     }
-
-const userId = 123; // 一个整数值
+// 一个整数值
 
 export const GetData = (pageNum, pageSize) => {
-  return axios
-    .get('http://localhost:8085/post/getbypagenumandpagesize/${userId}/test', {
+  return apiClient
+    .get('http://localhost:8085/post/getbypagenumandpagesize/1', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,
       },
-      headers: {
-        'Content-Type': 'application/json',
-      },
     })
     .then(res => {
+      console.log('获取profile数据');
       console.log(res.data);
-      const data = res.data.posts.map(post => ({
+      const data = res.data.data.map(post => ({
         id: post.id,
         userName: post.userName,
         title: post.title,

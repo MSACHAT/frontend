@@ -1,109 +1,96 @@
-import { Typography, TextArea, Image, Space } from '@douyinfe/semi-ui';
-import { Avatar } from '@douyinfe/semi-ui';
-import Icon, { IconLikeHeart, IconComment } from '@douyinfe/semi-icons';
-import React, { useEffect, useState } from 'react';
+import { Avatar, Space } from '@douyinfe/semi-ui';
+import Title from '@douyinfe/semi-ui/lib/es/typography/title';
+import { IconLikeHeart, IconHeartStroked } from '@douyinfe/semi-icons';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import Text from '@douyinfe/semi-ui/lib/es/typography/text';
+import React, { useState } from 'react';
+import { PostImgs } from './PostImgs';
+import './postStyle.scss';
+import { timeAgo } from './CalculateTimeAgo';
+const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
+export const Post = props => {
+  console.log('dsiauhxgciosdhcuidhciusdhicuohsdiuchsdc');
+  console.log(props.avatar);
+  const navigator = useNavigate();
+  const [like, setLike] = useState(props.isLiked);
+  if (!props) {
+    return null;
+  }
+  const handleLike = async () => {
+    const requestLike = new Promise((resolve, reject) => {
+      //TODO 换成真实的点赞请求
+      let isSuccessful = Math.random() >= 0.5; // 随机成功或失败
+      console.log(isSuccessful);
+      if (isSuccessful) {
+        resolve({ success: true });
+        setSaveLoading(false);
+      } else {
+        resolve({ msg: '错误', code: 1001 });
+        setSaveLoading(false);
+      }
+    });
+    await requestLike
+      .then(() => {
+        setLike(!like);
+      })
+      .catch(() => {});
+  };
+  const handleParentClick = event => {
+    if (isPostPage()) {
+      return;
+    }
+    // 检查点击事件是否直接发生在父元素上
+    if (event.target === event.currentTarget) {
+      console.log('父元素被点击');
+      navigator(`/post/1`);
+      // return <Navigate to={`post/1`} />;
 
-export const PostStatsBar = props => {
-  const { likeCount, commentCount, postId } = props;
-  const [color, setColor] = useState('gray');
-  const [likeLocalCount, setLikeLocalCount] = useState();
-  const { Text } = Typography;
-  useEffect(() => {
-    setLikeLocalCount(likeCount); //这个不能放外面，不然会循环渲染
-  }, []);
-  const handleClickOnLike = (color, postId) => {
-    if (color === 'gray') {
-      setColor('red');
-      setLikeLocalCount(likeLocalCount + 1);
-      if (localStorage.getItem('postsLiked') == null) {
-        localStorage.setItem('postsLiked', JSON.stringify({}));
-      }
-      let obj = JSON.parse(localStorage.getItem('postsLiked'));
-      obj[postId] = true;
-      localStorage.setItem('postsLiked', JSON.stringify(obj));
-      console.log(
-        'LocalStorage(postsLiked): ' + localStorage.getItem('postsLiked')
-      );
+      //TODO to post detail
+    } else if (event.target.classList.contains('like')) {
+      handleLike();
     } else {
-      setColor('gray');
-      setLikeLocalCount(likeLocalCount - 1);
-      if (localStorage.getItem('postsLiked') == null) {
-        localStorage.setItem('postsLiked', JSON.stringify({}));
-      }
-      let obj = JSON.parse(localStorage.getItem('postsLiked'));
-      obj[postId] = false;
-      localStorage.setItem('postsLiked', JSON.stringify(obj));
-      console.log(
-        'LocalStorage(postsLiked): ' + localStorage.getItem('postsLiked')
-      );
+      // 其他子元素的点击行为
+      console.log('其他子元素的点击，但父元素响应');
+      event.stopPropagation();
     }
   };
+  const location = useLocation();
+
+  const isPostPage = () => {
+    // 检查当前路径是否符合特定模式
+    const pathRegex = /^\/post\/[^\/]+$/; // 正则表达式匹配 /post/:postId 模式
+    return pathRegex.test(location.pathname);
+  };
+
   return (
-    <>
-      <Space align={'center'}>
-        <IconLikeHeart
-          style={{ color }}
-          size="extra-large"
-          onClick={() => handleClickOnLike(color, postId)}
-        />
-        <Text style={{ marginRight: 5 }}>{likeLocalCount}</Text>
-        <IconComment size={'extra-large'} />
-        <Text>{commentCount}</Text>
-        <TextArea
-          style={{
-            width: '40%',
-            display: 'inline-block',
-            position: 'absolute',
-            right: '10%',
-          }}
-          placeholder={'请输入评论'}
-          autosize
-          rows={1}
-        />
-      </Space>
-    </>
-  );
-};
-export const Post = props => {
-  const {
-    userName,
-    timeStamp,
-    images,
-    content,
-    likeCount,
-    commentCount,
-    title,
-    isLiked,
-    postId,
-  } = props;
-  const { Paragraph, Text } = Typography;
-  return (
-    <>
-      <Paragraph>
-        <Avatar
-          size="small"
-          alt="User"
-          style={{ marginRight: 5, color: 'red' }}
-        ></Avatar>
-        <Space align={'center'}>
-          <Text strong>{userName}</Text>
-          <Text size={'small'} type="quaternary">
-            {timeStamp}
-          </Text>
+    <div className={'post'} onClick={handleParentClick}>
+      {!props?.hideUser ? (
+        <Space className={'avatar-space'}>
+          <Avatar src={props.avatar} className={'avatar'} />
+          <Title heading={5}>{props.userName}</Title>
         </Space>
-        <br />
-        <Text type={'secondary'} strong={true}>
-          {content}
+      ) : null}
+      <Title heading={5} className={'content'}>
+        {props.content}
+      </Title>
+      <PostImgs imgUrls={props.images} />
+      <div className={'interact'}>
+        <Space className={'like'}>
+          {like ? (
+            <IconLikeHeart onClick={handleLike} />
+          ) : (
+            <IconHeartStroked onClick={handleLike} />
+          )}
+          <Text size={'small'}>{props.likeCount}</Text>
+        </Space>
+        <Space>
+          <Comment />
+          <Text size={'small'}>{props.commentCount}</Text>
+        </Space>
+        <Text className={'time'} size={'small'}>
+          {timeAgo(props.timeStamp)}
         </Text>
-        <br />
-        <Image width={300} height={300} src={images} />
-        <br />
-        <PostStatsBar
-          likeCount={likeCount}
-          commentCount={commentCount}
-          postId={postId}
-        />
-      </Paragraph>
-    </>
+      </div>
+    </div>
   );
 };

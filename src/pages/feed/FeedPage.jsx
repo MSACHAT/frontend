@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, List, Badge } from '@douyinfe/semi-ui';
-import { Post } from '../../components/PostComponentNew.jsx';
+import { Post } from '../../components/PostComponent.jsx';
 import { IconBellStroked } from '@douyinfe/semi-icons';
 import './FeedStyle.scss';
 import { GetData } from './HookToGetData.jsx';
@@ -9,9 +9,10 @@ import InfiniteScroll from 'react-infinite-scroller';
 import apiClient from '../../middlewares/axiosInterceptors';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { Link } from 'react-router-dom';
+import { UserAvatar } from '../profile/UserAvatar';
 export function NewNotif() {
   const [newNotifCount, setNewNotifCount] = useState(0);
-  apiClient.get('/notif/countnewnotifs').then(res => {
+  apiClient.get('/notifications/newMessage').then(res => {
     setNewNotifCount(res.data.newNotifCounts);
   });
   if (newNotifCount > 0) {
@@ -38,11 +39,6 @@ export function Feed() {
   const pageSize = 5; //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   function loadMoreData() {
-    // @ts-ignore
-    if (pageNum > totalPages) {
-      //没有更多的分页请求了，就不要再请求了
-      return;
-    }
     setPageNum(pageNum + 1);
     GetData(pageNum, pageSize).then(result => {
       result.data = [...posts.data, ...result.data];
@@ -57,7 +53,7 @@ export function Feed() {
   useEffect(() => {
     console.log('Getting Data');
     GetData(pageNum, pageSize).then(result => {
-      console.log(result);
+      console.log(pageNum);
       setPosts(result);
       setTotalPages(result.totalPages);
     });
@@ -79,12 +75,15 @@ export function Feed() {
       </Header>
       <div className={'feed-content'}>
         <InfiniteScroll
+          initialLoad={false}
+          useWindow={false}
           loadMore={loadMoreData}
           hasMore={pageNum <= totalPages}
           pageStart={0}
           threshold={20}
         >
           <List
+            className={'feed-posts'}
             dataSource={posts.data}
             renderItem={record => (
               <Post
@@ -97,9 +96,10 @@ export function Feed() {
                 liked={record.isLiked}
                 title={record.title}
                 postId={record.id}
+                avatar={record.avatar}
               ></Post>
             )}
-          ></List>
+          />
         </InfiniteScroll>
       </div>
       <BottomNavigationBar></BottomNavigationBar>

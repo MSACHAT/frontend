@@ -6,7 +6,7 @@ import axios from 'axios';
 import apiClient from '../../middlewares/axiosInterceptors';
 export const GetData = (pageNum, pageSize) => {
   return apiClient
-    .get('/notif/getbypagenumandpagesize', {
+    .get('/notifications/', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,

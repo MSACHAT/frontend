@@ -1,10 +1,11 @@
 {
   "name": "my-app",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@douyinfe/semi-icons": "^2.50.1",
-    "@douyinfe/semi-ui": "^2.50.1",
+    "@douyinfe/semi-ui": "^2.51.0-beta.0",
     "@semi-bot/semi-theme-moonshot": "^1.0.4",
     "@semi-bot/semi-theme-ty": "^1.0.0",
     "@svgr/webpack": "^8.1.0",

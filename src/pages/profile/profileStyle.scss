@@ -34,12 +34,11 @@
 }
 #avatar-container .image-item {
   position: relative;
-  width: 80px;
-  height:80px;
-  margin:8px;
+  width: var(--custom-image-width);//个人页改一下margin
+  height:var(--custom-image-width);
   overflow: hidden; /* 超出的内容将被隐藏，用于裁剪 */
   .image {
-    border-radius: 40px;
+    border-radius: calc(var(--custom-image-width) / 2);
     width: 100%; /* 让图像宽度自动调整以保持纵横比 */
     height: 100%; /* 让图像高度自动调整以保持纵横比 */
     position: absolute; /* 绝对定位，用于水平垂直居中 */

@@ -30,7 +30,7 @@ const PublishPost = () => {
 
   async function putPost(postData) {
     try {
-      const response = await apiClient.post('/post/add', postData);
+      const response = await apiClient.post('/posts/add', postData);
 
       console.log(response.data);
 
