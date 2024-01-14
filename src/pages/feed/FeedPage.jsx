@@ -1,71 +1,61 @@
 import React from 'react';
-import {Layout, Button, Table, List} from '@douyinfe/semi-ui';
-import { Post } from '../../components/PostComponentNew.jsx';
-import { IconChevronLeft, IconPlus } from '@douyinfe/semi-icons';
-import BottomBar from '../../components/BottomNavigationBar.jsx';
+import { Layout, List, Badge } from '@douyinfe/semi-ui';
+import { Post } from '../../components/PostComponent.jsx';
+import { IconBellStroked } from '@douyinfe/semi-icons';
+import './FeedStyle.scss';
 import { GetData } from './HookToGetData.jsx';
 import { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import axios from 'axios';
+import apiClient from '../../middlewares/axiosInterceptors';
+import BottomNavigationBar from '../../components/BottomNavigationBar';
+import { Link } from 'react-router-dom';
+import { UserAvatar } from '../profile/UserAvatar';
+export function NewNotif() {
+  const [newNotifCount, setNewNotifCount] = useState(0);
+  apiClient.get('/notifications/newMessage').then(res => {
+    setNewNotifCount(res.data.newNotifCounts);
+  });
+  if (newNotifCount > 0) {
+    return (
+      <Link to={'/notifications'} className={'feed-link'}>
+        <Badge
+          count={newNotifCount}
+          className={'feed-badge'}
+          position={'rightTop'}
+        >
+          <IconBellStroked className={'feed-iconbellstroked'}></IconBellStroked>
+        </Badge>
+      </Link>
+    );
+  } else {
+    return (
+      <Link to={'/notifications'} className={'feed-link'}>
+        <IconBellStroked className={'feed-iconbellstroked'}></IconBellStroked>
+      </Link>
+    );
+  }
+}
 export function Feed() {
-  const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
+  const pageSize = 5; //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   function loadMoreData() {
-    // @ts-ignore
-    if (pageNum > totalPages) {
-      //没有更多的分页请求了，就不要再请求了
-      console.log("没有更多的分页请求了，就不要再请求了")
-      return;
-    }
     setPageNum(pageNum + 1);
     GetData(pageNum, pageSize).then(result => {
       result.data = [...posts.data, ...result.data];
-      console.log(result.data);
       setPosts(result);
       setTotalPages(result.totalPages);
     });
   }
 
   const { Header, Content, Footer } = Layout;
-  const { Column } = Table;
-  const commonStyle = {
-    height: 64,
-    lineHeight: '64px',
-    background: 'var(--semi-color-fill-0)',
-  };
   const [posts, setPosts] = useState({ data: [] });
   const [totalPages, setTotalPages] = useState();
   useEffect(() => {
-
-
-
-    
-    //用于往后端发送前端本地保存的点赞
-    const header = { 'Content-Type': 'application/json' };
-    const interval = setInterval(() => {
-      console.log('Start Backend' + localStorage.getItem('postsLiked'));
-      if (localStorage.getItem('postsLiked') != null) {
-        axios
-          .patch(
-            'http://localhost:8085/post/like/test',
-            localStorage.getItem('postsLiked'),
-            {
-              headers: header,
-            }
-          )
-          .then(res => {
-            localStorage.clear();
-          });
-      }
-    }, 1000 * 10 * 60); // 10分钟间隔,单位毫秒
-
-    return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
+    console.log('Getting Data');
     GetData(pageNum, pageSize).then(result => {
+      console.log(pageNum);
       setPosts(result);
       setTotalPages(result.totalPages);
-      
     });
     setPageNum(pageNum + 1);
     // setPosts(data);
@@ -73,76 +63,46 @@ export function Feed() {
   useEffect(() => {
     // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
     return () => {
-      setPageNum(0)
-      setTotalPages(0)
+      setPageNum(0);
+      setTotalPages(0);
     };
   }, []);
   return (
-    <Layout>
-      <div><BottomBar></BottomBar></div>
-      <Header
-        style={{
-          position: 'fixed',
-          zIndex: 999,
-          backgroundColor: '#9C9EA1',
-          width: '100%',
-        }}
-      >
-        <Button
-          theme={'borderless'}
-          icon={<IconChevronLeft />}
-          onClick={() => {
-            window.history.go(-1);
-          }}
-        ></Button>
+    <div className={'feed-page'}>
+      <Header className={'feed-header'}>
+        <span></span>
+        <NewNotif></NewNotif>
       </Header>
-      <Content style={{ height: 300, lineHeight: '300px' }}>
-        <InfiniteScroll loadMore={loadMoreData} hasMore={pageNum <= totalPages}>
-        <List dataSource={posts.data}
-              renderItem={record => (
-                  <Post
-                      userName={record.userName}
-                      // userIcon={record.userIcon}
-                      timeStamp={record.timeStamp}
-                      images={record.images}
-                      content={record.content}
-                      likeCount={record.likeCount}
-                      commentCount={record.commentCount}
-                      liked={record.isLiked}
-                      title={record.title}
-                      postId={record.id}
-                  ></Post>
-                  
-              )}
-        
+      <div className={'feed-content'}>
+        <InfiniteScroll
+          initialLoad={false}
+          useWindow={false}
+          loadMore={loadMoreData}
+          hasMore={pageNum <= totalPages}
+          pageStart={0}
+          threshold={20}
         >
-          {/*<Column*/}
-          {/*  dataIndex="id"*/}
-          {/*  key="id"*/}
-          {/*  render={record => (*/}
-          {/*    <Post*/}
-          {/*      userName={record.userName}*/}
-          {/*      // userIcon={record.userIcon}*/}
-          {/*      timeStamp={record.timeStamp}*/}
-          {/*      images={record.images}*/}
-          {/*      content={record.content}*/}
-          {/*      likeCount={record.likeCount}*/}
-          {/*      commentCount={record.commentCount}*/}
-          {/*      liked={record.isLiked}*/}
-          {/*      title={record.title}*/}
-          {/*      postId={record.id}*/}
-          {/*    ></Post>*/}
-          {/*  )}*/}
-          {/*/>*/}
-        </List>
+          <List
+            className={'feed-posts'}
+            dataSource={posts.data}
+            renderItem={record => (
+              <Post
+                userName={record.userName}
+                timeStamp={record.timeStamp}
+                images={record.images}
+                content={record.content}
+                likeCount={record.likeCount}
+                commentCount={record.commentCount}
+                liked={record.isLiked}
+                title={record.title}
+                postId={record.id}
+                avatar={record.avatar}
+              ></Post>
+            )}
+          />
         </InfiniteScroll>
-      </Content>
-      {/*以下的代码是用来做footer的navigation的*/}
-      {/*<Footer style={{...commonStyle,display: "flex", textAlign: "center"}} className="Align-Bottom" >*/}
-      {/*    <Button theme='borderless' type='primary' style={{marginRight: 8}}>首页</Button>*/}
-      {/*    <Button icon={<IconPlus/>} aria-label="截屏"/>*/}
-      {/*    <Button theme='borderless' type='primary' style={{marginRight: 8}}>我的</Button>*/}
-      {/*</Footer>*/}
-    </Layout>
+      </div>
+      <BottomNavigationBar></BottomNavigationBar>
+    </div>
   );
 }

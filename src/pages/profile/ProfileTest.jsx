@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import fakeData from '../../mockdata/ProfileMockData.json';
-import { Post } from '../../components/PostComponentNew.jsx';
+import { Post } from '../../components/PostComponent.jsx';
 import { List, Button, Avatar, Spin } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
 

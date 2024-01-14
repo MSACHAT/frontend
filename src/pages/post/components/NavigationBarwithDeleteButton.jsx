@@ -9,8 +9,7 @@ import {
     IconDeleteStroked
 } from "@douyinfe/semi-icons";
 import Title from "@douyinfe/semi-ui/lib/es/typography/title";
-import './NavigationBarWithDeleteButton.scss'
-import apiClient from "../middlewares/axiosInterceptors";
+import apiClient from "../../../middlewares/axiosInterceptors";
 import {useNavigate} from "react-router-dom";
 const NavigationBar = ({postId}) => {
     const navigate = useNavigate();

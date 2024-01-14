@@ -1,64 +1,50 @@
-import React, {Suspense, useEffect} from 'react';
-import NavigationBar from '../../components/NavigationBar';
-import { Post } from '../../components/PostComponentNew';
-import './postStyle.scss';
+import React, { Suspense, useEffect } from 'react';
+import NavigationBar from './components/NavigationBar';
+import { Post } from '../../components/PostComponent';
 import { useParams } from 'react-router-dom';
-import CommentList from '../../components/CommentList';
-import apiClient from "../../middlewares/axiosInterceptors";
-import {Toast} from "@douyinfe/semi-ui";
-import {useRecoilState} from "recoil";
-import {CommentCount} from "../../store";
+import './PostDetailStyle.scss';
+import CommentList from './components/CommentList';
+import apiClient from '../../middlewares/axiosInterceptors';
+import { Divider, Toast } from '@douyinfe/semi-ui';
+import { useRecoilState } from 'recoil';
+import { CommentCount } from '../../store';
 
 const PostDetail = () => {
-    const postId = useParams().postId;
+  const postId = useParams().postId;
   const [Data, setData] = React.useState(null);
   const [commentCount, setCommentCount] = useRecoilState(CommentCount);
   async function getPostDetail(postId) {
-      try {
-          const res = await apiClient.get(`/post/${postId}/get`)
-
-          const result = await res.data;
-
-          const Data = {
-              userName: result.userName,
-              timeStamp: result.timeStamp,
-              images: result.images,
-              content: result.content,
-              likeCount: result.likeCount,
-              commentCount: result.commentCount,
-              isLiked: result.isLiked,
-              postId: result.id,
-
-          }
-
-          await setData(Data)
-      } catch (error) {
-          Toast.error('获取数据失败');
-      }
+    try {
+      console.log(123456789012345678901234567890);
+      return apiClient.get(`/posts/1/get`).catch(err => {
+        console.log(err);
+      });
+    } catch (error) {
+      Toast.error('获取数据失败');
+    }
   }
 
   useEffect(() => {
-        getPostDetail(postId)
+    getPostDetail(postId).then(res => {
+      console.log(res.data);
+      setData(res.data);
+    });
   }, []);
 
-  useEffect(
-      () => {
-          getPostDetail(postId);
-      },[commentCount]
-  )
-    if (Data === null) {
-        return <div>Loading...</div>;
-    }
+  useEffect(() => {
+    getPostDetail(postId).then(res => {
+      setData(res.data);
+    });
+  }, [commentCount]);
 
   return (
-    <div>
-
-          <NavigationBar />
-          <div className={'content'}>
-            <Post {...Data} />
-          </div>
-          <CommentList postId={postId}/>
-
+    <div className={'postDetail'}>
+      <NavigationBar />
+      <div className={'content'}>
+        <Post {...Data} />
+      </div>
+      <Divider />
+      <CommentList postId={postId} />
     </div>
   );
 };

@@ -1,0 +1,127 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: center;
+  padding-top: 12px;
+  height: 56px;
+  position: fixed;
+  top: 0;
+  background-color: white;
+  color: white;
+  z-index: 1000;
+
+  .title {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .modal{
+    .spacer {
+      height: 100px;
+    }
+
+    .semi-modal-small {
+
+      width: 330px !important;
+    }
+    .semi-modal-header{
+      align-items: center;
+      .semi-modal-icon-wrapper{
+        color: #FF4802;
+      }
+    }
+    .semi-modal{
+      margin: 280px auto;
+      .semi-modal-content{
+        border-radius: 6px;
+        border-color: white;
+      }
+      .semi-modal-header > Button{
+        visibility: hidden;
+      }
+      .semi-modal-header{
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+
+      .semi-modal-footer > div{
+        display: flex;
+        justify-content: end;
+      }
+      .semi-modal-footer > div > button:first-child{
+        width: 30px !important;
+        background: var(--usage-fill---semi-color-fill-0, rgba(15, 0, 1, 0.05));
+      }
+      .semi-modal-footer > div > button:last-child{
+        width: 80px !important;
+      }
+      .semi-modal-footer{
+        margin-top: 25px;
+        margin-bottom: 20px;
+      }
+
+
+      .semi-button{
+        box-sizing: border-box;
+        border-radius: 3px;
+
+        height: 32px;
+      }
+    }
+
+    .semi-modal-small {
+
+      width: 330px !important;
+    }
+    .modal{
+      .semi-modal-header{
+        align-items: center;
+        .semi-modal-icon-wrapper{
+          color: #FF4802;
+        }
+      }
+      .semi-modal{
+        margin: 280px auto;
+        .semi-modal-content{
+          border-radius: 6px;
+          border-color: white;
+        }
+        .semi-modal-header > Button{
+          visibility: hidden;
+        }
+        .semi-modal-header{
+          margin-top: 20px;
+          margin-bottom: 8px;
+        }
+
+        .semi-modal-footer > div{
+          display: flex;
+          justify-content: end;
+        }
+        .semi-modal-footer > div > button:first-child{
+          width: 30px !important;
+          background: var(--usage-fill---semi-color-fill-0, rgba(15, 0, 1, 0.05));
+        }
+        .semi-modal-footer > div > button:last-child{
+          width: 80px !important;
+        }
+        .semi-modal-footer{
+          margin-top: 25px;
+          margin-bottom: 20px;
+        }
+
+
+        .semi-button{
+          box-sizing: border-box;
+          border-radius: 3px;
+
+          height: 32px;
+        }
+      }
+    }
+  }
+
+
+}
+
+

@@ -4,24 +4,21 @@ import config from '../config/config';
 
 const apiClient = axios.create({
   baseURL: config.apiUrl,
-  timeout: 1000*60,
+  timeout: 1000 * 60,
 });
 apiClient.interceptors.request.use(config => {
-
-
   const token = localStorage.getItem('token');
-
   if (token) {
-
     config.headers['Authorization'] = `Bearer ${token}`;
     config.headers['Content-Type'] = 'application/json';
+  } else {
+    console.log('TSOSJSOIXJOISJXOIJSIOJXIOSJXOIJSIOJXIOSJXOIJSOIJXOISJXOIXJS');
   }
   return config;
 });
 
 apiClient.interceptors.response.use(
   response => {
-
     return response;
   },
   error => {
@@ -50,7 +47,6 @@ apiClient.interceptors.response.use(
           Toast.error('请求超时');
           break;
         case 413:
-          1;
           Toast.error('有效负载太大');
           break;
         case 414:
@@ -82,6 +78,7 @@ apiClient.interceptors.response.use(
       }
     }
     return Promise.reject(error.response.status);
-});
+  }
+);
 
 export default apiClient;

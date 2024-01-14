@@ -2,8 +2,8 @@ import React from "react";
 import {Button} from "@douyinfe/semi-ui";
 import {IconAlignLeft, IconArrowLeft, IconChevronLeft} from "@douyinfe/semi-icons";
 import Title from "@douyinfe/semi-ui/lib/es/typography/title";
-import {NavigationBackButton} from "./NavigationBackButton";
-const NavigationBar = () => {
+import {NavigationBackButton} from "../../../components/NavigationBackButton";
+const DeprecatedNavigationBar = () => {
 
     return(
         <div>
@@ -18,4 +18,4 @@ const NavigationBar = () => {
 
 }
 
-export default NavigationBar;
+export default DeprecatedNavigationBar;
