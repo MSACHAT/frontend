@@ -11,7 +11,6 @@ import url from '../../config/RouteConfig';
 import upload from '../../middlewares/uploadImage';
 import apiClient from '../../middlewares/axiosInterceptors';
 
-
 const PublishPost = () => {
   const [saveLoading, setSaveLoading] = useState(false);
   const [post, setPost] = useState(false);
@@ -77,7 +76,7 @@ const PublishPost = () => {
 
   async function putPost(postData) {
     try {
-      const response = await apiClient.post('/post/add', postData);
+      const response = await apiClient.post('/posts/add', postData);
 
       console.log(response.data);
 
@@ -111,7 +110,6 @@ const PublishPost = () => {
       };
       console.log(postData, '2222');
       await putPost(postData);
-
     }
   };
 

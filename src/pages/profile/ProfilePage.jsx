@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './profileStyle.scss';
 import fakeData from '../../mockdata/ProfileMockData.json';
-import { Post } from '../../components/PostComponentNew.jsx';
+import { Post } from '../../components/PostComponent.jsx';
 import { List, Button, Image, Spin, ImagePreview } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
 import { IconCamera, IconChevronLeft } from '@douyinfe/semi-icons';
@@ -16,7 +16,6 @@ export const Profile = () => {
   const [hasMore, setHasMore] = useState(true);
   const [dataCount, setDataCount] = useState(0);
   const [postData, setPostData] = useState([]);
-  
 
   // const fetchData = () => {
   //   setLoading(true);
@@ -56,7 +55,6 @@ export const Profile = () => {
     });
   }
 
-
   const [posts, setPosts] = useState({ data: [] });
 
   useEffect(() => {
@@ -66,12 +64,9 @@ export const Profile = () => {
       setPageNum(prevPageNum => prevPageNum + 1);
       setTotalPages(result.totalPages);
     };
-  
+
     fetchData();
   }, []);
-  
-
-
 
   const showLoadMore = dataCount % 4 === 0;
   const loadMore =
@@ -87,8 +82,6 @@ export const Profile = () => {
         <Button onClick={posts.data}>显示更多</Button>
       </div>
     ) : null;
-
-
 
   return (
     <div className="profile-page">
@@ -112,7 +105,6 @@ export const Profile = () => {
           hasMore={!loading && hasMore && !showLoadMore}
           useWindow={true}
         >
-
           <List
             loadMore={loadMore}
             dataSource={posts.data}
@@ -125,7 +117,7 @@ export const Profile = () => {
           )}
         </InfiniteScroll>
       </div>
-            <BottomBar></BottomBar>
+      <BottomBar></BottomBar>
     </div>
   );
 };

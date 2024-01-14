@@ -37,7 +37,7 @@ export function Notifications() {
       console.log('GetFirstNotifNums' + result.totalNotifs);
     });
     setPageNum(pageNum + 1);
-    apiClient.get('/notif/countnewnotifs').then(result => {
+    apiClient.get('/notifications/newMessage').then(result => {
       console.log(result);
       setNotifTag(new Date(result.data.notifTag).getTime());
       console.log('NotifTag' + notifTag);
@@ -46,7 +46,7 @@ export function Notifications() {
   useEffect(() => {
     const interval = setInterval(() => {
       apiClient
-        .get('/notif/countnewnotifs')
+        .get('/notifications/newMessage')
         .then(res => {
           console.log(res.data);
           console.log('notifnums' + notifNums);

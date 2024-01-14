@@ -24,16 +24,15 @@ import apiClient from '../../middlewares/axiosInterceptors';
 //                 return ({msg: '请求失败'})
 //             }
 //     }
- // 一个整数值
+// 一个整数值
 
 export const GetData = (pageNum, pageSize) => {
   return apiClient
-    .get('http://localhost:8085/post/getbypagenumandpagesize/3', {
+    .get('http://localhost:8085/post/getbypagenumandpagesize/1', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,
       },
-
     })
     .then(res => {
       console.log('获取profile数据');

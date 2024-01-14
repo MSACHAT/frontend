@@ -7,21 +7,18 @@ const apiClient = axios.create({
   timeout: 1000 * 60,
 });
 apiClient.interceptors.request.use(config => {
-
-
   const token = localStorage.getItem('token');
-
   if (token) {
-
     config.headers['Authorization'] = `Bearer ${token}`;
     config.headers['Content-Type'] = 'application/json';
+  } else {
+    console.log('TSOSJSOIXJOISJXOIJSIOJXIOSJXOIJSIOJXIOSJXOIJSOIJXOISJXOIXJS');
   }
   return config;
 });
 
 apiClient.interceptors.response.use(
   response => {
-
     return response;
   },
   error => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './profileStyle.scss';
 import fakeData from '../../mockdata/ProfileMockData.json';
-import { Post } from '../../components/PostComponentNew.jsx';
+import { Post } from '../../components/PostComponent.jsx';
 import { List, Button, Image, Spin, ImagePreview } from '@douyinfe/semi-ui';
 import InfiniteScroll from 'react-infinite-scroller';
 import { IconCamera, IconChevronLeft } from '@douyinfe/semi-icons';
@@ -74,7 +74,6 @@ export const Profile = () => {
           hasMore={!loading && hasMore && !showLoadMore}
           useWindow={true}
         >
-
           <List
             loadMore={loadMore}
             dataSource={dataSource}
@@ -87,7 +86,7 @@ export const Profile = () => {
           )}
         </InfiniteScroll>
       </div>
-            <BottomBar></BottomBar>
+      <BottomBar></BottomBar>
     </div>
   );
 };

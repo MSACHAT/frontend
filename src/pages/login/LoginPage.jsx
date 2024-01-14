@@ -21,11 +21,11 @@ export const Login = () => {
   const handleSubmit = async values => {
     const data = {
       email: values.email,
-      password: values.password,
+      password: changePwdToUuid(values.password),
     };
-    console.log(data);
-    try {
-      loginClient.post('/login', data).then(res => {
+    loginClient
+      .post('/login', data)
+      .then(res => {
         if (res && res.data) {
           Toast.success('登录成功');
           setIsAuthenticated(true);
@@ -36,10 +36,10 @@ export const Login = () => {
         } else {
           setLoginFailInfo('登录失败');
         }
+      })
+      .catch(error => {
+        setLoginFailInfo('登陆失败');
       });
-    } catch (error) {
-      setLoginFailInfo('登录失败');
-    }
   };
   const { Title, Text } = Typography;
   const ConfirmButton = () => {

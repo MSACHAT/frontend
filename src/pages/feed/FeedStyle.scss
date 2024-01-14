@@ -1,7 +1,6 @@
 .feed-page {
+  background-color: rgb(237, 237, 237);
   * {
-    padding: 0;
-    margin: 0;
     border: none;
   }
 
@@ -15,6 +14,7 @@
   z-index: -999999;
 
   .feed-content {
+    padding:0 20px 0 20px;
     margin-top: 16.2vh;
     background-color: transparent;
     height: 83.8vh;
@@ -51,5 +51,21 @@
 
   .feed-link:link,.feed-link:visited {
   color: black;
+  }
+
+  .feed-posts{
+    background-color: transparent;
+  }
+
+  .semi-spin{
+    background-color: transparent;
+  }
+
+  .footer{
+    padding: 0;
+  }
+
+  .post:last-child{
+    margin-bottom: 10vh;
   }
 }
