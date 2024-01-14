@@ -1,17 +1,17 @@
-.content{
-  color: var(--semi-color-text-1);
-  width: 400px;
-}
-.root{
-  .semi-input-textarea-wrapper-focus{
-    border-color: transparent;
-  }
-  .semi-input-textarea-wrapper{
-    display: flex;
-  }
-}
 .comments {
-
+  .textarea-bg{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 36px;
+    background-color:white;
+  }
+    .semi-input-textarea-wrapper-focus{
+      border-color: transparent;
+    }
+    .semi-input-textarea-wrapper{
+      display: flex;
+    }
   padding: 20px 20px;
 
   .text{

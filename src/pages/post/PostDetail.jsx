@@ -1,11 +1,11 @@
 import React, { Suspense, useEffect } from 'react';
 import NavigationBar from './components/NavigationBar';
 import { Post } from '../../components/PostComponent';
-import '../../components/postStyle.scss';
 import { useParams } from 'react-router-dom';
+import './PostDetailStyle.scss';
 import CommentList from './components/CommentList';
 import apiClient from '../../middlewares/axiosInterceptors';
-import { Toast } from '@douyinfe/semi-ui';
+import { Divider, Toast } from '@douyinfe/semi-ui';
 import { useRecoilState } from 'recoil';
 import { CommentCount } from '../../store';
 
@@ -38,11 +38,12 @@ const PostDetail = () => {
   }, [commentCount]);
 
   return (
-    <div>
+    <div className={'postDetail'}>
       <NavigationBar />
       <div className={'content'}>
         <Post {...Data} />
       </div>
+      <Divider />
       <CommentList postId={postId} />
     </div>
   );

@@ -1,7 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import DeprecatedNavigationBar from './components/(Deprecated)NavigationBar';
 import { Post } from '../../components/PostComponent';
-import './postDetailStyle.scss';
 import { useParams } from 'react-router-dom';
 import CommentList from './components/CommentList';
 import apiClient from '../../middlewares/axiosInterceptors';

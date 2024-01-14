@@ -130,8 +130,8 @@ const CommentList = ({ postId }) => {
   }
 
   return (
-    <div className={'root'}>
-      <div className="comments">
+    <div className={'comments'}>
+      <div className="root">
         {' '}
         <div className={'text'}>
           <Text className={'content'}>评论</Text>
@@ -188,16 +188,9 @@ const CommentList = ({ postId }) => {
         <div style={{ height: '100px' }} />
       </div>
       <div
+        className={'textarea-bg'}
         style={{
           height: `${Size}px`,
-          position: 'fixed',
-          bottom: 0,
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'end',
-          paddingBottom: '36px',
-          backgroundColor: 'white',
         }}
       >
         <TextArea
@@ -207,7 +200,7 @@ const CommentList = ({ postId }) => {
             backgroundColor: '#F4F4F4',
             zIndex: 1000,
           }}
-          autosize={true}
+          autosize={{ minRows: 1, maxRows: 3 }}
           onResize={handleResize}
           rows={1}
           maxLength={200}
