@@ -42,7 +42,7 @@ export const Post = props => {
     // 检查点击事件是否直接发生在父元素上
     if (event.target === event.currentTarget) {
       console.log('父元素被点击');
-      navigator(`/post/1`);
+      navigator(`/post/${props.postId}`);
       // return <Navigate to={`post/1`} />;
 
       //TODO to post detail

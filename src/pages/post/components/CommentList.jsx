@@ -12,7 +12,6 @@ import { useRecoilState } from 'recoil';
 import { CommentCount } from '../../../store';
 import { useNavigate } from 'react-router-dom';
 import FormattedTime from '../../../components/formatDate';
-
 const CommentList = ({ postId }) => {
   const navigate = useNavigate();
   const { Text } = Typography;
@@ -35,8 +34,6 @@ const CommentList = ({ postId }) => {
           pageSize: 15,
         },
       });
-
-      console.log(response);
       const result = await response.data;
       setData([...data, ...result.comments]);
       setCountState(countState + 1);
@@ -99,7 +96,7 @@ const CommentList = ({ postId }) => {
       content: value,
     };
     try {
-      const response = await apiClient.put(`/post/${postId}/comment`, data);
+      const response = await apiClient.put(`/posts/${postId}/comment`, data);
 
       const responseData = await response.data;
       console.log('Response Data:', responseData);
@@ -130,9 +127,8 @@ const CommentList = ({ postId }) => {
   }
 
   return (
-    <div className={'comments'}>
-      <div className="root">
-        {' '}
+    <div className={'commentList'}>
+      <div className={'comments'}>
         <div className={'text'}>
           <Text className={'content'}>评论</Text>
         </div>
@@ -145,13 +141,14 @@ const CommentList = ({ postId }) => {
           hasMore={hasMore}
         >
           <List
+            emptyContent={'目前还没有评论哦，来做第一个评论的人吧！！'}
             split={false}
             dataSource={data}
             renderItem={(item, index) => (
               <div className={'comment'} id={index}>
                 <Avatar
                   className={'comment-avatar'}
-                  src={item.avatar}
+                  src={item.userAvatar}
                   onClick={() => {
                     route(item.userId);
                   }}
@@ -176,7 +173,7 @@ const CommentList = ({ postId }) => {
             </div>
           )}
         </InfiniteScroll>
-        {!hasMore && (
+        {!hasMore && data != null && (
           <div style={{ textAlign: 'center', marginTop: 32 }}>
             <text
               style={{ color: 'var(--semi-color-text-40)', fontWeight: 400 }}
@@ -200,7 +197,7 @@ const CommentList = ({ postId }) => {
             backgroundColor: '#F4F4F4',
             zIndex: 1000,
           }}
-          autosize={{ minRows: 1, maxRows: 3 }}
+          autosize={{ minRows: 1 }}
           onResize={handleResize}
           rows={1}
           maxLength={200}

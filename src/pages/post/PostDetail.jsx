@@ -16,7 +16,7 @@ const PostDetail = () => {
   async function getPostDetail(postId) {
     try {
       console.log(123456789012345678901234567890);
-      return apiClient.get(`/posts/1/get`).catch(err => {
+      return apiClient.get(`/posts/${postId}/get`).catch(err => {
         console.log(err);
       });
     } catch (error) {
