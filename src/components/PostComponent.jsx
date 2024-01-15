@@ -40,19 +40,24 @@ export const Post = props => {
       return;
     }
     // 检查点击事件是否直接发生在父元素上
-    if (event.target === event.currentTarget) {
+    if (
+      !event.target.closest('.interact') &&
+      !event.target.closest('.avatar-space')
+    ) {
       console.log('父元素被点击');
-      navigator(`/post/1`);
+      navigator(`/post/${props.postId}`);
       // return <Navigate to={`post/1`} />;
-
-      //TODO to post detail
-    } else if (event.target.classList.contains('like')) {
-      handleLike();
-    } else {
-      // 其他子元素的点击行为
-      console.log('其他子元素的点击，但父元素响应');
-      event.stopPropagation();
+    } else if (event.target.closest('.avatar-space')) {
+      console.log('跳转个人页面'); //TODO:改成他人页
     }
+    // else if (event.target.classList.contains('interact')) {
+    //   handleLike();
+    // } else {
+    //   // 其他子元素的点击行为
+    //   // navigator(`/post/${props.postId}`);
+    //   console.log('其他子元素的点击，但父元素响应');
+    //   event.stopPropagation();
+    // }
   };
   const location = useLocation();
 
