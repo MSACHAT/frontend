@@ -28,7 +28,7 @@ import apiClient from '../../middlewares/axiosInterceptors';
 
 export const GetData = (pageNum, pageSize) => {
   return apiClient
-    .get('http://localhost:8085/post/getbypagenumandpagesize/1', {
+    .get('/profile', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,
@@ -37,7 +37,7 @@ export const GetData = (pageNum, pageSize) => {
     .then(res => {
       console.log('获取profile数据');
       console.log(res.data);
-      const data = res.data.data.map(post => ({
+      const data = res.data.posts.map(post => ({
         id: post.id,
         userName: post.userName,
         title: post.title,

@@ -10,11 +10,11 @@ export default function BottomNavigationBar() {
   const [State, setState] = useState(true);
   function clickFeed() {
     setState(true);
-    window.location.href = 'http://localhost:3000/feed';
+    navigate('/feed');
   }
   function clickPersonalArea() {
     setState(false);
-    window.location.href = 'http://localhost:3000/profile';
+    navigate('/profile');
   }
   function clickAddPost() {
     navigate(url.addPost);

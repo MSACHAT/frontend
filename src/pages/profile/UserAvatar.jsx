@@ -4,7 +4,7 @@ import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import React, { useEffect, useRef, useState } from 'react';
 import './profileStyle.scss';
 import apiClient from '../../middlewares/axiosInterceptors';
-import uploadImage from '../../middlewares/uploadImage';
+import upload from '../../middlewares/uploadImage';
 export const UserAvatar = ({ disableEdit, imageUrl }) => {
   const [avtarUrl, setAvatarUrl] = useState(
     imageUrl || process.env.PUBLIC_URL + 'ProfilePhoto.png'
@@ -12,7 +12,7 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
     apiClient
-      .get('/images/getavatar')
+      .get('/users/avatar')
       .then(res => {
         setAvatarUrl(res.data);
       })
@@ -38,8 +38,8 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
       formData.append('file', selectedFile);
       console.log('FormDataUploading');
       console.log(formData);
-      uploadImage
-        .post('/images/uploadavatar', formData)
+      upload
+        .post('/users/avatar', formData)
         .then(response => {
           setAvatarUrl(response.data);
         })

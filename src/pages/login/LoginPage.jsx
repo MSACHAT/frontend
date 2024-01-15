@@ -19,6 +19,7 @@ export const Login = () => {
   const [isAuthenticated, setIsAuthenticated] = useRecoilState(IsAuthenticated);
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
+    console.log(changePwdToUuid(values.password));
     const data = {
       email: values.email,
       password: changePwdToUuid(values.password),
