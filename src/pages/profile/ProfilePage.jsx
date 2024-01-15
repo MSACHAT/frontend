@@ -38,7 +38,7 @@ export const Profile = () => {
   // }, []);
   const [pageSize, setPageSize] = useState(5); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
-  const [totalPages, setTotalPages] = useState();
+  const [totalPages, setTotalPages] = useState(0);
 
   function loadMoreData() {
     // @ts-ignore
@@ -48,9 +48,12 @@ export const Profile = () => {
     }
     setPageNum(pageNum + 1);
     GetData(pageNum, pageSize).then(result => {
+      console.log(88888888888888888888888888)
       result.data = [...posts.data, ...result.data];
-      console.log(result.data);
-      setPosts(result);
+      // console.log(88888888888888888888888888)
+      // console.log(result);
+      // console.log(999999999999999999999999999)
+
       setTotalPages(result.totalPages);
     });
   }
