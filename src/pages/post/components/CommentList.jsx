@@ -47,7 +47,7 @@ const CommentList = ({ postId }) => {
     }
   };
 
-  async function handeScroll() {
+  async function handleScroll() {
     setLoading(true);
 
     try {
@@ -62,7 +62,7 @@ const CommentList = ({ postId }) => {
       setCountState(0);
       console.log(result);
 
-      setData([...result.comments, ...data]);
+      setData([...result.comments]);
       setCountState(countState + 1);
       const hasMore = result.totalPages >= countState;
       console.log(hasMore);
@@ -114,7 +114,7 @@ const CommentList = ({ postId }) => {
     await sendData(value, postId);
     await setCommentCount(commentCount + 1);
     scrollToTop();
-    await handeScroll();
+    await handleScroll();
     await setValue('');
   };
   function handleResize(height) {

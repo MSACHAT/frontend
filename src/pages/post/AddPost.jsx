@@ -19,7 +19,6 @@ const PublishPost = () => {
   const [list, updateList] = useState([]);
 
   const navigate = useNavigate();
-
   useEffect(() => {
     setReadyPublishContent(content.length > 0);
   }, [content]);
