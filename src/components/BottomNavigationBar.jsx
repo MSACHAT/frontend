@@ -4,17 +4,18 @@ import HomeAddNormalIcon from '../Icon/HomeAddNormalIcon';
 import { useNavigate } from 'react-router-dom';
 import './BottomNavigationBar.scss';
 import url from '../config/RouteConfig';
+import { getBaseUrl } from './Utils';
 export default function BottomNavigationBar() {
   const navigate = useNavigate();
   //true的时候feed页亮，false个人页亮
   const [State, setState] = useState(true);
   function clickFeed() {
     setState(true);
-    navigate('/feed');
+    window.location.href = getBaseUrl() + '/feed';
   }
   function clickPersonalArea() {
     setState(false);
-    navigate('/profile');
+    window.location.href = getBaseUrl() + '/profile';
   }
   function clickAddPost() {
     navigate(url.addPost);

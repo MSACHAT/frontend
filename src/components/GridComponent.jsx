@@ -8,10 +8,10 @@ import {
   Toast,
 } from '@douyinfe/semi-ui';
 import fakeData from '../mockdata/ProfileMockData.json';
-import { Route, useNavigate } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { getBaseUrl } from './Utils';
 
 const LayoutList = () => {
-  const navigator = useNavigate();
   const [postData, setPostData] = useState([]);
   const [loginSuccess, setLoginSuccess] = useState(undefined);
   const [showToast, setShowToast] = useState(false);
@@ -48,10 +48,9 @@ const LayoutList = () => {
     Toast.success(postid + '');
     Toast.success('1秒后转跳');
 
-    console.log('AAAAAAAAAAAAAA', postid);
     const timeoutId = setTimeout(() => {
       setShowToast(false);
-      navigator(`/detail/${postid}`);
+      window.location.href = getBaseUrl() + `/detail/${postid}`;
     }, 1000);
     // Any other logic related to the click event
   };

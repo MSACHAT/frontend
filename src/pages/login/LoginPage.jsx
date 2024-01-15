@@ -22,7 +22,8 @@ export const Login = () => {
     console.log(changePwdToUuid(values.password));
     const data = {
       email: values.email,
-      password: changePwdToUuid(values.password),
+      password: values.password,
+      // password: changePwdToUuid(values.password),
     };
     loginClient
       .post('/login', data)
