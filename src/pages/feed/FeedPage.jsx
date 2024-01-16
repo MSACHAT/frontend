@@ -39,11 +39,12 @@ export function Feed() {
   const pageSize = 5; //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   function loadMoreData() {
-    setPageNum(pageNum + 1);
+    console.log(pageNum);
     GetData(pageNum, pageSize).then(result => {
       result.data = [...posts.data, ...result.data];
       setPosts(result);
       setTotalPages(result.totalPages);
+      setPageNum(pageNum + 1);
     });
   }
 
@@ -51,9 +52,9 @@ export function Feed() {
   const [posts, setPosts] = useState({ data: [] });
   const [totalPages, setTotalPages] = useState();
   useEffect(() => {
+    setPageNum(0);
     console.log('Getting Data');
     GetData(pageNum, pageSize).then(result => {
-      console.log(pageNum);
       setPosts(result);
       setTotalPages(result.totalPages);
     });
@@ -80,7 +81,7 @@ export function Feed() {
           loadMore={loadMoreData}
           hasMore={pageNum <= totalPages}
           pageStart={0}
-          threshold={20}
+          threshold={100}
         >
           <List
             className={'feed-posts'}

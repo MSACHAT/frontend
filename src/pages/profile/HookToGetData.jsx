@@ -28,7 +28,7 @@ import apiClient from '../../middlewares/axiosInterceptors';
 
 export const GetData = (pageNum, pageSize) => {
   return apiClient
-    .get('/posts/getbypagenumandpagesize', {
+    .get('/profile', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,
