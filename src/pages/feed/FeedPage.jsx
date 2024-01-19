@@ -86,20 +86,7 @@ export function Feed() {
           <List
             className={'feed-posts'}
             dataSource={posts.data}
-            renderItem={record => (
-              <Post
-                userName={record.userName}
-                timeStamp={record.timeStamp}
-                images={record.images}
-                content={record.content}
-                likeCount={record.likeCount}
-                commentCount={record.commentCount}
-                liked={record.isLiked}
-                title={record.title}
-                postId={record.id}
-                avatar={record.avatar}
-              ></Post>
-            )}
+            renderItem={record => <Post {...record}></Post>}
           />
         </InfiniteScroll>
       </div>
