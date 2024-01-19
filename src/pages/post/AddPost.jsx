@@ -92,7 +92,7 @@ const PublishPost = () => {
   }
 
   return (
-    <div className={'root'}>
+    <div className={'AddPostContainer'}>
       <div className={'head'}>
         <NavigationBackButton />
 

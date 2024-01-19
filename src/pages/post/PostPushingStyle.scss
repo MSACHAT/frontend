@@ -1,12 +1,9 @@
 
-.root{
+.AddPostContainer{
 
   overflow-x: hidden;
   width: 100%;
-  *{
-    margin: 0;
-    padding: 0;
-  }
+
 }
 
   .head {
@@ -65,12 +62,13 @@
   .semi-upload-file-list {
     width:100%;
     max-width: 500px;
+    padding-bottom: 5px;
 
   }
   .semi-upload-file-list-main{
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 创建三列 */
-    gap: 6px; /* 设置图片之间的间隙 */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
     .semi-upload-picture-file-card{
       width: 100%;
       height: 100%;
