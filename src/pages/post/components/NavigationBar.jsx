@@ -41,7 +41,7 @@ export default function NavigationBar({ postId, showDeleteButton }) {
   }, []);
 
   return (
-    <div className={'container'}>
+    <div className={'NavigationBarContainer'}>
       <NavigationBackButton />
       <Title className={'title'} heading={3}>
         帖子详情
