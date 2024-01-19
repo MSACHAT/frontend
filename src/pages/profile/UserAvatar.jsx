@@ -14,7 +14,9 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
     apiClient
       .get('/users/avatar')
       .then(res => {
-        setAvatarUrl(res.data);
+        if (res.data) {
+          setAvatarUrl(res.data);
+        }
       })
       .catch(() => {});
   };
