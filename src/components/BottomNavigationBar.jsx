@@ -11,11 +11,13 @@ export default function BottomNavigationBar() {
   const [State, setState] = useState(true);
   function clickFeed() {
     setState(true);
-    window.location.href = getBaseUrl() + '/feed';
+    navigate('/feed');
+    // window.location.href = getBaseUrl() + '/profile';
   }
   function clickPersonalArea() {
     setState(false);
-    window.location.href = getBaseUrl() + '/profile';
+    navigate('/profile');
+    // window.location.href = getBaseUrl() + '/profile';
   }
   function clickAddPost() {
     navigate(url.addPost);
