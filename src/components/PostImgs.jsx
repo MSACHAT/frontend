@@ -16,20 +16,25 @@ export const PostImgs = ({ imgUrls }) => {
   return isPostPage() ? (
     <ImagePreview
       className={`image-container ${imgUrls.length === 1 && 'container-1'} ${
-        imgUrls.length < 5 && imgUrls.length > 1 && 'container-less-than-5'
+        imgUrls.length === 4 && 'container-4pics'
       }`}
       lazyLoad={false}
     >
       {imgUrls.map((x, index) => (
         <div className={'image-item'}>
-          <Image className={'image'} src={x} id={index} />
+          <Image
+            className={'image'}
+            src={x}
+            id={index}
+            placeholder={<Image src={x} className={'image'} preview={false} />}
+          />
         </div>
       ))}
     </ImagePreview>
   ) : (
     <ImagePreview
       className={`image-container ${imgUrls.length === 1 && 'container-1'} ${
-        imgUrls.length < 5 && imgUrls.length > 1 && 'container-less-than-5'
+        imgUrls.length === 4 && 'container-4pics'
       }`}
       lazyLoad={false}
       visible={false}

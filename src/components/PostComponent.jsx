@@ -9,8 +9,6 @@ import './postStyle.scss';
 import { timeAgo } from './CalculateTimeAgo';
 const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
 export const Post = props => {
-  console.log('dsiauhxgciosdhcuidhciusdhicuohsdiuchsdc');
-  console.log(props.avatar);
   const navigator = useNavigate();
   const [like, setLike] = useState(props.isLiked);
   if (!props) {
@@ -44,20 +42,10 @@ export const Post = props => {
       !event.target.closest('.interact') &&
       !event.target.closest('.avatar-space')
     ) {
-      console.log('父元素被点击');
-      navigator(`/post/${props.postId}`);
-      // return <Navigate to={`post/1`} />;
+      navigator(`/post/${props.id}`);
     } else if (event.target.closest('.avatar-space')) {
-      console.log('跳转个人页面'); //TODO:改成他人页
+      navigator(`/post/${props.id}`);
     }
-    // else if (event.target.classList.contains('interact')) {
-    //   handleLike();
-    // } else {
-    //   // 其他子元素的点击行为
-    //   // navigator(`/post/${props.postId}`);
-    //   console.log('其他子元素的点击，但父元素响应');
-    //   event.stopPropagation();
-    // }
   };
   const location = useLocation();
 
