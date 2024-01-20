@@ -5,21 +5,27 @@ import { useNavigate } from 'react-router-dom';
 import './BottomNavigationBar.scss';
 import url from '../config/RouteConfig';
 import { getBaseUrl } from './Utils';
+import { useRecoilState } from 'recoil';
+import { IsActive } from '../store';
+
 export default function BottomNavigationBar() {
   const navigate = useNavigate();
-  //true的时候feed页亮，false个人页亮
-  const [State, setState] = useState(true);
+  const [isActive, setIsActive] = useRecoilState(IsActive);
+
   function clickFeed() {
-    setState(true);
-    window.location.href = getBaseUrl() + '/feed';
+    setIsActive(true);
+    navigate('/feed');
   }
+
   function clickPersonalArea() {
-    setState(false);
-    window.location.href = getBaseUrl() + '/profile';
+    setIsActive(false);
+    navigate('/profile');
   }
+
   function clickAddPost() {
     navigate(url.addPost);
   }
+
   return (
     <div className={'footer'}>
       <Button
@@ -27,7 +33,7 @@ export default function BottomNavigationBar() {
         theme="borderless"
         onClick={clickFeed}
         style={
-          State
+          isActive
             ? { color: '#0A0001' }
             : {
                 color:
@@ -47,7 +53,7 @@ export default function BottomNavigationBar() {
         theme="borderless"
         onClick={clickPersonalArea}
         style={
-          State
+          isActive
             ? {
                 color:
                   'var(--usage-text---semi-color-text-name, rgba(24, 0, 1, 0.40))',
