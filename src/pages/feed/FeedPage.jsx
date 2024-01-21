@@ -55,6 +55,7 @@ export function Feed() {
     setPageNum(0);
     console.log('Getting Data');
     GetData(pageNum, pageSize).then(result => {
+      console.log(result);
       setPosts(result);
       setTotalPages(result.totalPages);
     });

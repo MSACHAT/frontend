@@ -48,7 +48,7 @@ export const Profile = () => {
     }
     setPageNum(pageNum + 1);
     GetData(pageNum, pageSize).then(result => {
-      console.log(88888888888888888888888888)
+      console.log(88888888888888888888888888);
       result.data = [...posts.data, ...result.data];
       // console.log(88888888888888888888888888)
       // console.log(result);

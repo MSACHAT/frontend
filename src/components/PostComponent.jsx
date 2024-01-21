@@ -45,7 +45,7 @@ export const Post = props => {
       !event.target.closest('.avatar-space')
     ) {
       console.log('父元素被点击');
-      navigator(`/post/${props.postId}`);
+      navigator(`/post/${props.id}`);
       // return <Navigate to={`post/1`} />;
     } else if (event.target.closest('.avatar-space')) {
       console.log('跳转个人页面'); //TODO:改成他人页
