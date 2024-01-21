@@ -32,7 +32,7 @@ const App = () => {
     { path: '/', component: <Home />, isPublic: false },
     { path: '/login', component: <Login />, isPublic: true },
     { path: '/profile', component: <Profile />, isPublic: false },
-    { path: '/profile/:userId', component: <PProfile />, isPublic: true },
+    { path: '/profile/:userId', component: <PProfile />, isPublic: false },
     { path: '/feed', component: <Feed />, isPublic: false },
     { path: '/notifications', component: <Notifications />, isPublic: false },
     { path: '/add', component: <AddPost />, isPublic: false },
