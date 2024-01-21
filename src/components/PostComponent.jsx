@@ -45,10 +45,14 @@ export const Post = props => {
       !event.target.closest('.avatar-space')
     ) {
       console.log('父元素被点击');
+      console.log(props,22222222);
       navigator(`/post/${props.id}`);
       // return <Navigate to={`post/1`} />;
     } else if (event.target.closest('.avatar-space')) {
       console.log('跳转个人页面'); //TODO:改成他人页
+      console.log(1111111111)
+      console.log(props,1111111111);
+      navigator(`/profile/${props.userId}`);
     }
     // else if (event.target.classList.contains('interact')) {
     //   handleLike();

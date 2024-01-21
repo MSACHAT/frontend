@@ -36,7 +36,7 @@ export function NewNotif() {
   }
 }
 export function Feed() {
-  const pageSize = 5; //修改这个值来调整一次获取的数据量
+  const pageSize = 3; //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   function loadMoreData() {
     console.log(pageNum);
