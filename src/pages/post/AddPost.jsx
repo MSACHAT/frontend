@@ -19,7 +19,6 @@ const PublishPost = () => {
   const [list, updateList] = useState([]);
 
   const navigate = useNavigate();
-
   useEffect(() => {
     setReadyPublishContent(content.length > 0);
   }, [content]);
@@ -93,7 +92,7 @@ const PublishPost = () => {
   }
 
   return (
-    <div className={'root'}>
+    <div className={'AddPostContainer'}>
       <div className={'head'}>
         <NavigationBackButton />
 
@@ -117,7 +116,7 @@ const PublishPost = () => {
           rows={1}
           autosize
           maxLength={1000}
-          placeholder={'记录美好生活'}
+          placeholder={'分享你的生活'}
           borderless={true}
           value={content}
           onChange={handleContentChange}

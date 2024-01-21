@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 根据需要调整高度 */
+  .centered-image {
+    width: 200px; /* 确保图片不会超过容器大小 */
+    height: auto; /* 保持图片的原始比例 */
+  }
+  * {
+    font-weight: 400;
+    color: rgba(10, 0, 1, 0.4);
+  }
+}
+

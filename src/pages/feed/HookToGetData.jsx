@@ -26,15 +26,13 @@ import apiClient from '../../middlewares/axiosInterceptors';
 //     }
 export const GetData = (pageNum, pageSize) => {
   return apiClient
-    .get('/posts/', {
+    .get('/posts', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,
       },
     })
     .then(res => {
-      console.log('获取Feed数据');
-      console.log(res.data);
       const data = res.data.posts.map(post => ({
         id: post.id,
         userName: post.userName,
@@ -51,7 +49,6 @@ export const GetData = (pageNum, pageSize) => {
         data: data,
         totalPages: res.data.totalPages,
       };
-      console.log(result);
       return result;
     })
     .catch(err => {
