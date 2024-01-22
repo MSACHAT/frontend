@@ -6,13 +6,15 @@ import './profileStyle.scss';
 import apiClient from '../../middlewares/axiosInterceptors';
 import upload from '../../middlewares/uploadImage';
 export const UserAvatar = ({ disableEdit, imageUrl }) => {
-  const [avtarUrl, setAvatarUrl] = useState(imageUrl);
+  const [avtarUrl, setAvatarUrl] = useState(
+    imageUrl || process.env.PUBLIC_URL + '/ProfilePhoto.png'
+  );
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
     apiClient
       .get('/users/avatar')
       .then(res => {
-        setAvatarUrl(res.data || process.env.PUBLIC_URL + '/ProfilePhoto.png');
+        setAvatarUrl(res.data);
       })
       .catch(() => {});
   };
