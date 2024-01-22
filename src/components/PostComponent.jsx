@@ -58,11 +58,7 @@ export const Post = props => {
     <div className={'post'} onClick={handleParentClick}>
       {!props?.hideUser ? (
         <Space className={'avatar-space'}>
-          <UserAvatar
-            imageUrl={props.avatar}
-            className={'avatar'}
-            disableEdit={true}
-          />
+          <UserAvatar imageUrl={props.avatar} disableEdit={true} />
           <Title heading={5}>{props.userName}</Title>
         </Space>
       ) : null}
