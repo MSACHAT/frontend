@@ -32,7 +32,8 @@ export const GetData = (pageNum, pageSize) => {
         pageSize: pageSize,
       },
     })
-    .then(res => {
+    .then(async res => {
+      const notifCounts = await apiClient.get('/notifications/newMessage');
       const data = res.data.posts.map(post => ({
         id: post.id,
         userName: post.userName,
@@ -43,12 +44,13 @@ export const GetData = (pageNum, pageSize) => {
         timeStamp: post.timeStamp,
         images: post.images,
         isLiked: post.isLiked,
-        userId:post.userId,
+        userId: post.userId,
         avatar: post.avatar,
       }));
       const result = {
         data: data,
         totalPages: res.data.totalPages,
+        newNotifCounts: notifCounts.data.newNotifCounts,
       };
       return result;
     })

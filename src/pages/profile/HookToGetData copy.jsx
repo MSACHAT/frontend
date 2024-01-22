@@ -1,9 +1,7 @@
 import axios from 'axios';
 import { Toast } from '@douyinfe/semi-ui';
 import apiClient from '../../middlewares/axiosInterceptors';
-export const GetData = (pageNum, pageSize,userId) => {
-
-
+export const GetData = (pageNum, pageSize, userId) => {
   return apiClient
     .get(`/profile/${userId}`, {
       params: {
@@ -24,15 +22,15 @@ export const GetData = (pageNum, pageSize,userId) => {
         likeCount: post.likeCount,
         timeStamp: post.timeStamp,
         images: post.images,
-        userId:post.userId,
-        isLiked: post.liked,
+        userId: post.userId,
+        isLiked: post.isLiked,
       }));
 
       const result = {
         data: data,
         totalPages: res.data.totalPages,
       };
-      console.log(result,1111111111111);
+      console.log(result, 1111111111111);
       return result;
-    })
+    });
 };
