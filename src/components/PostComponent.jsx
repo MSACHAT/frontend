@@ -36,7 +36,7 @@ export const Post = props => {
     }
     // 检查点击事件是否直接发生在父元素上
     if (
-      !event.target.closest('.interact') &&
+      !event.target.closest('.like') &&
       !event.target.closest('.avatar-space')
     ) {
       navigator(`/post/${props.id}`);
