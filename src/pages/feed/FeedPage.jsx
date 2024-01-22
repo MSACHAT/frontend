@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout, List, Badge } from '@douyinfe/semi-ui';
 import { Post } from '../../components/PostComponent.jsx';
 import { IconBellStroked } from '@douyinfe/semi-icons';
@@ -10,11 +10,7 @@ import apiClient from '../../middlewares/axiosInterceptors';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { Link } from 'react-router-dom';
 import { UserAvatar } from '../profile/UserAvatar';
-export function NewNotif() {
-  const [newNotifCount, setNewNotifCount] = useState(0);
-  apiClient.get('/notifications/newMessage').then(res => {
-    setNewNotifCount(res.data.newNotifCounts);
-  });
+export function NewNotif(newNotifCount) {
   if (newNotifCount > 0) {
     return (
       <Link to={'/notifications'} className={'feed-link'}>
@@ -36,6 +32,7 @@ export function NewNotif() {
   }
 }
 export function Feed() {
+  const [newNotifCount, setNewNotifCount] = useState(0);
   const pageSize = 3; //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   function loadMoreData() {
@@ -63,6 +60,11 @@ export function Feed() {
     // setPosts(data);
   }, []);
   useEffect(() => {
+    apiClient.get('/notifications/newMessage').then(res => {
+      setNewNotifCount(res.data.newNotifCounts);
+    });
+  }, [newNotifCount]);
+  useEffect(() => {
     // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
     return () => {
       setPageNum(0);
@@ -73,7 +75,7 @@ export function Feed() {
     <div className={'feed-page'}>
       <Header className={'feed-header'}>
         <span></span>
-        <NewNotif></NewNotif>
+        <NewNotif newNotifCount={newNotifCount}></NewNotif>
       </Header>
       <div className={'feed-content'}>
         <InfiniteScroll

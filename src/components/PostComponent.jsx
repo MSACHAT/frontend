@@ -3,7 +3,7 @@ import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import { IconLikeHeart, IconHeartStroked } from '@douyinfe/semi-icons';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PostImgs } from './PostImgs';
 import './postStyle.scss';
 import { timeAgo } from './CalculateTimeAgo';
@@ -11,13 +11,18 @@ import apiClient from '../middlewares/axiosInterceptors';
 const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
 export const Post = props => {
   console.log('dsiauhxgciosdhcuidhciusdhicuohsdiuchsdc');
-  console.log(props.avatar);
   const navigator = useNavigate();
-  const [like, setLike] = useState(props.isLiked);
-  const [likeCount, setLikeCount] = useState(props.likeCount);
+  const [like, setLike] = useState();
+  const [likeCount, setLikeCount] = useState();
   if (!props) {
     return null;
   }
+
+  useEffect(() => {
+    setLike(props.isLiked);
+    setLikeCount(props.likeCount);
+  }, [props.isLiked, props.likeCount]); // 仅当 props.isLiked 或 props.likeCount 变化时执行
+
   function handleLike() {
     apiClient
       .patch(`/posts/${props.id}/like`, {
@@ -61,7 +66,6 @@ export const Post = props => {
     // }
   };
   const location = useLocation();
-
   const isPostPage = () => {
     // 检查当前路径是否符合特定模式
     const pathRegex = /^\/post\/[^\/]+$/; // 正则表达式匹配 /post/:postId 模式
