@@ -25,7 +25,6 @@ const PostDetail = () => {
 
   useEffect(() => {
     getPostDetail(postId).then(res => {
-      console.log(res.data);
       setData(res.data);
     });
   }, []);
