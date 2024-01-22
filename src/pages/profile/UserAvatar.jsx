@@ -6,23 +6,19 @@ import './profileStyle.scss';
 import apiClient from '../../middlewares/axiosInterceptors';
 import upload from '../../middlewares/uploadImage';
 export const UserAvatar = ({ disableEdit, imageUrl }) => {
-  const [avtarUrl, setAvatarUrl] = useState(
-    imageUrl || process.env.PUBLIC_URL + '/ProfilePhoto.png'
-  );
+  const [avtarUrl, setAvatarUrl] = useState(imageUrl);
   const [visible, setVisible] = useState(false);
   const fetchData = () => {
     apiClient
       .get('/users/avatar')
       .then(res => {
-        if (res.data) {
-          setAvatarUrl(res.data);
-        }
+        setAvatarUrl(res.data || process.env.PUBLIC_URL + '/ProfilePhoto.png');
       })
       .catch(() => {});
   };
 
   useEffect(() => {
-    !disableEdit && fetchData();
+    !imageUrl && !disableEdit && fetchData();
   }, []);
   const fileInputRef = useRef();
 

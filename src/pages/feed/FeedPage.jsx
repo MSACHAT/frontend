@@ -9,12 +9,12 @@ import InfiniteScroll from 'react-infinite-scroller';
 import apiClient from '../../middlewares/axiosInterceptors';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { Link } from 'react-router-dom';
-export function NewNotif({ newNotifCounts }) {
-  if (newNotifCounts > 0) {
+export function NewNotif({ newNotifNums }) {
+  if (newNotifNums > 0) {
     return (
       <Link to={'/notifications'} className={'feed-link'}>
         <Badge
-          count={newNotifCounts}
+          count={newNotifNums}
           className={'feed-badge'}
           position={'rightTop'}
         >
@@ -35,7 +35,6 @@ export function Feed() {
   const [pageNum, setPageNum] = useState(0);
   const [newNotifNums, setNewNotifNums] = useState(0);
   function loadMoreData() {
-    console.log(pageNum);
     GetData(pageNum, pageSize).then(result => {
       result.data = [...posts.data, ...result.data];
       setPosts(result);
@@ -43,13 +42,11 @@ export function Feed() {
       setPageNum(pageNum + 1);
     });
   }
-
   const { Header, Content, Footer } = Layout;
   const [posts, setPosts] = useState({ data: [] });
   const [totalPages, setTotalPages] = useState();
   useEffect(() => {
     setPageNum(0);
-    console.log('Getting Data');
     GetData(pageNum, pageSize).then(result => {
       console.log(result);
       setPosts(result);
@@ -57,7 +54,6 @@ export function Feed() {
       setNewNotifNums(result.newNotifCounts);
     });
     setPageNum(pageNum + 1);
-    // setPosts(data);
   }, []);
   useEffect(() => {
     // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码

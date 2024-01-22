@@ -19,6 +19,7 @@ export const Post = props => {
   }
 
   useEffect(() => {
+    console.log(props.avatar);
     setLike(props.isLiked);
     setLikeCount(props.likeCount);
   }, [props.isLiked, props.likeCount]); // 仅当 props.isLiked 或 props.likeCount 变化时执行
@@ -47,7 +48,10 @@ export const Post = props => {
       !event.target.closest('.avatar-space')
     ) {
       navigator(`/post/${props.id}`);
-    } else if (event.target.closest('.avatar-space')) {
+    } else if (
+      event.target.closest('.avatar-space') ||
+      event.target.closest('.avatar-container')
+    ) {
       console.log('跳转个人页面'); //TODO:改成他人页
       navigator(`/profile/${props.userId}`);
     }
