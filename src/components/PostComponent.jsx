@@ -7,34 +7,31 @@ import React, { useState } from 'react';
 import { PostImgs } from './PostImgs';
 import './postStyle.scss';
 import { timeAgo } from './CalculateTimeAgo';
+import apiClient from '../middlewares/axiosInterceptors';
 const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
 export const Post = props => {
   console.log('dsiauhxgciosdhcuidhciusdhicuohsdiuchsdc');
   console.log(props.avatar);
   const navigator = useNavigate();
   const [like, setLike] = useState(props.isLiked);
+  const [likeCount, setLikeCount] = useState(props.likeCount);
   if (!props) {
     return null;
   }
-  const handleLike = async () => {
-    const requestLike = new Promise((resolve, reject) => {
-      //TODO 换成真实的点赞请求
-      let isSuccessful = Math.random() >= 0.5; // 随机成功或失败
-      console.log(isSuccessful);
-      if (isSuccessful) {
-        resolve({ success: true });
-        setSaveLoading(false);
-      } else {
-        resolve({ msg: '错误', code: 1001 });
-        setSaveLoading(false);
-      }
-    });
-    await requestLike
-      .then(() => {
-        setLike(!like);
+  function handleLike() {
+    apiClient
+      .patch(`/posts/${props.id}/like`, {
+        isLiked: !like,
       })
-      .catch(() => {});
-  };
+      .then(res => {
+        if (like) {
+          setLikeCount(likeCount - 1);
+        } else {
+          setLikeCount(likeCount + 1);
+        }
+        setLike(!like);
+      });
+  }
   const handleParentClick = event => {
     if (isPostPage()) {
       return;
@@ -45,13 +42,13 @@ export const Post = props => {
       !event.target.closest('.avatar-space')
     ) {
       console.log('父元素被点击');
-      console.log(props,22222222);
+      console.log(props, 22222222);
       navigator(`/post/${props.id}`);
       // return <Navigate to={`post/1`} />;
     } else if (event.target.closest('.avatar-space')) {
       console.log('跳转个人页面'); //TODO:改成他人页
-      console.log(1111111111)
-      console.log(props,1111111111);
+      console.log(1111111111);
+      console.log(props, 1111111111);
       navigator(`/profile/${props.userId}`);
     }
     // else if (event.target.classList.contains('interact')) {
@@ -90,7 +87,7 @@ export const Post = props => {
           ) : (
             <IconHeartStroked onClick={handleLike} />
           )}
-          <Text size={'small'}>{props.likeCount}</Text>
+          <Text size={'small'}>{likeCount}</Text>
         </Space>
         <Space>
           <Comment />
