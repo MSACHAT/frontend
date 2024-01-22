@@ -8,6 +8,7 @@ import { PostImgs } from './PostImgs';
 import './postStyle.scss';
 import { timeAgo } from './CalculateTimeAgo';
 import apiClient from '../middlewares/axiosInterceptors';
+import { UserAvatar } from '../pages/profile/UserAvatar';
 const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
 export const Post = props => {
   const navigator = useNavigate();
@@ -57,7 +58,11 @@ export const Post = props => {
     <div className={'post'} onClick={handleParentClick}>
       {!props?.hideUser ? (
         <Space className={'avatar-space'}>
-          <Avatar src={props.avatar} className={'avatar'} />
+          <UserAvatar
+            imageUrl={props.avatar}
+            className={'avatar'}
+            disableEdit={true}
+          />
           <Title heading={5}>{props.userName}</Title>
         </Space>
       ) : null}
