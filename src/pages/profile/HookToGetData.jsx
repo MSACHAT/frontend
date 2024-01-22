@@ -46,13 +46,14 @@ export const GetData = (pageNum, pageSize) => {
         likeCount: post.likeCount,
         timeStamp: post.timeStamp,
         images: post.images,
+        userId:post.userId,
         isLiked: post.liked,
       }));
       const result = {
         data: data,
         totalPages: res.data.totalPages,
       };
-      console.log(result);
+      console.log(result,2222222222222222);
       return result;
     })
     .catch(err => {

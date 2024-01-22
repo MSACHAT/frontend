@@ -8,10 +8,10 @@ import { IconCamera, IconChevronLeft } from '@douyinfe/semi-icons';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import BottomBar from '../../components/BottomNavigationBar.jsx';
-import { GetData } from './HookToGetData.jsx';
-import { UserAvatar } from './UserAvatar';
-import apiClient from '../../middlewares/axiosInterceptors';
-export const Profile = () => {
+import { GetData } from './HookToGetData copy.jsx';
+import { UserAvatar } from './UserAvatar.jsx';
+import { useParams } from 'react-router-dom';
+export const PProfile = () => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [hasMore, setHasMore] = useState(true);
@@ -40,28 +40,24 @@ export const Profile = () => {
   const [pageSize, setPageSize] = useState(2); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [userName, setUserName] = useState('');
+  const { userId } = useParams();
+
+
   const [posts, setPosts] = useState({ data: [] });
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await GetData(pageNum, pageSize);
+      const result = await GetData(pageNum, pageSize, userId);
       setPosts(prevPosts => ({ data: [...prevPosts.data, ...result.data] }));
       setPageNum(prevPageNum => prevPageNum + 1);
       setTotalPages(result.totalPages);
-      console.log(result.data);
     };
 
-    fetchData().then(
-      apiClient.get('/users/info').then(res => {
-        setUserName(res.data.userName);
-      })
-    );
+    fetchData();
   }, []);
 
-  // const showLoadMore = dataCount % 4 === 0;
   function loadMoreData() {
-    GetData(pageNum, pageSize).then(result => {
+    GetData(pageNum, pageSize,userId).then(result => {
       result.data = [...posts.data, ...result.data];
       setPosts(result);
       setTotalPages(result.totalPages);
@@ -74,7 +70,7 @@ export const Profile = () => {
       <div className="empty-space"></div>
       <div className="headtab">
         <UserAvatar />
-        <Text className="user-name">{userName}</Text>
+        <Text className='user-name'>{posts.data.length > 0 ? posts.data[0].userName : ''}</Text>
       </div>
       <div
         className="light-scrollbar"
@@ -83,15 +79,17 @@ export const Profile = () => {
           padding: 10,
         }}
       >
-        <InfiniteScroll
+         <InfiniteScroll
           initialLoad={false}
           useWindow={false}
           loadMore={loadMoreData}
           hasMore={pageNum < totalPages}
           pageStart={0}
           threshold={30}
+          
         >
           <List
+
             dataSource={posts.data}
             renderItem={item => <Post hideUser {...item} />}
           />

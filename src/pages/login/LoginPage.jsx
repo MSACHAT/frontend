@@ -22,7 +22,7 @@ export const Login = () => {
     console.log(changePwdToUuid(values.password));
     const data = {
       email: values.email,
-      password: values.password,
+      password: changePwdToUuid(values.password),
       // password: changePwdToUuid(values.password),
     };
     loginClient

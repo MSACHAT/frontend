@@ -7,32 +7,29 @@ import React, { useState } from 'react';
 import { PostImgs } from './PostImgs';
 import './postStyle.scss';
 import { timeAgo } from './CalculateTimeAgo';
+import apiClient from '../middlewares/axiosInterceptors';
 const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
 export const Post = props => {
   const navigator = useNavigate();
   const [like, setLike] = useState(props.isLiked);
+  const [likeCount, setLikeCount] = useState(props.likeCount);
   if (!props) {
     return null;
   }
-  const handleLike = async () => {
-    const requestLike = new Promise((resolve, reject) => {
-      //TODO 换成真实的点赞请求
-      let isSuccessful = Math.random() >= 0.5; // 随机成功或失败
-      console.log(isSuccessful);
-      if (isSuccessful) {
-        resolve({ success: true });
-        setSaveLoading(false);
-      } else {
-        resolve({ msg: '错误', code: 1001 });
-        setSaveLoading(false);
-      }
-    });
-    await requestLike
-      .then(() => {
-        setLike(!like);
+  function handleLike() {
+    apiClient
+      .patch(`/posts/${props.id}/like`, {
+        isLiked: !like,
       })
-      .catch(() => {});
-  };
+      .then(res => {
+        if (like) {
+          setLikeCount(likeCount - 1);
+        } else {
+          setLikeCount(likeCount + 1);
+        }
+        setLike(!like);
+      });
+  }
   const handleParentClick = event => {
     if (isPostPage()) {
       return;
@@ -44,7 +41,8 @@ export const Post = props => {
     ) {
       navigator(`/post/${props.id}`);
     } else if (event.target.closest('.avatar-space')) {
-      navigator(`/post/${props.id}`);
+      console.log('跳转个人页面'); //TODO:改成他人页
+      navigator(`/profile/${props.userId}`);
     }
   };
   const location = useLocation();
@@ -74,7 +72,7 @@ export const Post = props => {
           ) : (
             <IconHeartStroked onClick={handleLike} />
           )}
-          <Text size={'small'}>{props.likeCount}</Text>
+          <Text size={'small'}>{likeCount}</Text>
         </Space>
         <Space>
           <Comment />

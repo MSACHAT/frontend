@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, TextArea, Toast, Upload } from '@douyinfe/semi-ui';
-import { IconChevronLeft, IconPlus } from '@douyinfe/semi-icons';
+import { IconPlus } from '@douyinfe/semi-icons';
 import axios from 'axios';
 import './PostPushingStyle.scss';
 import config from '../../config/config';
-
 import { NavigationBackButton } from '../../components/NavigationBackButton';
 import { useNavigate } from 'react-router-dom';
 import url from '../../config/RouteConfig';
@@ -12,23 +11,32 @@ import upload from '../../middlewares/uploadImage';
 import apiClient from '../../middlewares/axiosInterceptors';
 
 const PublishPost = () => {
+  const navigate = useNavigate();
   const [saveLoading, setSaveLoading] = useState(false);
-  const [ReadyPublish, setReadyPublish] = useState(false);
-  const [ReadyPublishContent, setReadyPublishContent] = useState(false);
   const [content, setContent] = useState('');
   const [list, updateList] = useState([]);
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    setReadyPublishContent(content.length > 0);
-  }, [content]);
+  const isPublishDisabled = !(content.length > 0 || list.length > 0);
 
   useEffect(() => {
-    setReadyPublish(list.length > 0);
-  }, [list.length]);
+    setSaveLoading(false);
+  }, [list]);
 
-  async function putPost(postData) {
+  const handleContentChange = value => {
+    setContent(value);
+  };
+
+  const handlePublish = async () => {
     try {
+      setSaveLoading(true);
+      let postData = {
+        content: content,
+        image: list.map(x => x.response),
+      };
+
+      if (list.length === 0) {
+        postData.image = [];
+      }
+
       const response = await apiClient.post('/posts/add', postData);
 
       console.log(response.data);
@@ -39,40 +47,16 @@ const PublishPost = () => {
       console.error(error);
 
       Toast.error('帖子发布失败！');
-    }
-
-    setSaveLoading(false);
-  }
-
-  const handleContentChange = value => {
-    setContent(value);
-  };
-
-  const handlePublish = async () => {
-    if (list.length === 0) {
-      const postData = {
-        content: content,
-        image: [],
-      };
-      await putPost(postData);
-      navigate(url.feed);
-    } else {
-      const postData = {
-        content: content,
-        image: list.map(x => x.response),
-      };
-      console.log(postData, '2222');
-      await putPost(postData);
+      setSaveLoading(false);
     }
   };
 
   async function uploadFileToImage(data) {
     const formData = new FormData();
-
     formData.append('file', data.fileInstance);
 
-    upload
-      .post('/images/uploadimage', formData, {
+    try {
+      const response = await upload.post('/images/uploadimage', formData, {
         onUploadProgress: progressEvent => {
           const total = progressEvent.total;
           const loaded = progressEvent.loaded;
@@ -81,14 +65,13 @@ const PublishPost = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      })
-      .then(response => {
-        data.onSuccess(response.data);
-      })
-      .catch(error => {
-        const status = error.response ? error.response.status : 500;
-        data.onError({ status }, error);
       });
+
+      data.onSuccess(response.data);
+    } catch (error) {
+      const status = error.response ? error.response.status : 500;
+      data.onError({ status }, error);
+    }
   }
 
   return (
@@ -101,11 +84,8 @@ const PublishPost = () => {
           theme={'solid'}
           type={'primary'}
           loading={saveLoading}
-          onClick={() => {
-            setSaveLoading(true);
-            handlePublish();
-          }}
-          disabled={!(ReadyPublishContent || ReadyPublish)}
+          onClick={handlePublish}
+          disabled={isPublishDisabled}
         >
           发布
         </Button>
@@ -134,12 +114,8 @@ const PublishPost = () => {
           listType="picture"
           draggable={true}
           multiple={true}
-          onChange={({ fileList, currentFile }) => {
-            console.log('onChange');
-            console.log(fileList);
-            console.log(currentFile);
-            let newFileList = [...fileList]; // spread to get new array
-            updateList(newFileList);
+          onChange={({ fileList }) => {
+            updateList([...fileList]);
           }}
           fileList={list}
           limit={9}
@@ -150,4 +126,5 @@ const PublishPost = () => {
     </div>
   );
 };
+
 export default PublishPost;
