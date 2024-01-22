@@ -37,7 +37,7 @@ export const Profile = () => {
   // useEffect(() => {
   //   fetchData();
   // }, []);
-  const [pageSize, setPageSize] = useState(2); //修改这个值来调整一次获取的数据量
+  const [pageSize, setPageSize] = useState(100); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [userName, setUserName] = useState('');

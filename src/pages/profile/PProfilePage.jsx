@@ -37,11 +37,10 @@ export const PProfile = () => {
   // useEffect(() => {
   //   fetchData();
   // }, []);
-  const [pageSize, setPageSize] = useState(2); //修改这个值来调整一次获取的数据量
+  const [pageSize, setPageSize] = useState(100); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const { userId } = useParams();
-
 
   const [posts, setPosts] = useState({ data: [] });
 
@@ -57,7 +56,7 @@ export const PProfile = () => {
   }, []);
 
   function loadMoreData() {
-    GetData(pageNum, pageSize,userId).then(result => {
+    GetData(pageNum, pageSize, userId).then(result => {
       result.data = [...posts.data, ...result.data];
       setPosts(result);
       setTotalPages(result.totalPages);
@@ -70,7 +69,9 @@ export const PProfile = () => {
       <div className="empty-space"></div>
       <div className="headtab">
         <UserAvatar />
-        <Text className='user-name'>{posts.data.length > 0 ? posts.data[0].userName : ''}</Text>
+        <Text className="user-name">
+          {posts.data.length > 0 ? posts.data[0].userName : ''}
+        </Text>
       </div>
       <div
         className="light-scrollbar"
@@ -79,17 +80,15 @@ export const PProfile = () => {
           padding: 10,
         }}
       >
-         <InfiniteScroll
+        <InfiniteScroll
           initialLoad={false}
           useWindow={false}
           loadMore={loadMoreData}
           hasMore={pageNum < totalPages}
           pageStart={0}
           threshold={30}
-          
         >
           <List
-
             dataSource={posts.data}
             renderItem={item => <Post hideUser {...item} />}
           />

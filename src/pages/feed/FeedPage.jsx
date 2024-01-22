@@ -9,7 +9,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import apiClient from '../../middlewares/axiosInterceptors';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { Link } from 'react-router-dom';
-export function NewNotif() {
+export function NewNotif({ newNotifCounts }) {
   if (newNotifCounts > 0) {
     return (
       <Link to={'/notifications'} className={'feed-link'}>
@@ -54,7 +54,7 @@ export function Feed() {
       console.log(result);
       setPosts(result);
       setTotalPages(result.totalPages);
-      setNewNotifNums(result.newNotifCounts)
+      setNewNotifNums(result.newNotifCounts);
     });
     setPageNum(pageNum + 1);
     // setPosts(data);
@@ -70,7 +70,7 @@ export function Feed() {
     <div className={'feed-page'}>
       <Header className={'feed-header'}>
         <span></span>
-        <NewNotif {newNotifNums}></NewNotif>
+        <NewNotif newNotifNums={newNotifNums}></NewNotif>
       </Header>
       <div className={'feed-content'}>
         <InfiniteScroll
