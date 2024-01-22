@@ -25,7 +25,6 @@ const PostDetail = () => {
 
   useEffect(() => {
     getPostDetail(postId).then(res => {
-      console.log(res.data);
       setData(res.data);
     });
   }, []);
@@ -37,9 +36,9 @@ const PostDetail = () => {
   }, [commentCount]);
 
   return (
-    <div className={'postDetail'}>
+    <div className={'post-detail'}>
       <NavigationBar />
-      <div className={'content'}>
+      <div className={'post-content'}>
         <Post {...Data} />
       </div>
       <Divider />

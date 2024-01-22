@@ -8,9 +8,9 @@ import { PostImgs } from './PostImgs';
 import './postStyle.scss';
 import { timeAgo } from './CalculateTimeAgo';
 import apiClient from '../middlewares/axiosInterceptors';
+import { UserAvatar } from '../pages/profile/UserAvatar';
 const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
 export const Post = props => {
-  console.log('dsiauhxgciosdhcuidhciusdhicuohsdiuchsdc');
   const navigator = useNavigate();
   const [like, setLike] = useState();
   const [likeCount, setLikeCount] = useState();
@@ -43,27 +43,14 @@ export const Post = props => {
     }
     // 检查点击事件是否直接发生在父元素上
     if (
-      !event.target.closest('.interact') &&
+      !event.target.closest('.like') &&
       !event.target.closest('.avatar-space')
     ) {
-      console.log('父元素被点击');
-      console.log(props, 22222222);
       navigator(`/post/${props.id}`);
-      // return <Navigate to={`post/1`} />;
     } else if (event.target.closest('.avatar-space')) {
       console.log('跳转个人页面'); //TODO:改成他人页
-      console.log(1111111111);
-      console.log(props, 1111111111);
       navigator(`/profile/${props.userId}`);
     }
-    // else if (event.target.classList.contains('interact')) {
-    //   handleLike();
-    // } else {
-    //   // 其他子元素的点击行为
-    //   // navigator(`/post/${props.postId}`);
-    //   console.log('其他子元素的点击，但父元素响应');
-    //   event.stopPropagation();
-    // }
   };
   const location = useLocation();
   const isPostPage = () => {
@@ -76,7 +63,7 @@ export const Post = props => {
     <div className={'post'} onClick={handleParentClick}>
       {!props?.hideUser ? (
         <Space className={'avatar-space'}>
-          <Avatar src={props.avatar} className={'avatar'} />
+          <UserAvatar imageUrl={props.avatar} disableEdit={true} />
           <Title heading={5}>{props.userName}</Title>
         </Space>
       ) : null}

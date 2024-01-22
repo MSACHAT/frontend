@@ -74,7 +74,7 @@ export const Profile = () => {
       <div className="empty-space"></div>
       <div className="headtab">
         <UserAvatar />
-        <Text className="user-name">{userName}</Text>
+        <Text className="user-name">{userName || 'User'}</Text>
       </div>
       <div
         className="light-scrollbar"
