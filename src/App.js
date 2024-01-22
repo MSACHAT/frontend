@@ -25,17 +25,19 @@ import createRoutes from './Route/creatRoutes';
 import PostDetailWithDeleteButtom from './pages/post/PostDetailWithDeleteButtom';
 import BottomNavigationBar from './components/BottomNavigationBar';
 import NavigationBar from './pages/post/components/NavigationBar';
+import { PProfile } from './pages/profile/PProfilePage.jsx';
 
 const App = () => {
   const routesConfig = [
     { path: '/', component: <Home />, isPublic: false },
     { path: '/login', component: <Login />, isPublic: true },
-    { path: '/profile', component: <Profile />, isPublic: true },
-    { path: '/feed', component: <Feed />, isPublic: true },
+    { path: '/profile', component: <Profile />, isPublic: false },
+    { path: '/profile/:userId', component: <PProfile />, isPublic: false },
+    { path: '/feed', component: <Feed />, isPublic: false },
     { path: '/notifications', component: <Notifications />, isPublic: false },
-    { path: '/add', component: <AddPost />, isPublic: true },
+    { path: '/add', component: <AddPost />, isPublic: false },
     { path: '/post/:postId', component: <PostDetail />, isPublic: false },
-    { path: '/test', component: <BottomNavigationBar />, isPublic: true },
+    { path: '/test', component: <BottomNavigationBar />, isPublic: false },
     {
       path: '/test2',
       component: <NavigationBar showDeleteButton={true} />,

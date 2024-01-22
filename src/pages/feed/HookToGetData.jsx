@@ -43,6 +43,7 @@ export const GetData = (pageNum, pageSize) => {
         timeStamp: post.timeStamp,
         images: post.images,
         isLiked: post.isLiked,
+        userId:post.userId,
         avatar: post.avatar,
       }));
       const result = {
