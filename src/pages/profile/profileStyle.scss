@@ -3,6 +3,11 @@
   height: 100vh;
   position: relative;
 
+  .avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+  }
   .headtab {
     margin-left: 20px;
     margin-right: 20px;
@@ -37,6 +42,10 @@
     width: 100%;
     /* 或者设置一个固定的宽度 */
     background-color: transparent;
+  }
+
+  .image-item{
+    --custom-image-width: 80px !important;
   }
 }
 

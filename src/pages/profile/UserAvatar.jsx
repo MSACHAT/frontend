@@ -6,6 +6,7 @@ import './profileStyle.scss';
 import apiClient from '../../middlewares/axiosInterceptors';
 import upload from '../../middlewares/uploadImage';
 export const UserAvatar = ({ disableEdit, imageUrl }) => {
+  console.log(imageUrl);
   const [avtarUrl, setAvatarUrl] = useState(
     imageUrl || process.env.PUBLIC_URL + 'ProfilePhoto.png'
   );

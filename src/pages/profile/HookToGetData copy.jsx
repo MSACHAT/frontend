@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Toast } from '@douyinfe/semi-ui';
 import apiClient from '../../middlewares/axiosInterceptors';
 export const GetData = (pageNum, pageSize, userId) => {
+  console.log(userId);
   return apiClient
     .get(`/profile/${userId}`, {
       params: {
@@ -29,6 +30,7 @@ export const GetData = (pageNum, pageSize, userId) => {
       const result = {
         data: data,
         totalPages: res.data.totalPages,
+        avatar: res.data.avatar,
       };
       console.log(result, 1111111111111);
       return result;

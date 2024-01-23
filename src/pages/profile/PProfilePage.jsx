@@ -41,7 +41,7 @@ export const PProfile = () => {
   const [pageNum, setPageNum] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const { userId } = useParams();
-
+  let avatar;
   const [posts, setPosts] = useState({ data: [] });
 
   useEffect(() => {
@@ -50,11 +50,22 @@ export const PProfile = () => {
       setPosts(prevPosts => ({ data: [...prevPosts.data, ...result.data] }));
       setPageNum(prevPageNum => prevPageNum + 1);
       setTotalPages(result.totalPages);
+      avatar = result.avatar;
     };
+    fetchData();
+  }, []);
+  //=============头像专用
+  const [avatarUrl, setAvatarUrl] = useState(null);
 
+  useEffect(() => {
+    async function fetchData() {
+      const result = await GetData(pageNum, pageSize, userId);
+      setAvatarUrl(result.avatar);
+    }
     fetchData();
   }, []);
 
+  //==============
   function loadMoreData() {
     GetData(pageNum, pageSize, userId).then(result => {
       result.data = [...posts.data, ...result.data];
@@ -63,12 +74,11 @@ export const PProfile = () => {
       setPageNum(pageNum + 1);
     });
   }
-
   return (
     <div className="profile-page">
       <div className="empty-space"></div>
       <div className="headtab">
-        <UserAvatar />
+        {avatarUrl && <UserAvatar imageUrl={avatarUrl} disableEdit={true} />}
         <Text className="user-name">
           {posts.data.length > 0 ? posts.data[0].userName : ''}
         </Text>

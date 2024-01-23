@@ -123,7 +123,7 @@ const CommentList = ({ postId }) => {
     setSize(newHeight);
   }
   function route(userId) {
-    navigate(`/users/${userId}`);
+    navigate(`/profile/${userId}`);
   }
 
   return (
