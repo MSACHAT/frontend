@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Layout, List, Badge } from '@douyinfe/semi-ui';
 import { Post } from '../../components/PostComponent.jsx';
 import { IconBellStroked } from '@douyinfe/semi-icons';
@@ -9,13 +9,12 @@ import InfiniteScroll from 'react-infinite-scroller';
 import apiClient from '../../middlewares/axiosInterceptors';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { Link } from 'react-router-dom';
-import { UserAvatar } from '../profile/UserAvatar';
-export function NewNotif(newNotifCount) {
-  if (newNotifCount > 0) {
+export function NewNotif({ newNotifNums }) {
+  if (newNotifNums > 0) {
     return (
       <Link to={'/notifications'} className={'feed-link'}>
         <Badge
-          count={newNotifCount}
+          count={newNotifNums}
           className={'feed-badge'}
           position={'rightTop'}
         >
@@ -32,11 +31,10 @@ export function NewNotif(newNotifCount) {
   }
 }
 export function Feed() {
-  const [newNotifCount, setNewNotifCount] = useState(0);
   const pageSize = 3; //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
+  const [newNotifNums, setNewNotifNums] = useState(0);
   function loadMoreData() {
-    console.log(pageNum);
     GetData(pageNum, pageSize).then(result => {
       result.data = [...posts.data, ...result.data];
       setPosts(result);
@@ -44,26 +42,19 @@ export function Feed() {
       setPageNum(pageNum + 1);
     });
   }
-
   const { Header, Content, Footer } = Layout;
   const [posts, setPosts] = useState({ data: [] });
   const [totalPages, setTotalPages] = useState();
   useEffect(() => {
     setPageNum(0);
-    console.log('Getting Data');
     GetData(pageNum, pageSize).then(result => {
       console.log(result);
       setPosts(result);
       setTotalPages(result.totalPages);
+      setNewNotifNums(result.newNotifCounts);
     });
     setPageNum(pageNum + 1);
-    // setPosts(data);
   }, []);
-  useEffect(() => {
-    apiClient.get('/notifications/newMessage').then(res => {
-      setNewNotifCount(res.data.newNotifCounts);
-    });
-  }, [newNotifCount]);
   useEffect(() => {
     // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
     return () => {
@@ -75,7 +66,7 @@ export function Feed() {
     <div className={'feed-page'}>
       <Header className={'feed-header'}>
         <span></span>
-        <NewNotif newNotifCount={newNotifCount}></NewNotif>
+        <NewNotif newNotifNums={newNotifNums}></NewNotif>
       </Header>
       <div className={'feed-content'}>
         <InfiniteScroll

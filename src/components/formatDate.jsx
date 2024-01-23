@@ -37,7 +37,15 @@ function FormattedTime({ TimeStamp }) {
 
   const formattedTime = format(TimeStamp);
 
-  return <Text>{formattedTime}</Text>;
+  return (
+    <Text
+      style={{
+        color: 'var(--usage-text---semi-color-text-40, rgba(10, 0, 1, 0.40))',
+      }}
+    >
+      {formattedTime}
+    </Text>
+  );
 }
 
 FormattedTime.propTypes = {
