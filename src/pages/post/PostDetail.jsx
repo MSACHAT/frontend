@@ -37,9 +37,9 @@ const PostDetail = () => {
   }, [commentCount]);
 
   return (
-    <div className={'post-detail'}>
+    <div className={'postDetail'}>
       <NavigationBar />
-      <div className={'post-content'}>
+      <div className={'content'}>
         <Post {...Data} />
       </div>
       <Divider />
