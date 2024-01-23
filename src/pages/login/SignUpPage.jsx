@@ -6,41 +6,35 @@ import {
   Typography,
 } from '@douyinfe/semi-ui';
 import { useState } from 'react';
-import './loginStyle.scss';
+import './signUpStyle.scss';
 import { IconArrowRight } from '@douyinfe/semi-icons';
 import { useNavigate } from 'react-router-dom';
 import loginClient from '../../middlewares/loginMiddleWare';
 import url from '../../config/RouteConfig';
 import { changePwdToUuid } from '../../middlewares/uuidMiddleWare';
-import { useRecoilState } from 'recoil';
-import { IsAuthenticated } from '../../store';
-export const Login = () => {
+
+export const SignUpPage = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useRecoilState(IsAuthenticated);
   const [loginFailInfo, setLoginFailInfo] = useState(undefined);
   const handleSubmit = async values => {
-    console.log(changePwdToUuid(values.password));
     const data = {
       email: values.email,
+      username: values.username,
       password: changePwdToUuid(values.password),
-      // password: changePwdToUuid(values.password),
     };
     loginClient
-      .post('/login', data)
+      .post('/register', data)
       .then(res => {
         if (res && res.data) {
-          Toast.success('登录成功');
-          setIsAuthenticated(true);
-
+          Toast.success('注册成功');
           localStorage.setItem('token', res.data.accessToken);
-
           navigate(url.feed);
         } else {
-          setLoginFailInfo('登录失败');
+          setLoginFailInfo('注册失败');
         }
       })
       .catch(error => {
-        setLoginFailInfo('登陆失败');
+        setLoginFailInfo('注册失败');
       });
   };
   const { Title, Text } = Typography;
@@ -50,17 +44,13 @@ export const Login = () => {
       <Button
         className={'login-button'}
         icon={<IconArrowRight />}
-        disabled={
-          !(formState.values.email && formState.values.password) ||
-          loginFailInfo
-        }
-        theme="solid"
+        disabled={!(formState.values.email && formState.values.password)}
         htmlType="submit"
       ></Button>
     );
   };
   return (
-    <div className={'login-page'}>
+    <div className={'sign-up-page'}>
       <div className={'login-form'}>
         <Form
           onSubmit={values => handleSubmit(values)}
@@ -81,6 +71,15 @@ export const Login = () => {
                 placeholder="请输入您的邮箱"
                 className={'login-form-input'}
               />
+              <Title heading={5}>用户名</Title>
+              <Form.TextArea
+                autosize
+                rows={1}
+                field="username"
+                noLabel={true}
+                placeholder="请输入用户名"
+                className={'login-form-input'}
+              />
               <div className={'form-margin'} />
               <Title heading={5}>密码</Title>
               <Form.Input
@@ -91,16 +90,8 @@ export const Login = () => {
                 className={'login-form-input'}
               />
               {loginFailInfo && <Text type="danger">{loginFailInfo}</Text>}
-              <ConfirmButton />
-              <div style={{ marginTop: 20 }}>
-                <Text
-                  link
-                  onClick={() => {
-                    navigate('/signup');
-                  }}
-                >
-                  现在注册
-                </Text>
+              <div>
+                <ConfirmButton />
               </div>
             </>
           )}
