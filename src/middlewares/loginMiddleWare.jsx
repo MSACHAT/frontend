@@ -37,6 +37,9 @@ loginClient.interceptors.response.use(
         case 408:
           Toast.error('请求超时');
           break;
+        case 409:
+          Toast.error('此用户已存在');
+          break;
         case 413:
           Toast.error('有效负载太大');
           break;
