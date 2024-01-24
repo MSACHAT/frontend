@@ -13,30 +13,7 @@ import { UserAvatar } from './UserAvatar.jsx';
 import { useParams } from 'react-router-dom';
 export const PProfile = () => {
   const [loading, setLoading] = useState(false);
-  const [dataSource, setDataSource] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const [dataCount, setDataCount] = useState(0);
-  const [postData, setPostData] = useState([]);
-
-  // const fetchData = () => {
-  //   setLoading(true);
-  //   return new Promise(res => {
-  //     //TODO 这里替换为真实的请求
-  //     res(fakeData.data);
-  //   }).then(newDataSource => {
-  //     const newData = [...dataSource, ...newDataSource].map((x, index) => {
-  //       return { ...x, likeCount: index };
-  //     });
-  //     setDataCount(prevCount => prevCount + 1);
-  //     setLoading(false);
-  //     setDataSource(newData);
-  //     setHasMore(newDataSource.length !== 0);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
   const [pageSize, setPageSize] = useState(100); //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -46,11 +23,13 @@ export const PProfile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const result = await GetData(pageNum, pageSize, userId);
       setPosts(prevPosts => ({ data: [...prevPosts.data, ...result.data] }));
       setPageNum(prevPageNum => prevPageNum + 1);
       setTotalPages(result.totalPages);
       avatar = result.avatar;
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -67,11 +46,13 @@ export const PProfile = () => {
 
   //==============
   function loadMoreData() {
+    setLoading(true);
     GetData(pageNum, pageSize, userId).then(result => {
       result.data = [...posts.data, ...result.data];
       setPosts(result);
       setTotalPages(result.totalPages);
       setPageNum(pageNum + 1);
+      setLoading(false);
     });
   }
   return (
