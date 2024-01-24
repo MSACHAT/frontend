@@ -81,7 +81,6 @@ const CommentListWithMockData = () => {
     scrollToTop();
   };
   function handleResize(height) {
-    console.log(height);
     const newHeight = height + 12;
     setSize(newHeight);
   }
@@ -128,7 +127,7 @@ const CommentListWithMockData = () => {
             </div>
           )}
         </InfiniteScroll>
-        {!hasMore && (
+        {!hasMore && data.length && (
           <div style={{ textAlign: 'center', marginTop: 32 }}>
             <text
               style={{ color: 'var(--semi-color-text-40)', fontWeight: 400 }}

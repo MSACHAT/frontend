@@ -1,4 +1,4 @@
-import { ImagePreview, Toast } from '@douyinfe/semi-ui';
+import { Avatar, ImagePreview, Toast } from '@douyinfe/semi-ui';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import React, { useEffect, useRef, useState } from 'react';
@@ -61,10 +61,9 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
         className={'image-item'}
         style={{ '--custom-image-width': disableEdit ? '40px' : '80px' }}
       >
-        <img
-          alt={'点击头像更改'}
-          className={'image'}
+        <Avatar
           src={avtarUrl}
+          className={'image'}
           onClick={event => {
             setVisible(true);
             event.stopPropagation();

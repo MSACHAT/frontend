@@ -173,7 +173,7 @@ const CommentList = ({ postId }) => {
             </div>
           )}
         </InfiniteScroll>
-        {!hasMore && data != null && (
+        {!hasMore && data.length > 0 && (
           <div style={{ textAlign: 'center', marginTop: 32 }}>
             <text
               style={{ color: 'var(--semi-color-text-40)', fontWeight: 400 }}
