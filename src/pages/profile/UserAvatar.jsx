@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './profileStyle.scss';
 import apiClient from '../../middlewares/axiosInterceptors';
 import upload from '../../middlewares/uploadImage';
+import imageCompression from 'browser-image-compression';
 export const UserAvatar = ({ disableEdit, imageUrl }) => {
   console.log(imageUrl);
   const [avtarUrl, setAvatarUrl] = useState(
@@ -30,13 +31,21 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = event => {
+  const handleFileChange = async event => {
     if (event.target.files && event.target.files[0]) {
-      const selectedFile = event.target.files[0];
+      const options = {
+        maxSizeMB: 0.5, // 最大文件大小（单位：MB）
+        maxWidthOrHeight: 1920, // 图片最大宽度或高度
+        useWebWorker: true, // 使用Web Worker以避免UI线程阻塞
+      };
+      const compressedFile = await imageCompression(
+        event.target.files[0],
+        options
+      );
 
       // 创建 FormData 并将文件加入
       const formData = new FormData();
-      formData.append('file', selectedFile);
+      formData.append('file', compressedFile);
       console.log('FormDataUploading');
       console.log(formData);
       upload
