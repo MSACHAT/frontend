@@ -18,7 +18,6 @@ export const Post = props => {
   if (!props) {
     return null;
   }
-  console.log(process.env.PUBLIC_URL + '/ic_comment.svg', 'test icon');
   useEffect(() => {
     setLike(props.isLiked);
     setLikeCount(props.likeCount);

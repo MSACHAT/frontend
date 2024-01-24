@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import url from '../../config/RouteConfig';
 import upload from '../../middlewares/uploadImage';
 import apiClient from '../../middlewares/axiosInterceptors';
-
+import imageCompression from 'browser-image-compression';
 const PublishPost = () => {
   const navigate = useNavigate();
   const [saveLoading, setSaveLoading] = useState(false);
@@ -55,7 +55,18 @@ const PublishPost = () => {
     const formData = new FormData();
     formData.append('file', data.fileInstance);
 
+    const options = {
+      maxSizeMB: 0.5, // 最大文件大小（单位：MB）
+      maxWidthOrHeight: 1920, // 图片最大宽度或高度
+      useWebWorker: true, // 使用Web Worker以避免UI线程阻塞
+    };
+
     try {
+      // 图片压缩
+      const compressedFile = await imageCompression(data.fileInstance, options);
+      const formData = new FormData();
+      formData.append('file', compressedFile);
+
       const response = await upload.post('/images/uploadimage', formData, {
         onUploadProgress: progressEvent => {
           const total = progressEvent.total;
