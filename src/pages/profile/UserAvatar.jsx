@@ -62,7 +62,7 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
         style={{ '--custom-image-width': disableEdit ? '40px' : '80px' }}
       >
         <img
-          alt={'用户头像'}
+          alt={'点击头像更改'}
           className={'image'}
           src={avtarUrl}
           onClick={event => {
