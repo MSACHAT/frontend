@@ -22,7 +22,7 @@ export const Notif = props => {
           width={50}
           height={50}
           className={'notif-postpreview'}
-          src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg"
+          src={previewString}
         />
       </Space>
     ) : (
@@ -56,16 +56,21 @@ export const Notif = props => {
       </Collapse>
     );
   } else {
-    const expandIconForLikes = (
-      <Space style={{ height: '100%', float: 'right' }}>
-        <Image
-          className={'notif-postpreview'}
-          width={50}
-          height={50}
-          src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ptlz_zlp/ljhwZthlaukjlkulzlp/root-web-sites/abstract.jpg"
-        />
-      </Space>
-    );
+    const expandIconForLikes =
+      previewType === 'image' ? (
+        <Space style={{ height: '100%', float: 'right' }}>
+          <Image
+            className={'notif-postpreview'}
+            width={50}
+            height={50}
+            src={previewString}
+          />
+        </Space>
+      ) : (
+        <Space style={{ height: '100%', float: 'right' }}>
+          <Text className={'notif-postpreview'}>{previewString}</Text>
+        </Space>
+      );
     return (
       <Collapse expandIcon={expandIconForLikes} className={'notif-collapse'}>
         <Collapse.Panel
