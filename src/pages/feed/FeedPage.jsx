@@ -34,12 +34,15 @@ export function Feed() {
   const pageSize = 3; //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState(0);
   const [newNotifNums, setNewNotifNums] = useState(0);
+  const [loading, setLoading] = useState(false);
   function loadMoreData() {
+    setLoading(true);
     GetData(pageNum, pageSize).then(result => {
       result.data = [...posts.data, ...result.data];
       setPosts(result);
       setTotalPages(result.totalPages);
       setPageNum(pageNum + 1);
+      setLoading(false);
     });
   }
   const { Header, Content, Footer } = Layout;
@@ -47,11 +50,13 @@ export function Feed() {
   const [totalPages, setTotalPages] = useState();
   useEffect(() => {
     setPageNum(0);
+    setLoading(true);
     GetData(pageNum, pageSize).then(result => {
       console.log(result);
       setPosts(result);
       setTotalPages(result.totalPages);
       setNewNotifNums(result.newNotifCounts);
+      setLoading(false);
     });
     setPageNum(pageNum + 1);
   }, []);
@@ -81,6 +86,7 @@ export function Feed() {
             className={'feed-posts'}
             dataSource={posts.data}
             renderItem={record => <Post {...record}></Post>}
+            loading={loading}
           />
         </InfiniteScroll>
       </div>
