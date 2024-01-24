@@ -8,16 +8,17 @@ import { PostImgs } from './PostImgs';
 import './postStyle.scss';
 import { timeAgo } from './CalculateTimeAgo';
 import apiClient from '../middlewares/axiosInterceptors';
-const Comment = () => <img src={process.env.PUBLIC_URL + '/ic_comment.svg'} />;
+import commentIcon from './ic_comment.svg';
+const Comment = () => <img src={commentIcon} />;
+
 export const Post = props => {
-  console.log('dsiauhxgciosdhcuidhciusdhicuohsdiuchsdc');
   const navigator = useNavigate();
   const [like, setLike] = useState();
   const [likeCount, setLikeCount] = useState();
   if (!props) {
     return null;
   }
-
+  console.log(process.env.PUBLIC_URL + '/ic_comment.svg', 'test icon');
   useEffect(() => {
     setLike(props.isLiked);
     setLikeCount(props.likeCount);

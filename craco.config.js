@@ -17,5 +17,14 @@ module.exports = {
         ),
       }),
     ],
+    configure: (webpackConfig, { env, paths }) => {
+      // 设置 publicPath
+      webpackConfig.output = {
+        ...webpackConfig.output,
+        publicPath: '/',
+      };
+
+      return webpackConfig;
+    },
   },
 };

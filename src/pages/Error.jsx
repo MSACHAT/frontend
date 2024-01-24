@@ -23,6 +23,7 @@ class ErrorBoundary extends React.Component {
             className="centered-image"
           />
           <Title heading={5}>糟糕！页面出错了</Title>
+          <Text>请飞书联系 @张天睿 解决bug</Text>
         </Space>
       );
     }
