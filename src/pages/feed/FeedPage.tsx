@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { Link } from 'react-router-dom';
+import {GetPostsResponse} from '../../config/types.ts';
+
 interface NewNotifProps {
   newNotifNums: number;
 }
@@ -28,7 +30,7 @@ export const NewNotif: React.FC<NewNotifProps> = ({ newNotifNums }) => {
     </Link>
   );
 };
-export function Feed():React.FC<void> {
+export function Feed(){
   const pageSize = 3; //修改这个值来调整一次获取的数据量
   const [pageNum, setPageNum] = useState<number>(0);
   const [newNotifNums, setNewNotifNums] = useState<number>(0);
@@ -38,7 +40,10 @@ export function Feed():React.FC<void> {
   const [totalPages, setTotalPages] = useState<number|undefined>();
   function loadMoreData() {
     setLoading(true);
-    GetData(pageNum, pageSize).then((result:any) => {
+    GetData(pageNum, pageSize).then((result:GetPostsResponse | void) => {
+      if (result === undefined) {
+        return;
+      }
       result.data = [...posts.data, ...result.data];
       setPosts(result);
       setTotalPages(result.totalPages);
@@ -50,7 +55,10 @@ export function Feed():React.FC<void> {
   useEffect(() => {
     setPageNum(0);
     setLoading(true);
-    GetData(pageNum, pageSize).then((result:any) => {
+    GetData(pageNum, pageSize).then((result:GetPostsResponse | void) => {
+      if (result === undefined) {
+        return;
+      }
       setPosts(result);
       setTotalPages(result.totalPages);
       setNewNotifNums(result.newNotifCounts);
