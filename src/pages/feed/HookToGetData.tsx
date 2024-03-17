@@ -1,7 +1,10 @@
 import apiClient from '../../middlewares/axiosInterceptors';
 import { AxiosResponse } from 'axios';
+import { Post, GetPostsResponse } from '../../config/types.ts'
 
-export const GetData = (pageNum, pageSize) => {
+
+
+export const GetData = (pageNum: number, pageSize:number):Promise<GetPostsResponse | void>  => {
   return apiClient
     .get('/posts', {
       params: {
@@ -9,9 +12,9 @@ export const GetData = (pageNum, pageSize) => {
         pageSize: pageSize,
       },
     })
-    .then(async res => {
+    .then(async (res:AxiosResponse<any>) => {
       const notifCounts = await apiClient.get('/notifications/newMessage');
-      const data = res.data.posts.map(post => ({
+      const data: Post[] = res.data.posts.map((post: Post) => ({
         id: post.id,
         userName: post.userName,
         title: post.title,
@@ -24,7 +27,8 @@ export const GetData = (pageNum, pageSize) => {
         userId: post.userId,
         avatar: post.avatar,
       }));
-      const result = {
+
+      const result:GetPostsResponse = {
         data: data,
         totalPages: res.data.totalPages,
         newNotifCounts: notifCounts.data.newNotifCounts,
