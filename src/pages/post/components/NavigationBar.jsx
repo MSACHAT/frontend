@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { Button, Modal, Toast, Typography } from '@douyinfe/semi-ui';
 import {
   IconAlertTriangle,
-  IconChevronLeft,
   IconDeleteStroked,
 } from '@douyinfe/semi-icons';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';

@@ -86,8 +86,8 @@ const CommentList: React.FC<CommentListProps> = ({ postId }) => {
   const [value, setValue] = useState('');
   const [Size, setSize] = useState(62);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
+  const handleChange = (value:string) => {
+    setValue(value);
   };
 
   const scrollToTop = () => {
@@ -111,19 +111,19 @@ const CommentList: React.FC<CommentListProps> = ({ postId }) => {
     }
   }
 
-  const handlePublish = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handlePublish = async (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
     if (value.length === 0) {
       Toast.error('必须要有内容哦');
       return;
     }
     await sendData(value, postId);
-    await setCommentCount(commentCount + 1);
+    setCommentCount(commentCount + 1);
     scrollToTop();
     await handleScroll();
-    await setValue('');
+    setValue('');
   };
-  function handleResize(height: number) {
+  function handleResize({height}:{height:number}) {
     console.log(height);
     const newHeight = height + 12;
     setSize(newHeight);
@@ -151,7 +151,7 @@ const CommentList: React.FC<CommentListProps> = ({ postId }) => {
             split={false}
             dataSource={data}
             renderItem={(item, index) => (
-              <div className={'comment'} id={index}>
+              <div className={'comment'} id={index.toString()}>
                 <Avatar
                   className={'comment-avatar'}
                   src={item.userAvatar}
@@ -167,7 +167,7 @@ const CommentList: React.FC<CommentListProps> = ({ postId }) => {
                   <Text className={'comment-content'}>{item.content}</Text>
                   <FormattedTime
                     className={'comment-time'}
-                    TimeStamp={item.timeStamp}
+                    TimeStamp={item.timeStamp.toString()}
                   />
                 </div>
               </div>

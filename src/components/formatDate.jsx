@@ -50,5 +50,6 @@ function FormattedTime({ TimeStamp }) {
 
 FormattedTime.propTypes = {
   TimeStamp: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 export default FormattedTime;
