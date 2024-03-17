@@ -3,41 +3,42 @@ import { Layout, List, Badge } from '@douyinfe/semi-ui';
 import { Post } from '../../components/PostComponent.jsx';
 import { IconBellStroked } from '@douyinfe/semi-icons';
 import './FeedStyle.scss';
-import { GetData } from './HookToGetData.jsx';
+import { GetData } from './HookToGetData.js';
 import { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import apiClient from '../../middlewares/axiosInterceptors';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { Link } from 'react-router-dom';
-export function NewNotif({ newNotifNums }) {
-  if (newNotifNums > 0) {
-    return (
-      <Link to={'/notifications'} className={'feed-link'}>
-        <Badge
-          count={newNotifNums}
-          className={'feed-badge'}
-          position={'rightTop'}
-        >
-          <IconBellStroked className={'feed-iconbellstroked'}></IconBellStroked>
-        </Badge>
-      </Link>
-    );
-  } else {
-    return (
-      <Link to={'/notifications'} className={'feed-link'}>
-        <IconBellStroked className={'feed-iconbellstroked'}></IconBellStroked>
-      </Link>
-    );
-  }
+interface NewNotifProps {
+  newNotifNums: number;
 }
-export function Feed() {
+export const NewNotif: React.FC<NewNotifProps> = ({ newNotifNums }) => {
+  return newNotifNums > 0 ? (
+    <Link to={'/notifications'} className={'feed-link'}>
+      <Badge
+        count={newNotifNums}
+        className={'feed-badge'}
+        position={'rightTop'}
+      >
+        <IconBellStroked className={'feed-iconbellstroked'} />
+      </Badge>
+    </Link>
+  ) : (
+    <Link to={'/notifications'} className={'feed-link'}>
+      <IconBellStroked className={'feed-iconbellstroked'} />
+    </Link>
+  );
+};
+export function Feed():React.FC<void> {
   const pageSize = 3; //修改这个值来调整一次获取的数据量
-  const [pageNum, setPageNum] = useState(0);
-  const [newNotifNums, setNewNotifNums] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [pageNum, setPageNum] = useState<number>(0);
+  const [newNotifNums, setNewNotifNums] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { Header } = Layout;
+  const [posts, setPosts] = useState<{data: any[]}>({ data: [] });
+  const [totalPages, setTotalPages] = useState<number|undefined>();
   function loadMoreData() {
     setLoading(true);
-    GetData(pageNum, pageSize).then(result => {
+    GetData(pageNum, pageSize).then((result:any) => {
       result.data = [...posts.data, ...result.data];
       setPosts(result);
       setTotalPages(result.totalPages);
@@ -45,14 +46,11 @@ export function Feed() {
       setLoading(false);
     });
   }
-  const { Header, Content, Footer } = Layout;
-  const [posts, setPosts] = useState({ data: [] });
-  const [totalPages, setTotalPages] = useState();
+
   useEffect(() => {
     setPageNum(0);
     setLoading(true);
-    GetData(pageNum, pageSize).then(result => {
-      console.log(result);
+    GetData(pageNum, pageSize).then((result:any) => {
       setPosts(result);
       setTotalPages(result.totalPages);
       setNewNotifNums(result.newNotifCounts);
@@ -78,7 +76,7 @@ export function Feed() {
           initialLoad={false}
           useWindow={false}
           loadMore={loadMoreData}
-          hasMore={pageNum <= totalPages}
+          hasMore={pageNum <= (totalPages ?? 0)}
           pageStart={0}
           threshold={100}
         >
