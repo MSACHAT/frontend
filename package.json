@@ -62,6 +62,7 @@
     "@craco/craco": "^7.1.0",
     "@douyinfe/semi-webpack-plugin": "^2.49.1",
     "@types/react-infinite-scroller": "^1.2.5",
+    "@types/react-scroll": "^1.8.10",
     "svgo-loader": "^4.0.0",
     "typescript": "^5.3.3"
   }

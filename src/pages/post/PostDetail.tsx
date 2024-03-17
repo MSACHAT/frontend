@@ -3,7 +3,7 @@ import NavigationBar from './components/NavigationBar';
 import { Post } from '../../components/PostComponent';
 import { useParams } from 'react-router-dom';
 import './PostDetailStyle.scss';
-import CommentList from './components/CommentList';
+import CommentList from './components/CommentList.tsx';
 import apiClient from '../../middlewares/axiosInterceptors';
 import { Divider, Toast } from '@douyinfe/semi-ui';
 import { useRecoilState } from 'recoil';

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, List, Spin, TextArea, Toast } from '@douyinfe/semi-ui';
-
 import InfiniteScroll from 'react-infinite-scroller';
-// import '../../../components/postStyle.scss'
-// import '../../../components/CommentStyle.scss'
 import './CommentListStyle.scss';
 import { Typography } from '@douyinfe/semi-ui';
 import { animateScroll as scroll } from 'react-scroll';
@@ -12,17 +9,27 @@ import { useRecoilState } from 'recoil';
 import { CommentCount } from '../../../store';
 import { useNavigate } from 'react-router-dom';
 import FormattedTime from '../../../components/formatDate';
-const CommentList = ({ postId }) => {
+
+interface Comment {
+  userAvatar: string;
+  userName: string;
+  content: string;
+  timeStamp: number;
+  userId: string;
+}
+interface CommentListProps {
+  postId: number;
+}
+const CommentList: React.FC<CommentListProps> = ({ postId }) => {
   const navigate = useNavigate();
   const { Text } = Typography;
-
-  const dataList = [];
+  const dataList:Comment[] = [];
   const [commentCount, setCommentCount] = useRecoilState(CommentCount);
-
   const [hasMore, setHasMore] = useState(true);
   const [data, setData] = useState(dataList);
   const [countState, setCountState] = useState(0);
   const [loading, setLoading] = useState(false);
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -38,7 +45,6 @@ const CommentList = ({ postId }) => {
       setData([...data, ...result.comments]);
       setCountState(countState + 1);
       const hasMore = result.totalPages >= countState;
-
       setHasMore(hasMore);
     } catch (error) {
       console.error('Fetching data failed', error);
@@ -80,8 +86,8 @@ const CommentList = ({ postId }) => {
   const [value, setValue] = useState('');
   const [Size, setSize] = useState(62);
 
-  const handleChange = event => {
-    setValue(event);
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(event.target.value);
   };
 
   const scrollToTop = () => {
@@ -91,7 +97,7 @@ const CommentList = ({ postId }) => {
     });
   };
 
-  async function sendData(value, postId) {
+  async function sendData(value:string, postId:number) {
     const data = {
       content: value,
     };
@@ -105,7 +111,7 @@ const CommentList = ({ postId }) => {
     }
   }
 
-  const handlePublish = async event => {
+  const handlePublish = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (value.length === 0) {
       Toast.error('必须要有内容哦');
@@ -117,12 +123,12 @@ const CommentList = ({ postId }) => {
     await handleScroll();
     await setValue('');
   };
-  function handleResize(height) {
+  function handleResize(height: number) {
     console.log(height);
     const newHeight = height + 12;
     setSize(newHeight);
   }
-  function route(userId) {
+  function route(userId:string) {
     navigate(`/profile/${userId}`);
   }
 
