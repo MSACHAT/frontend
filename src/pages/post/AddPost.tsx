@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, TextArea, Toast, Upload } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
 import { AxiosError } from 'axios';
@@ -12,31 +12,34 @@ import apiClient from '../../middlewares/axiosInterceptors';
 import imageCompression from 'browser-image-compression';
 
 interface FileItem {
+    // 当前文件名称
+    fileName: string,
+        // 用户设置的props.data
+    data: object,
+    // FileItem，具体结构参考下面的文档
+    file: FileItem,
+    // original File Object which extends Blob, 浏览器实际获取到的文件对象(https://developer.mozilla.org/zh-CN/docs/Web/API/File)
+    fileInstance: File,
+    // 上传过程中应调用的函数，event需要包含 total、loaded属性
+    onProgress: (event: { total: number, loaded: number }) => any,
+    // 上传出错时应调用的函数
+    onError: (userXhr: { status: number }, e: event) => any,
+    // 上传成功后应调用的函数, response为上传成功后的请求结果
+    onSuccess: (response: any, e?: event) => any,
+    // 用户设置的props.withCredentials
+    withCredentials: boolean,
+    // 用户设置的props.action
+    action: string,
 
-  fileInstance: File, // original File Object which extends Blob, 浏览器实际获取到的文件对象(https://developer.mozilla.org/zh-CN/docs/Web/API/File)
-  name: string,
-  percent? : number, // 上传进度百分比
-  preview: boolean, // 是否根据url进行预览
-  response?: any, // xhr的response, 请求成功时为respoonse body，请求失败时为对应 error
-  shouldUpload?: boolean; // 是否应该继续上传
-  showReplace?: boolean, // 单独控制该file是否展示替换按钮
-  showRetry?: boolean, // 单独控制该file是否展示重试按钮
-  size: string, // 文件大小，单位kb
-  status: string, // 'success' | 'uploadFail' | 'validateFail' | 'validating' | 'uploading' | 'wait';
-  uid: string, // 文件唯一标识符，如果当前文件是通过upload选中添加的，会自动生成uid。如果是defaultFileList, 需要自行保证不会重复
-  url: string,
-  validateMessage?: ReactNode | string,
 }
 
-type ImageItem = {
-  response: string;
-};
+
 
 const PublishPost: React.FC = () => {
   const navigate = useNavigate();
   const [saveLoading, setSaveLoading] = useState(false);
   const [content, setContent] = useState('');
-  const [list, updateList] = useState<ImageItem[]>([]);
+  const [list, updateList] = useState<any[]>([]);
   const isPublishDisabled = content.length === 0 && list.length === 0;
 
   useEffect(() => {
@@ -73,7 +76,7 @@ const PublishPost: React.FC = () => {
     }
   };
 
-  const uploadFileToImage = async (data: FileItem): Promise<void> => {
+  const uploadFileToImage = async (data: any): Promise<void> => {
     const formData = new FormData();
     formData.append('file', data.fileInstance);
 
@@ -145,7 +148,7 @@ const PublishPost: React.FC = () => {
           draggable={true}
           multiple={true}
           onChange={({ fileList }) => {
-            updateList(fileList as ImageItem[]);
+            updateList(fileList);
           }}
           fileList={list}
           limit={9}
