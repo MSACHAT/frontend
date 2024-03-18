@@ -3,13 +3,14 @@ import { Layout, List, Badge } from '@douyinfe/semi-ui';
 import { Post } from '../../components/PostComponent.jsx';
 import { IconBellStroked } from '@douyinfe/semi-icons';
 import './FeedStyle.scss';
-import { GetData } from './HookToGetData.jsx';
+import { GetData } from './HookToGetData';
 import { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import apiClient from '../../middlewares/axiosInterceptors';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { Link } from 'react-router-dom';
-export function NewNotif({ newNotifNums }) {
+import { PostModel } from '../../../types/post';
+const { Header } = Layout;
+export function NewNotif({ newNotifNums }:{newNotifNums:number}) {
   if (newNotifNums > 0) {
     return (
       <Link to={'/notifications'} className={'feed-link'}>
@@ -35,25 +36,24 @@ export function Feed() {
   const [pageNum, setPageNum] = useState(0);
   const [newNotifNums, setNewNotifNums] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState< PostModel[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
   function loadMoreData() {
     setLoading(true);
     GetData(pageNum, pageSize).then(result => {
-      result.data = [...posts.data, ...result.data];
-      setPosts(result);
+      setPosts([...posts,...result.data]);
       setTotalPages(result.totalPages);
       setPageNum(pageNum + 1);
       setLoading(false);
     });
   }
-  const { Header, Content, Footer } = Layout;
-  const [posts, setPosts] = useState({ data: [] });
-  const [totalPages, setTotalPages] = useState();
+
+
   useEffect(() => {
     setPageNum(0);
     setLoading(true);
     GetData(pageNum, pageSize).then(result => {
-      console.log(result);
-      setPosts(result);
+      setPosts(result.data);
       setTotalPages(result.totalPages);
       setNewNotifNums(result.newNotifCounts);
       setLoading(false);
@@ -84,7 +84,7 @@ export function Feed() {
         >
           <List
             className={'feed-posts'}
-            dataSource={posts.data}
+            dataSource={posts}
             renderItem={record => <Post {...record}></Post>}
             loading={loading}
           />
