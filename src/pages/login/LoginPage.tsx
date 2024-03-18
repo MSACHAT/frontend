@@ -14,34 +14,37 @@ import url from '../../config/RouteConfig';
 import { changePwdToUuid } from '../../middlewares/uuidMiddleWare';
 import { useRecoilState } from 'recoil';
 import { IsAuthenticated } from '../../store';
+import React from 'react';
 export const Login = () => {
   const navigate = useNavigate();
+  // @ts-ignore
   const [isAuthenticated, setIsAuthenticated] = useRecoilState(IsAuthenticated);
-  const [loginFailInfo, setLoginFailInfo] = useState(undefined);
-  const handleSubmit = async values => {
+  const [loginFailInfo, setLoginFailInfo] = useState<string | undefined>(undefined);
+
+  interface LoginFormValues {
+    email: string;
+    password: string;
+  }
+
+  const handleSubmit = async (values: LoginFormValues) => {
     const data = {
       email: values.email,
       password: changePwdToUuid(values.password),
-      // password: changePwdToUuid(values.password),
     };
     console.log(data.password);
-    loginClient
-      .post('/login', data)
-      .then(res => {
-        if (res && res.data) {
-          Toast.success('登录成功');
-          setIsAuthenticated(true);
-
-          localStorage.setItem('token', res.data.accessToken);
-
-          navigate(url.feed);
-        } else {
-          setLoginFailInfo('登录失败');
-        }
-      })
-      .catch(error => {
-        setLoginFailInfo('登陆失败');
-      });
+    try {
+      const res = await loginClient.post('/login', data);
+      if (res && res.data) {
+        Toast.success('登录成功');
+        setIsAuthenticated(true);
+        localStorage.setItem('token', res.data.accessToken);
+        navigate(url.feed);
+      } else {
+        setLoginFailInfo('登录失败');
+      }
+    } catch (error) {
+      setLoginFailInfo('登陆失败');
+    }
   };
   const { Title, Text } = Typography;
   const ConfirmButton = () => {
@@ -52,7 +55,7 @@ export const Login = () => {
         icon={<IconArrowRight />}
         disabled={
           !(formState.values.email && formState.values.password) ||
-          loginFailInfo
+          Boolean(loginFailInfo)
         }
         theme="solid"
         htmlType="submit"
@@ -70,7 +73,7 @@ export const Login = () => {
             }
           }}
         >
-          {({ formState, values, formApi }) => (
+          {({}) => (
             <>
               <Title heading={5}>邮箱</Title>
               <Form.TextArea

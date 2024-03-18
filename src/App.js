@@ -1,4 +1,4 @@
-import { Login } from './pages/login/LoginPage.jsx';
+import { Login } from './pages/login/LoginPage.tsx';
 import { Space } from '@douyinfe/semi-ui';
 import {
   BrowserRouter as Router,
