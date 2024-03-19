@@ -27,10 +27,11 @@ import BottomNavigationBar from './components/BottomNavigationBar';
 import NavigationBar from './pages/post/components/NavigationBar';
 import { PProfile } from './pages/profile/PProfilePage.jsx';
 import { SignUpPage } from './pages/login/SignUpPage';
+import SocietyPage from './pages/society';
 
 const App = () => {
   const routesConfig = [
-    { path: '/', component: <Home />, isPublic: false },
+    { path: '/', component: <SocietyPage/>, isPublic: false },
     { path: '/login', component: <Login />, isPublic: true },
     { path: '/signup', component: <SignUpPage />, isPublic: true },
     { path: '/profile', component: <Profile />, isPublic: false },

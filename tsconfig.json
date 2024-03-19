@@ -15,9 +15,14 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "allowJs": true
+    "allowJs": true,
+    "noUnusedLocals": false,
   },
-  "include": ["src/**/*.tsx", "src/**/*.ts"],
+  "include": [
+    "src/**/*.tsx",
+    "src/**/*.ts",
+    "types"
+  ],
   "exclude": ["node_modules"],
   "parserOptions": {
     "ecmaVersion": 2017
