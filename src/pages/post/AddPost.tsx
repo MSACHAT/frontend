@@ -34,7 +34,7 @@ const PublishPost: React.FC = () => {
   const navigate = useNavigate();
   const [saveLoading, setSaveLoading] = useState(false);
   const [content, setContent] = useState('');
-  const [list, updateList] = useState<FileItem[]>([]);
+  const [list, setList] = useState<FileItem[]>([]);
   const isPublishDisabled = content.length === 0 && list.length === 0;
 
   useEffect(() => {
@@ -143,7 +143,7 @@ const PublishPost: React.FC = () => {
           draggable={true}
           multiple={true}
           onChange={({ fileList }) => {
-            updateList(fileList);
+            setList(fileList);
           }}
           fileList={list}
           limit={9}
