@@ -140,3 +140,14 @@
     margin-right: 16px;
   }
 }
+.notif-outer-layer{
+  width: 100%;
+  height: 100%;
+  .notif-load-err{
+    width: 100%;
+    position: fixed;
+    bottom:50%;
+    text-align: center;
+    color:gray;
+  }
+}

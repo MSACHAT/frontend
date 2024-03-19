@@ -34,7 +34,7 @@ apiClient.interceptors.response.use(
           Toast.error('未授权');
           break;
         case 403:
-          localStorage.removeItem('token');
+          // localStorage.removeItem('token');
           Toast.error('禁止访问');
           break;
         case 404:

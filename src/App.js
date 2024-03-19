@@ -9,8 +9,8 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { Profile } from './pages/profile/ProfilePage.jsx';
-import { Feed } from './pages/feed/FeedPage.jsx';
-import { Notifications } from './pages/notifications/NotificationsPage.jsx';
+import { Feed } from './pages/feed/FeedPage.tsx';
+import { Notifications } from './pages/notifications/NotificationsPage.tsx';
 
 import AddPost from './pages/post/AddPost';
 import PostDetail from './pages/post/PostDetail';
