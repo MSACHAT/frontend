@@ -58,12 +58,16 @@
     ]
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.23.10",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@craco/craco": "^7.1.0",
     "@douyinfe/semi-webpack-plugin": "^2.49.1",
     "@types/react-infinite-scroller": "^1.2.5",
     "@types/react-scroll": "^1.8.10",
+    "@typescript-eslint/eslint-plugin": "6.5.0",
+    "@typescript-eslint/parser": "6.5.0",
+    "eslint": "^8.57.0",
     "svgo-loader": "^4.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }

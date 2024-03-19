@@ -1,28 +1,19 @@
-import apiClient from '../../middlewares/axiosInterceptors';
-import { Post, GetPostsResponse } from '../../config/types.ts'
+import apiClient from '../../middlewares/axiosInterceptors.js';
+import { BasePageResponse } from '../../../types/common/service';
+import { PostModel } from '../../../types/post';
 
+export const GetData = async (
+  pageNum: number,
+  pageSize: number
+): Promise<BasePageResponse<PostModel> & { newNotifCounts: number }> => {
+  const params = { pageNum, pageSize };
+  const res = await apiClient.get('/posts', { params });
+  const notifCounts = await apiClient.get('/notifications/newMessage');
 
-
-export const GetData = (pageNum: number, pageSize:number):Promise<GetPostsResponse | void>  => {
-  return apiClient
-    .get('/posts', {
-      params: {
-        pageNum: pageNum,
-        pageSize: pageSize,
-      },
-    })
-    .then(async (res) => {
-      const notifCounts = await apiClient.get('/notifications/newMessage');
-      const data: Post[] = res.data.posts
-
-      const result:GetPostsResponse = {
-        data: data,
-        totalPages: res.data.totalPages,
-        newNotifCounts: notifCounts.data.newNotifCounts,
-      };
-      return result;
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  return {
+    data: res.data.posts,
+    totalPages: res.data.totalPages,
+    newNotifCounts: notifCounts.data.newNotifCounts,
+  };
+  // 没有错误处理
 };
