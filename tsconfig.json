@@ -15,7 +15,8 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "allowJs": true
+    "allowJs": true,
+    "@typescript-eslint/no-unused-vars": "off"
   },
   "include": ["src/**/*.tsx", "src/**/*.ts"],
   "exclude": ["node_modules"],

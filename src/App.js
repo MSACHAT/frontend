@@ -8,7 +8,7 @@ import {
   useNavigate,
   Navigate,
 } from 'react-router-dom';
-import { Profile } from './pages/profile/ProfilePage.jsx';
+import { Profile } from './pages/profile/ProfilePage.tsx';
 import { Feed } from './pages/feed/FeedPage.tsx';
 import { Notifications } from './pages/notifications/NotificationsPage.jsx';
 

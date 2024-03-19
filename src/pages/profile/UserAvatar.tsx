@@ -6,7 +6,7 @@ import './profileStyle.scss';
 import apiClient from '../../middlewares/axiosInterceptors';
 import upload from '../../middlewares/uploadImage';
 import imageCompression from 'browser-image-compression';
-export const UserAvatar = ({ disableEdit, imageUrl }) => {
+export const UserAvatar = ({ disableEdit, imageUrl}:{disableEdit:boolean, imageUrl:string}) => {
   console.log(imageUrl);
   const [avtarUrl, setAvatarUrl] = useState(
     imageUrl || process.env.PUBLIC_URL + 'ProfilePhoto.png'
@@ -24,14 +24,14 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
   useEffect(() => {
     !disableEdit && fetchData();
   }, []);
-  const fileInputRef = useRef();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
     // 触发 file input 的点击事件
-    fileInputRef.current.click();
+    fileInputRef?.current?.click();
   };
 
-  const handleFileChange = async event => {
+  const handleFileChange = async (event: { target: { files: File[]; }; }) => {
     if (event.target.files && event.target.files[0]) {
       const options = {
         maxSizeMB: 0.5, // 最大文件大小（单位：MB）
@@ -73,7 +73,7 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
         <Avatar
           src={avtarUrl}
           className={'image'}
-          onClick={event => {
+          onClick={(event: { stopPropagation: () => void; }) => {
             setVisible(true);
             event.stopPropagation();
           }}
@@ -87,7 +87,7 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
           renderHeader={() => (
             <div className={'avartar-preview-top'}>
               <IconChevronLeft
-                onClick={event => {
+                onClick={(event: { stopPropagation: () => void; }) => {
                   event.stopPropagation();
                 }}
               />
