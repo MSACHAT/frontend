@@ -8,9 +8,15 @@ import {
   useNavigate,
   Navigate,
 } from 'react-router-dom';
+<<<<<<< HEAD
 import { Profile } from './pages/profile/ProfilePage.tsx';
 import { Feed } from './pages/feed/FeedPage.tsx';
 import { Notifications } from './pages/notifications/NotificationsPage.jsx';
+=======
+import { Profile } from './pages/profile/ProfilePage.jsx';
+import { Feed } from './pages/feed/FeedPage.tsx';
+import { Notifications } from './pages/notifications/NotificationsPage.tsx';
+>>>>>>> 0cfa7ef9f80a237a86c84e8ec8102e271c18681e
 
 import AddPost from './pages/post/AddPost';
 import PostDetail from './pages/post/PostDetail';
