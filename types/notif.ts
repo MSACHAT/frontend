@@ -1,8 +1,3 @@
-export type NotifResponse<T>={
-    data: T[];
-    totalPages: number;
-    totalNotifs: number;
-}
 export interface NotifModel{
     id: number;
     userName: string;

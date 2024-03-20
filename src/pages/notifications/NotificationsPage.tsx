@@ -18,7 +18,7 @@ export function Notifications() {
   const { Header} = Layout;
   const [notifs, setNotifs] = useState<NotifModel[]>([]);
   const { Text } = Typography;
-  const [notifTag, setNotifTag] = useState<null|number>(null);
+  const [notifTag, setNotifTag] = useState<number>();
   const [wrongTimes,setWrongTimes] = useState<number>(0)
   const [loadError, setLoadError] = useState<boolean>(false)
   let notifNums = 0;

@@ -1,5 +1,6 @@
 import apiClient from '../../middlewares/axiosInterceptors';
-import {NotifModel, NotifResponse} from "../../../types/notif";
+import {NotifModel} from "../../../types/notif";
+import {BasePageResponse} from "../../../types/common/service";
 export const GetData = (pageNum:number, pageSize:number) => {
   return apiClient
     .get('/notification1s/', {
@@ -22,7 +23,7 @@ export const GetData = (pageNum:number, pageSize:number) => {
         previewString: notif.previewString,
         userAvatar: notif.userAvatar,
       }));
-      const result:NotifResponse<NotifModel> = {
+      const result:BasePageResponse<NotifModel>&{totalNotifs:number} = {
         data: data,
         totalPages: res.data.totalPages,
         totalNotifs: res.data.totalNotifs,
