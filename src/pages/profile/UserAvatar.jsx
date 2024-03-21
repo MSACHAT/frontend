@@ -7,7 +7,6 @@ import apiClient from '../../middlewares/axiosInterceptors';
 import upload from '../../middlewares/uploadImage';
 import imageCompression from 'browser-image-compression';
 export const UserAvatar = ({ disableEdit, imageUrl }) => {
-  console.log(imageUrl);
   const [avtarUrl, setAvatarUrl] = useState(
     imageUrl || process.env.PUBLIC_URL + 'ProfilePhoto.png'
   );

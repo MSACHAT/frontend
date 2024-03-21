@@ -11,13 +11,9 @@ import {
 import { Profile } from './pages/profile/ProfilePage.jsx';
 import { Feed } from './pages/feed/FeedPage.tsx';
 import { Notifications } from './pages/notifications/NotificationsPage.jsx';
-
 import AddPost from './pages/post/AddPost';
 import PostDetail from './pages/post/PostDetail';
-
-import React, { useEffect } from 'react';
-
-import CommentList from './pages/post/components/CommentList';
+import React from 'react';
 import { RecoilRoot } from 'recoil';
 import ErrorBoundary from './pages/Error';
 import routeConfig from './config/RouteConfig';
@@ -27,11 +23,10 @@ import BottomNavigationBar from './components/BottomNavigationBar';
 import NavigationBar from './pages/post/components/NavigationBar';
 import { PProfile } from './pages/profile/PProfilePage.jsx';
 import { SignUpPage } from './pages/login/SignUpPage';
-import SocietyPage from './pages/society';
 
 const App = () => {
   const routesConfig = [
-    { path: '/', component: <SocietyPage/>, isPublic: false },
+    { path: '/', component: <Feed />, isPublic: false },
     { path: '/login', component: <Login />, isPublic: true },
     { path: '/signup', component: <SignUpPage />, isPublic: true },
     { path: '/profile', component: <Profile />, isPublic: false },

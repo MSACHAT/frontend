@@ -1,8 +1,8 @@
 import React from 'react';
-
+export type HandleClickType=(x:string)=>void
 export const SocietyItem = ({ data: soceity }: { data: SoceityModel }) => {
   return (
-    <div key={soceity.id} style={{}}>
+    <div key={soceity.id} >
       <h2>{soceity.name}</h2>
       <p>President: {soceity.president}</p>
       <p>Members: {soceity.members}</p>

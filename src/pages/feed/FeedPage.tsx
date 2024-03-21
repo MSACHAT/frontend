@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { Layout, List, Badge } from '@douyinfe/semi-ui';
 import { Post } from '../../components/PostComponent.jsx';
 import { IconBellStroked } from '@douyinfe/semi-icons';
@@ -41,39 +41,64 @@ export function Feed() {
   function loadMoreData() {
     setLoading(true);
     GetData(pageNum, pageSize).then(result => {
-      setPosts([...posts,...result.data]);
+      const newPosts = [...posts, ...result.data];
+      setPosts(newPosts);
       setTotalPages(result.totalPages);
-      setPageNum(pageNum + 1);
+      setPageNum(prevPageNum => prevPageNum + 1);
       setLoading(false);
+      // 保存新状态到 sessionStorage
+      sessionStorage.setItem('feedState', JSON.stringify({
+        posts: newPosts,
+        totalPages: result.totalPages,
+        pageNum: pageNum + 1,
+        newNotifNums: result.newNotifCounts,
+      }));
     });
   }
 
 
+  // 组件加载时的副作用
   useEffect(() => {
-    setPageNum(0);
-    setLoading(true);
-    GetData(pageNum, pageSize).then(result => {
-      setPosts(result.data);
-      setTotalPages(result.totalPages);
-      setNewNotifNums(result.newNotifCounts);
-      setLoading(false);
-    });
-    setPageNum(pageNum + 1);
+    // 尝试从 sessionStorage 恢复状态
+    const savedState = sessionStorage.getItem('feedState');
+    if (savedState) {
+      console.log(
+          'restore'
+      )
+      const { posts, totalPages, pageNum, newNotifNums } = JSON.parse(savedState);
+      setPosts(posts);
+      setTotalPages(totalPages);
+      setPageNum(pageNum);
+      setNewNotifNums(newNotifNums);
+    } else {
+      // 如果没有保存的状态，就获取数据
+      setLoading(true);
+      GetData(pageNum, pageSize).then(result => {
+        setPosts(result.data);
+        setTotalPages(result.totalPages);
+        setNewNotifNums(result.newNotifCounts);
+        setLoading(false);
+        // 保存新状态到 sessionStorage
+        sessionStorage.setItem('feedState', JSON.stringify({
+          posts: result.data,
+          totalPages: result.totalPages,
+          pageNum: pageNum + 1,
+          newNotifNums: result.newNotifCounts,
+        }));
+      });
+      setPageNum(prevPageNum => prevPageNum + 1);
+    }
+
   }, []);
-  useEffect(() => {
-    // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
-    return () => {
-      setPageNum(0);
-      setTotalPages(0);
-    };
-  }, []);
+
+
   return (
     <div className={'feed-page'}>
       <Header className={'feed-header'}>
         <span></span>
         <NewNotif newNotifNums={newNotifNums}></NewNotif>
       </Header>
-      <div className={'feed-content'}>
+      <div className={'feed-content'} >
         <InfiniteScroll
           initialLoad={false}
           useWindow={false}

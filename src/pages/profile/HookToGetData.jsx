@@ -35,8 +35,6 @@ export const GetData = (pageNum, pageSize) => {
       },
     })
     .then(res => {
-      console.log('获取profile数据');
-      console.log(res.data);
       const data = res.data.posts.map(post => ({
         id: post.id,
         userName: post.userName,
@@ -53,7 +51,6 @@ export const GetData = (pageNum, pageSize) => {
         data: data,
         totalPages: res.data.totalPages,
       };
-      console.log(result, 2222222222222222);
       return result;
     })
     .catch(err => {

@@ -1,7 +1,7 @@
 import { Avatar, Space } from '@douyinfe/semi-ui';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import { IconLikeHeart, IconHeartStroked } from '@douyinfe/semi-icons';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import React, { useEffect, useState } from 'react';
 import { PostImgs } from './PostImgs';
