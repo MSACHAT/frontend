@@ -10,3 +10,14 @@ export interface NotifModel{
     previewString: string;
     userAvatar: string;
 }
+
+export interface NotifComponentProps{
+    messageType:string;
+    userIcon:string;
+    userName:string;
+    sendTime:string;
+    commentContent:string;
+    previewType:string;
+    previewString:string;
+    isRead:boolean;
+}

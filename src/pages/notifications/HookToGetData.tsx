@@ -3,7 +3,7 @@ import {NotifModel} from "../../../types/notif";
 import {BasePageResponse} from "../../../types/common/service";
 export const GetData = (pageNum:number, pageSize:number) => {
   return apiClient
-    .get('/notification1s/', {
+    .get('/notifications/', {
       params: {
         pageNum: pageNum,
         pageSize: pageSize,

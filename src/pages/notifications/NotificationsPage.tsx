@@ -4,7 +4,7 @@ import { Layout, Typography, List, Toast } from '@douyinfe/semi-ui';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { GetData } from './HookToGetData';
 import { useState, useEffect } from 'react';
-import { Notif } from './NotifComponent.jsx';
+import { Notif } from './NotifComponent';
 import './notifStyle.scss';
 import apiClient from '../../middlewares/axiosInterceptors';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -126,7 +126,7 @@ export function Notifications() {
                 userIcon={record.userAvatar}
                 userName={record.userName}
                 sendTime={timeAgo(record.timeStamp)}
-                timeStamp={new Date(record.timeStamp).getTime()}
+                // timeStamp={new Date(record.timeStamp).getTime()}
                 commentContent={record.commentContent}
               ></Notif>
             )}
