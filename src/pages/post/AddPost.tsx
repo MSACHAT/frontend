@@ -1,5 +1,6 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { Button, TextArea, Toast, Upload } from '@douyinfe/semi-ui';
+import type { FileItem} from '@douyinfe/semi-ui/lib/es/upload';
 import { IconPlus } from '@douyinfe/semi-icons';
 import { AxiosError } from 'axios';
 import './PostPushingStyle.scss';
@@ -11,30 +12,12 @@ import upload from '../../middlewares/uploadImage';
 import apiClient from '../../middlewares/axiosInterceptors';
 import imageCompression from 'browser-image-compression';
 
-interface FileItem {
-  event? : any,  // xhr event
-  fileInstance?: File, // original File Object which extends Blob, 浏览器实际获取到的文件对象(https://developer.mozilla.org/zh-CN/docs/Web/API/File)
-  name: string,
-  percent? : number, // 上传进度百分比
-  preview: boolean, // 是否根据url进行预览
-  response?: any, // xhr的response, 请求成功时为response body，请求失败时为对应 error
-  shouldUpload?: boolean; // 是否应该继续上传
-  showReplace?: boolean, // 单独控制该file是否展示替换按钮
-  showRetry?: boolean, // 单独控制该file是否展示重试按钮
-  size: string, // 文件大小，单位kb
-  status: string, // 'success' | 'uploadFail' | 'validateFail' | 'validating' | 'uploading' | 'wait';
-  uid: string, // 文件唯一标识符，如果当前文件是通过upload选中添加的，会自动生成uid。如果是defaultFileList, 需要自行保证不会重复
-  url: string,
-  validateMessage?: ReactNode | string,
-}
-
-
 
 const PublishPost: React.FC = () => {
   const navigate = useNavigate();
   const [saveLoading, setSaveLoading] = useState(false);
   const [content, setContent] = useState('');
-  const [list, updateList] = useState<FileItem[]>([]);
+  const [list, setList] = useState<FileItem[]>([]);
   const isPublishDisabled = content.length === 0 && list.length === 0;
 
   useEffect(() => {
@@ -143,14 +126,14 @@ const PublishPost: React.FC = () => {
           draggable={true}
           multiple={true}
           onChange={({ fileList }) => {
-            updateList(fileList);
+            setList(fileList);
           }}
           fileList={list}
           limit={9}
         >
           <IconPlus size="extra-large" />
         </Upload>
-      </div>C:/Users/zhang/WebstormProjects/frontend/node_modules/@douyinfe/semi-ui/lib/es/upload/interface
+      </div>
     </div>
   );
 };
