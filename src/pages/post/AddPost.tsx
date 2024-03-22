@@ -1,75 +1,93 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Button, TextArea, Toast, Upload } from '@douyinfe/semi-ui';
 import { IconPlus } from '@douyinfe/semi-icons';
-import axios from 'axios';
+import { AxiosError } from 'axios';
 import './PostPushingStyle.scss';
-import config from '../../config/config';
+
 import { NavigationBackButton } from '../../components/NavigationBackButton';
 import { useNavigate } from 'react-router-dom';
 import url from '../../config/RouteConfig';
 import upload from '../../middlewares/uploadImage';
 import apiClient from '../../middlewares/axiosInterceptors';
 import imageCompression from 'browser-image-compression';
-const PublishPost = () => {
+
+interface FileItem {
+  event? : any,  // xhr event
+  fileInstance?: File, // original File Object which extends Blob, 浏览器实际获取到的文件对象(https://developer.mozilla.org/zh-CN/docs/Web/API/File)
+  name: string,
+  percent? : number, // 上传进度百分比
+  preview: boolean, // 是否根据url进行预览
+  response?: any, // xhr的response, 请求成功时为response body，请求失败时为对应 error
+  shouldUpload?: boolean; // 是否应该继续上传
+  showReplace?: boolean, // 单独控制该file是否展示替换按钮
+  showRetry?: boolean, // 单独控制该file是否展示重试按钮
+  size: string, // 文件大小，单位kb
+  status: string, // 'success' | 'uploadFail' | 'validateFail' | 'validating' | 'uploading' | 'wait';
+  uid: string, // 文件唯一标识符，如果当前文件是通过upload选中添加的，会自动生成uid。如果是defaultFileList, 需要自行保证不会重复
+  url: string,
+  validateMessage?: ReactNode | string,
+}
+
+
+
+const PublishPost: React.FC = () => {
   const navigate = useNavigate();
   const [saveLoading, setSaveLoading] = useState(false);
   const [content, setContent] = useState('');
-  const [list, updateList] = useState([]);
-  const isPublishDisabled = !(content.length > 0 || list.length > 0);
+  const [list, updateList] = useState<FileItem[]>([]);
+  const isPublishDisabled = content.length === 0 && list.length === 0;
 
   useEffect(() => {
     setSaveLoading(false);
   }, [list]);
 
-  const handleContentChange = value => {
+  const handleContentChange = (value: string): void => {
     setContent(value);
   };
 
-  const handlePublish = async () => {
+  const handlePublish = async (): Promise<void> => {
     try {
       setSaveLoading(true);
-      let postData = {
-        content: content,
-        image: list.map(x => x.response),
+      const postData = {
+        content,
+        image: list.map(item => item.response),
       };
 
       if (list.length === 0) {
         postData.image = [];
       }
 
-      const response = await apiClient.post('/posts/add', postData);
+      await apiClient.post('/posts/add', postData);
 
-      console.log(response.data);
+
 
       Toast.success('帖子发布成功！');
       navigate(url.feed);
     } catch (error) {
-      console.error(error);
+
 
       Toast.error('帖子发布失败！');
       setSaveLoading(false);
     }
   };
 
-  async function uploadFileToImage(data) {
+  const uploadFileToImage = async (data: any): Promise<void> => {
     const formData = new FormData();
     formData.append('file', data.fileInstance);
 
     const options = {
-      maxSizeMB: 0.5, // 最大文件大小（单位：MB）
-      maxWidthOrHeight: 1920, // 图片最大宽度或高度
-      useWebWorker: true, // 使用Web Worker以避免UI线程阻塞
+      maxSizeMB: 0.5,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
     };
 
     try {
-      // 图片压缩
       const compressedFile = await imageCompression(data.fileInstance, options);
-      const formData = new FormData();
       formData.append('file', compressedFile);
 
       const response = await upload.post('/images/uploadimage', formData, {
         onUploadProgress: progressEvent => {
-          const total = progressEvent.total;
+          const total = progressEvent.total || 0;
           const loaded = progressEvent.loaded;
           data.onProgress({ total, loaded });
         },
@@ -80,20 +98,23 @@ const PublishPost = () => {
 
       data.onSuccess(response.data);
     } catch (error) {
-      const status = error.response ? error.response.status : 500;
-      data.onError({ status }, error);
+      const axiosError = error as AxiosError;
+      const status = axiosError.response ? axiosError.response.status : 500;
+      data.onError({ status }, axiosError);
+      setSaveLoading(false);
+      Toast.error('图片上传失败');
     }
-  }
+  };
 
   return (
-    <div className={'AddPostContainer'}>
+    <div className="AddPostContainer">
       <div className={'head'}>
         <NavigationBackButton />
 
         <Button
           size="small"
-          theme={'solid'}
-          type={'primary'}
+          theme="solid"
+          type="primary"
           loading={saveLoading}
           onClick={handlePublish}
           disabled={isPublishDisabled}
@@ -118,22 +139,18 @@ const PublishPost = () => {
           accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
           uploadTrigger="auto"
           customRequest={uploadFileToImage}
-          onError={(...v) => {
-            setSaveLoading(false);
-            Toast.error('图片上传失败');
-          }}
           listType="picture"
           draggable={true}
           multiple={true}
           onChange={({ fileList }) => {
-            updateList([...fileList]);
+            updateList(fileList);
           }}
           fileList={list}
           limit={9}
         >
           <IconPlus size="extra-large" />
         </Upload>
-      </div>
+      </div>C:/Users/zhang/WebstormProjects/frontend/node_modules/@douyinfe/semi-ui/lib/es/upload/interface
     </div>
   );
 };
