@@ -18,9 +18,9 @@ import React from 'react';
 import { LoginFormValues } from '../../../types/LoginPage';
 export const Login = () => {
   const navigate = useNavigate();
-  // @ts-ignore
-  const [isAuthenticated, setIsAuthenticated] = useRecoilState(IsAuthenticated);
-  const [loginFailInfo, setLoginFailInfo] = useState<string | undefined>(undefined);
+  const [_isAuthenticated, setIsAuthenticated] =
+    useRecoilState(IsAuthenticated);
+  const [loginFailInfo, setLoginFailInfo] = useState<string>();
 
   const handleSubmit = async (values: LoginFormValues) => {
     const data = {
