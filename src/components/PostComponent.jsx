@@ -3,7 +3,7 @@ import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import { IconLikeHeart, IconHeartStroked } from '@douyinfe/semi-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PostImgs } from './PostImgs';
 import './postStyle.scss';
 import { timeAgo } from './CalculateTimeAgo';
@@ -15,9 +15,38 @@ export const Post = props => {
   const navigator = useNavigate();
   const [like, setLike] = useState();
   const [likeCount, setLikeCount] = useState();
+  const postRef = useRef();
   if (!props) {
     return null;
   }
+  useEffect(() => {
+    // 组件挂载后添加捕获阶段的事件监听器
+    const postElement = postRef.current;
+    const handleParentClick = event => {
+      if (isPostPage()) {
+        return;
+      }
+      // 检查点击事件是否直接发生在父元素上
+      if (
+        !event.target.closest('.like') &&
+        !event.target.closest('.avatar-space')
+      ) {
+        navigator(`/post/${props.id}`);
+        event.stopPropagation();
+      }
+    };
+    if (postElement) {
+      postElement.addEventListener('click', handleParentClick, true); // true表示在捕获阶段触发
+    }
+
+    // 组件卸载前移除事件监听器
+    return () => {
+      if (postElement) {
+        postElement.removeEventListener('click', handleParentClick, true);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     setLike(props.isLiked);
     setLikeCount(props.likeCount);
@@ -37,34 +66,7 @@ export const Post = props => {
         setLike(!like);
       });
   }
-  const handleParentClick = event => {
-    if (isPostPage()) {
-      return;
-    }
-    // 检查点击事件是否直接发生在父元素上
-    if (
-      !event.target.closest('.like') &&
-      !event.target.closest('.avatar-space')
-    ) {
-      console.log('父元素被点击');
-      console.log(props, 22222222);
-      navigator(`/post/${props.id}`);
-      // return <Navigate to={`post/1`} />;
-    } else if (event.target.closest('.avatar-space')) {
-      console.log('跳转个人页面'); //TODO:改成他人页
-      console.log(1111111111);
-      console.log(props, 1111111111);
-      navigator(`/profile/${props.userId}`);
-    }
-    // else if (event.target.classList.contains('interact')) {
-    //   handleLike();
-    // } else {
-    //   // 其他子元素的点击行为
-    //   // navigator(`/post/${props.postId}`);
-    //   console.log('其他子元素的点击，但父元素响应');
-    //   event.stopPropagation();
-    // }
-  };
+
   const location = useLocation();
   const isPostPage = () => {
     // 检查当前路径是否符合特定模式
@@ -73,10 +75,16 @@ export const Post = props => {
   };
 
   return (
-    <div className={'post'} onClick={handleParentClick}>
+    <div className={'post'} ref={postRef}>
       {!props?.hideUser ? (
         <Space className={'avatar-space'}>
-          <Avatar src={props.avatar} className={'avatar'} />
+          <Avatar
+            src={props.avatar}
+            className={'avatar'}
+            onClick={() => {
+              navigator(`/profile/${props.userId}`);
+            }}
+          />
           <Title heading={5}>{props.userName}</Title>
         </Space>
       ) : null}
