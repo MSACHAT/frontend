@@ -79,7 +79,7 @@ export function Notifications() {
               console.log(err);
             });
       }
-    }, 1000 * 20);
+    }, 1000 * 20 * 60);
 
     return () => clearInterval(interval);
   }, []);
