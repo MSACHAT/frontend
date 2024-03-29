@@ -1,6 +1,6 @@
 import React from 'react';
 import { NotifModel } from "../../../types/notif";
-import { Layout, Typography, List, Toast } from '@douyinfe/semi-ui';
+import {Layout, Typography, List, Toast} from '@douyinfe/semi-ui';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
 import { GetData } from './HookToGetData';
 import { useState, useEffect } from 'react';
@@ -21,8 +21,10 @@ export function Notifications() {
   const [notifTag, setNotifTag] = useState<number>();
   const [wrongTimes,setWrongTimes] = useState<number>(0)
   const [loadError, setLoadError] = useState<boolean>(false)
+  const [loading,setLoading]=useState(false)
   let notifNums = 0;
   function loadMoreData() {
+    setLoading(true)
     GetData(pageNum, pageSize).then((result) =>{
       if (result&&result.data) {
         setNotifs([...notifs, ...result.data]);
@@ -31,6 +33,7 @@ export function Notifications() {
         setWrongTimes(0); // 如果成功加载，重置wrongTimes
         setPageNum(pageNum + 1);
       }
+      setLoading(false)
     }).catch(()=>{
       setLoadError(true)
       setWrongTimes(t=>t+1)
@@ -38,6 +41,7 @@ export function Notifications() {
   }
 
   useEffect(() => {
+    setLoading(true)
     GetData(pageNum, pageSize).then(result => {
       if(result&&result.data) {
         setNotifs([...result.data]);
@@ -47,6 +51,7 @@ export function Notifications() {
         setWrongTimes(0); // 如果成功加载，重置wrongTimes
         setPageNum(pageNum + 1);
       }
+      setLoading(false)
     }).catch(()=>{
       setWrongTimes(t=>t+1)
       setLoadError(true)
@@ -115,6 +120,7 @@ export function Notifications() {
         >
           <List
             dataSource={notifs}
+            loading={loading}
             renderItem={record => (
               <Notif
                 previewType={record.previewType}
