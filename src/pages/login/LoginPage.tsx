@@ -3,7 +3,7 @@ import {
   Form,
   Toast,
   Button,
-  Typography,
+  Typography, Skeleton
 } from '@douyinfe/semi-ui';
 import { useState } from 'react';
 import './loginStyle.scss';
@@ -16,6 +16,7 @@ import { useRecoilState } from 'recoil';
 import { IsAuthenticated } from '../../store';
 import React from 'react';
 import { LoginFormValues } from '../../../types/LoginPage';
+// @ts-ignore
 export const Login = () => {
   const navigate = useNavigate();
   // @ts-ignore
@@ -58,6 +59,15 @@ export const Login = () => {
       ></Button>
     );
   };
+  const placeholder: React.ReactNode[] = (
+    <div className={'login-page'}>
+      <div className={'login-form'}>
+        <Skeleton.Title/>
+        <Skeleton.Title/>
+        <Skeleton.Button className={'login-button'}/>
+      </div>
+    </div>
+  )
   return (
     <div className={'login-page'}>
       <div className={'login-form'}>
