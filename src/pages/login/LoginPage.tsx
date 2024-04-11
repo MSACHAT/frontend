@@ -3,7 +3,7 @@ import {
   Form,
   Toast,
   Button,
-  Typography, Skeleton
+  Typography,
 } from '@douyinfe/semi-ui';
 import { useState } from 'react';
 import './loginStyle.scss';
@@ -59,15 +59,7 @@ export const Login = () => {
       ></Button>
     );
   };
-  const placeholder: React.ReactNode[] = (
-    <div className={'login-page'}>
-      <div className={'login-form'}>
-        <Skeleton.Title/>
-        <Skeleton.Title/>
-        <Skeleton.Button className={'login-button'}/>
-      </div>
-    </div>
-  )
+
   return (
     <div className={'login-page'}>
       <div className={'login-form'}>

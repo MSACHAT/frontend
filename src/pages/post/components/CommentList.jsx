@@ -1,9 +1,8 @@
+
 import React, { useEffect, useState } from 'react';
 import { Avatar, List, Spin, TextArea, Toast } from '@douyinfe/semi-ui';
 
 import InfiniteScroll from 'react-infinite-scroller';
-// import '../../../components/postStyle.scss'
-// import '../../../components/CommentStyle.scss'
 import './CommentListStyle.scss';
 import { Typography } from '@douyinfe/semi-ui';
 import { animateScroll as scroll } from 'react-scroll';
@@ -12,86 +11,34 @@ import { useRecoilState } from 'recoil';
 import { CommentCount } from '../../../store';
 import { useNavigate } from 'react-router-dom';
 import FormattedTime from '../../../components/formatDate';
+import useSWRInfinite from 'swr/infinite';
+
+
 const CommentList = ({ postId }) => {
   const navigate = useNavigate();
   const { Text } = Typography;
-
-  const dataList = [];
-  const [commentCount, setCommentCount] = useRecoilState(CommentCount);
-
-  const [hasMore, setHasMore] = useState(true);
-  const [data, setData] = useState(dataList);
-  const [countState, setCountState] = useState(0);
-  const [loading, setLoading] = useState(false);
-
-  const fetchData = async () => {
-    setLoading(true);
-
-    try {
-      const response = await apiClient.get(`/comments/get/${postId}`, {
-        params: {
-          pageNum: countState,
-          pageSize: 15,
-        },
-      });
-      const result = await response.data;
-      setData([...data, ...result.comments]);
-      setCountState(countState + 1);
-      const hasMore = result.totalPages >= countState;
-
-      setHasMore(hasMore);
-    } catch (error) {
-      console.error('Fetching data failed', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  async function handleScroll() {
-    setLoading(true);
-
-    try {
-      const response = await apiClient.get(`/comments/get/${postId}`, {
-        params: {
-          pageNum: 0,
-          pageSize: 15,
-        },
-      });
-
-      const result = await response.data;
-      setCountState(0);
-      console.log(result);
-
-      setData([...result.comments]);
-      setCountState(countState + 1);
-      const hasMore = result.totalPages >= countState;
-      console.log(hasMore);
-      setHasMore(hasMore);
-    } catch (error) {
-      console.error('Fetching data failed', error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
   const [value, setValue] = useState('');
-  const [Size, setSize] = useState(62);
-
-  const handleChange = event => {
-    setValue(event);
+  const [inputSize, setInputSize] = useState(62);
+  const fetchComments = async (url) => {
+    const response = await apiClient.get(url);
+    return response.data;
   };
+  const getKey = (pageIndex, previousPageData) => {
 
-  const scrollToTop = () => {
-    scroll.scrollToTop({
-      duration: 200,
-      smooth: 'easeInOutQuart',
-    });
+    if (previousPageData && !previousPageData.comments.length) return null;
+
+
+    return `/comments/get/${postId}?pageNum=${pageIndex + 1}&pageSize=15`;
   };
+  const { data, error, mutate, size, setSize: setSizeSWR ,isLoading} = useSWRInfinite(getKey, fetchComments);
 
-  async function sendData(value, postId) {
+  const comments = data ? data.reduce((acc, page) => acc.concat(page.comments), []) : [];
+  const isLoadingInitialData = !data && !error;
+  const isLoadingMore = isLoadingInitialData || (size > 0 && data && typeof data[size - 1] === 'undefined');
+
+
+
+  async function sendComment(value, postId) {
     const data = {
       content: value,
     };
@@ -104,24 +51,45 @@ const CommentList = ({ postId }) => {
       console.error('Error sending data:', e);
     }
   }
-
-  const handlePublish = async event => {
-    event.preventDefault();
-    if (value.length === 0) {
-      Toast.error('必须要有内容哦');
+  const handlePublish = async () => {
+    if (value.trim() === '') {
+      Toast.warning('评论内容不能为空');
       return;
     }
-    await sendData(value, postId);
-    await setCommentCount(commentCount + 1);
-    scrollToTop();
-    await handleScroll();
-    await setValue('');
+
+    try {
+      const newComment = await sendComment(value,postId);
+
+      await mutate((pages) => {
+        const nonEmptyPage = pages.find((page, index) => index > 0 && page.comments.length > 0);
+        if (nonEmptyPage) {
+          nonEmptyPage.comments = [newComment, ...nonEmptyPage.comments];
+        } else {
+          pages[0].comments = [newComment];
+        }
+        return pages;
+      }, false);
+
+      setValue('');
+      setInputSize(62);
+    } catch (error) {
+      Toast.error('发送评论失败，请重试');
+    }
   };
-  function handleResize(height) {
-    console.log(height);
-    const newHeight = height + 12;
-    setSize(newHeight);
-  }
+
+  const handleChange = event => {
+    setValue(event);
+  };
+
+  const scrollToTop = () => {
+    scroll.scrollToTop({
+      duration: 200,
+      smooth: 'easeInOutQuart',
+    });
+  };
+
+
+
   function route(userId) {
     navigate(`/profile/${userId}`);
   }
@@ -137,13 +105,13 @@ const CommentList = ({ postId }) => {
           initialLoad={false}
           pageStart={0}
           threshold={100}
-          loadMore={fetchData}
+          loadMore={fetchComments}
           hasMore={hasMore}
         >
           <List
             emptyContent={'目前还没有评论哦，来做第一个评论的人吧！！'}
             split={false}
-            dataSource={data}
+            dataSource={comments}
             renderItem={(item, index) => (
               <div className={'comment'} id={index}>
                 <Avatar
@@ -167,7 +135,7 @@ const CommentList = ({ postId }) => {
               </div>
             )}
           />
-          {loading && hasMore && (
+          {isLoading && isLoadingMore && (
             <div style={{ textAlign: 'center' }}>
               <Spin />
             </div>
@@ -187,7 +155,7 @@ const CommentList = ({ postId }) => {
       <div
         className={'textarea-bg'}
         style={{
-          height: `${Size}px`,
+          height: `${inputSize}px`,
         }}
       >
         <TextArea
