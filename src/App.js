@@ -8,7 +8,8 @@ import {
   useNavigate,
   Navigate,
 } from 'react-router-dom';
-import { Profile } from './pages/profile/ProfilePage.jsx';
+import { Profile } from './pages/profile/ProfilePage.tsx';
+import { PProfile } from './pages/profile/PProfilePage.jsx';
 import { Feed } from './pages/feed/FeedPage.tsx';
 import { Notifications } from './pages/notifications/NotificationsPage.tsx';
 
@@ -25,7 +26,7 @@ import createRoutes from './Route/creatRoutes';
 import PostDetailWithDeleteButtom from './pages/post/PostDetailWithDeleteButtom';
 import BottomNavigationBar from './components/BottomNavigationBar';
 import NavigationBar from './pages/post/components/NavigationBar';
-import { PProfile } from './pages/profile/PProfilePage.jsx';
+
 import { SignUpPage } from './pages/login/SignUpPage';
 
 const App = () => {
