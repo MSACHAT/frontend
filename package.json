@@ -3,6 +3,7 @@
   "homepage": ".",
   "version": "0.1.0",
   "private": true,
+
   "dependencies": {
     "@douyinfe/semi-icons": "^2.50.1",
     "@douyinfe/semi-ui": "^2.51.0-beta.0",
