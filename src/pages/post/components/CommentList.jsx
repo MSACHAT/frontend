@@ -82,7 +82,7 @@ const CommentList = ({ postId }) => {
   };
 
   const handleChange = event => {
-    setValue(event.target.value);  // Corrected to handle event target
+    setValue(event);  // Corrected to handle event target
   };
 
   const scrollToTop = () => {
