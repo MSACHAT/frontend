@@ -9,7 +9,7 @@ import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import Title from '@douyinfe/semi-ui/lib/es/typography/title';
 import BottomBar from '../../components/BottomNavigationBar.jsx';
 import { GetData } from './HookToGetData copy.jsx';
-import { UserAvatar } from './UserAvatar.jsx';
+import { UserAvatar } from './UserAvatar.tsx';
 import { useParams } from 'react-router-dom';
 export const PProfile = () => {
   const [loading, setLoading] = useState(false);
