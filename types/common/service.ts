@@ -7,6 +7,6 @@ export type BaseResponse<T> = {
 };
 
 export type BasePageResponse<T>={
-    totalPages:number;
+    totalPages:number
     data:T[]
 }
