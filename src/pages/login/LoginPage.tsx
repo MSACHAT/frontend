@@ -16,6 +16,7 @@ import { useRecoilState } from 'recoil';
 import { IsAuthenticated } from '../../store';
 import React from 'react';
 import { LoginFormValues } from '../../../types/LoginPage';
+// @ts-ignore
 export const Login = () => {
   const navigate = useNavigate();
   // @ts-ignore
@@ -58,6 +59,7 @@ export const Login = () => {
       ></Button>
     );
   };
+
   return (
     <div className={'login-page'}>
       <div className={'login-form'}>

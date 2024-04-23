@@ -23,7 +23,7 @@ export const Post = props => {
     setLikeCount(props.likeCount);
   }, [props.isLiked, props.likeCount]); // 仅当 props.isLiked 或 props.likeCount 变化时执行
 
-  function handleLike() {
+  function handleLike(e) {
     apiClient
       .patch(`/posts/${props.id}/like`, {
         isLiked: !like,
@@ -36,8 +36,13 @@ export const Post = props => {
         }
         setLike(!like);
       });
+    e.stopPropagation();
   }
-  const handleParentClick = event => {
+  const likeIcon = document.querySelector('.like');
+  const avatarSpace = document.querySelector('.avatar-space')
+  likeIcon.addEventListener('click', handleLike(), false);
+  avatarSpace.addEventListener('click', handleParentClick, false);
+  /*const handleParentClick = event => {
     if (isPostPage()) {
       return;
     }
@@ -46,25 +51,16 @@ export const Post = props => {
       !event.target.closest('.like') &&
       !event.target.closest('.avatar-space')
     ) {
-      console.log('父元素被点击');
-      console.log(props, 22222222);
+
       navigator(`/post/${props.id}`);
       // return <Navigate to={`post/1`} />;
     } else if (event.target.closest('.avatar-space')) {
-      console.log('跳转个人页面'); //TODO:改成他人页
-      console.log(1111111111);
-      console.log(props, 1111111111);
+
       navigator(`/profile/${props.userId}`);
     }
-    // else if (event.target.classList.contains('interact')) {
-    //   handleLike();
-    // } else {
-    //   // 其他子元素的点击行为
-    //   // navigator(`/post/${props.postId}`);
-    //   console.log('其他子元素的点击，但父元素响应');
-    //   event.stopPropagation();
-    // }
-  };
+
+  };*/
+
   const location = useLocation();
   const isPostPage = () => {
     // 检查当前路径是否符合特定模式
