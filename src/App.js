@@ -1,4 +1,4 @@
-import { Login } from './pages/login/LoginPage.jsx';
+import { Login } from './pages/login/LoginPage.tsx';
 import { Space } from '@douyinfe/semi-ui';
 import {
   BrowserRouter as Router,
@@ -8,9 +8,10 @@ import {
   useNavigate,
   Navigate,
 } from 'react-router-dom';
-import { Profile } from './pages/profile/ProfilePage.jsx';
-import { Feed } from './pages/feed/FeedPage.jsx';
-import { Notifications } from './pages/notifications/NotificationsPage.jsx';
+import { Profile } from './pages/profile/ProfilePage.tsx';
+import { PProfile } from './pages/profile/PProfilePage.jsx';
+import { Feed } from './pages/feed/FeedPage.tsx';
+import { Notifications } from './pages/notifications/NotificationsPage.tsx';
 
 import AddPost from './pages/post/AddPost';
 import PostDetail from './pages/post/PostDetail';
@@ -25,7 +26,7 @@ import createRoutes from './Route/creatRoutes';
 import PostDetailWithDeleteButtom from './pages/post/PostDetailWithDeleteButtom';
 import BottomNavigationBar from './components/BottomNavigationBar';
 import NavigationBar from './pages/post/components/NavigationBar';
-import { PProfile } from './pages/profile/PProfilePage.jsx';
+
 import { SignUpPage } from './pages/login/SignUpPage';
 
 const App = () => {

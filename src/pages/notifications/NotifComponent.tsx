@@ -1,8 +1,10 @@
 //思路:IF ELSE判断传入的Comment Type,根据不同的Comment Type返回不同的样式
 import { Avatar, Collapse, Typography, Image, Space } from '@douyinfe/semi-ui';
 import './notifStyle.scss';
+import React from 'react';
+import {NotifComponentProps} from "../../../types/notif";
 
-export const Notif = props => {
+export const Notif = (props:NotifComponentProps) => {
   const likedYourNotif = '赞了你的动态';
   const { Text } = Typography;
   const {
@@ -39,7 +41,7 @@ export const Notif = props => {
               <Space align={'end'}>
                 <div className={isRead ? 'notif-read' : 'notif-newnotif'}></div>
                 <Avatar src={userIcon} className={'notif-avatar'} />
-                <Space align={screenLeft} vertical>
+                <Space align={"start"} vertical>
                   <Text className={'notif-username'}>{userName}</Text>
                   <Text ellipsis={{}} className={'notif-notifcontent'}>
                     {commentContent}
@@ -79,7 +81,7 @@ export const Notif = props => {
               <Space align={'end'}>
                 <div className={isRead ? 'notif-read' : 'notif-newnotif'}></div>
                 <Avatar src={userIcon} className={'notif-avatar'} />
-                <Space vertical align={screenLeft}>
+                <Space vertical align={"start"}>
                   <Text className={'notif-username'}>{userName}</Text>
                   <Text className={'notif-notifcontent'}>{likedYourNotif}</Text>
                 </Space>

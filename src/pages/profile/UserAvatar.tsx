@@ -6,7 +6,7 @@ import './profileStyle.scss';
 import apiClient from '../../middlewares/axiosInterceptors';
 import upload from '../../middlewares/uploadImage';
 import imageCompression from 'browser-image-compression';
-export const UserAvatar = ({ disableEdit, imageUrl }) => {
+export const UserAvatar = ({ disableEdit, imageUrl}:{disableEdit:boolean, imageUrl:string}) => {
   console.log(imageUrl);
   const [avtarUrl, setAvatarUrl] = useState(
     imageUrl || process.env.PUBLIC_URL + 'ProfilePhoto.png'
@@ -24,41 +24,44 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
   useEffect(() => {
     !disableEdit && fetchData();
   }, []);
-  const fileInputRef = useRef();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
     // 触发 file input 的点击事件
-    fileInputRef.current.click();
+    fileInputRef?.current?.click();
   };
 
-  const handleFileChange = async event => {
-    if (event.target.files && event.target.files[0]) {
-      const options = {
-        maxSizeMB: 0.5, // 最大文件大小（单位：MB）
-        maxWidthOrHeight: 1920, // 图片最大宽度或高度
-        useWebWorker: true, // 使用Web Worker以避免UI线程阻塞
-      };
-      const compressedFile = await imageCompression(
-        event.target.files[0],
-        options
-      );
+const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const files = event.target.files;
+  if (files && files.length > 0) {
+    const options = {
+      maxSizeMB: 0.5, // 最大文件大小（单位：MB）
+      maxWidthOrHeight: 1920, // 图片最大宽度或高度
+      useWebWorker: true, // 使用Web Worker以避免UI线程阻塞
+    };
+
+    try {
+      const compressedFile = await imageCompression(files[0], options);
 
       // 创建 FormData 并将文件加入
       const formData = new FormData();
       formData.append('file', compressedFile);
       console.log('FormDataUploading');
       console.log(formData);
-      upload
-        .post('/users/avatar', formData)
-        .then(response => {
-          setAvatarUrl(response.data);
-        })
-        .then(data => console.log(data, '11'))
-        .catch(error => Toast.error('上传失败'));
+
+      // 发起上传请求
+      const response = await upload.post('/users/avatar', formData);
+      console.log(response.data, '11');
+
+      setAvatarUrl(response.data);
       setVisible(false);
       Toast.success('更换成功');
+    } catch(error) {
+      console.error(error);
+      Toast.error('上传失败');
     }
-  };
+  }
+};
   return (
     <div
       id="avatar-container"
@@ -68,12 +71,12 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
     >
       <div
         className={'image-item'}
-        style={{ '--custom-image-width': disableEdit ? '40px' : '80px' }}
+        style={{ width: disableEdit ? '40px' : '80px' }}
       >
         <Avatar
           src={avtarUrl}
           className={'image'}
-          onClick={event => {
+          onClick={(event: { stopPropagation: () => void; }) => {
             setVisible(true);
             event.stopPropagation();
           }}
@@ -87,7 +90,7 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
           renderHeader={() => (
             <div className={'avartar-preview-top'}>
               <IconChevronLeft
-                onClick={event => {
+                onClick={(event: { stopPropagation: () => void; }) => {
                   event.stopPropagation();
                 }}
               />
@@ -111,12 +114,9 @@ export const UserAvatar = ({ disableEdit, imageUrl }) => {
               </Title>
             </div>
           )}
-          type="tertiary"
+
           className={'avatar-preview'}
-          getPopupContainer={() => {
-            const node = document.getElementById('avatar-container');
-            return node;
-          }}
+          getPopupContainer={() => document.getElementById('avatar-container')!}
         />
       )}
     </div>

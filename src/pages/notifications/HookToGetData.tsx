@@ -1,10 +1,7 @@
-import { Toast } from '@douyinfe/semi-ui';
-import { useState } from 'react';
-// @ts-ignore
-// import data from "../../mockdata/NotificationMockData.json"
-import axios from 'axios';
 import apiClient from '../../middlewares/axiosInterceptors';
-export const GetData = (pageNum, pageSize) => {
+import {NotifModel} from "../../../types/notif";
+import {BasePageResponse} from "../../../types/common/service";
+export const GetData = (pageNum:number, pageSize:number) => {
   return apiClient
     .get('/notifications/', {
       params: {
@@ -14,7 +11,7 @@ export const GetData = (pageNum, pageSize) => {
     })
     .then(res => {
       console.log(res.data);
-      const data = res.data.notifs.map(notif => ({
+      const data = res.data.notifs.map((notif:NotifModel):NotifModel => ({
         id: notif.id,
         userName: notif.userName,
         commentContent: notif.commentContent,
@@ -26,7 +23,7 @@ export const GetData = (pageNum, pageSize) => {
         previewString: notif.previewString,
         userAvatar: notif.userAvatar,
       }));
-      const result = {
+      const result:BasePageResponse<NotifModel>&{totalNotifs:number} = {
         data: data,
         totalPages: res.data.totalPages,
         totalNotifs: res.data.totalNotifs,
@@ -35,6 +32,6 @@ export const GetData = (pageNum, pageSize) => {
       return result;
     })
     .catch(err => {
-      console.log(err);
+      return Promise.reject(err);
     });
 };
