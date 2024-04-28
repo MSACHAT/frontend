@@ -1,8 +1,8 @@
 import React from 'react';
-import { NotifModel } from "../../../types/notif";
+import { NotifDataResponse, NotifModel, NotifSwrResponse } from "../../../types/notif";
 import {Layout, Typography, List, Toast} from '@douyinfe/semi-ui';
 import { IconChevronLeft } from '@douyinfe/semi-icons';
-import { GetData } from './HookToGetData';
+// import { GetData } from './HookToGetData';
 import { useState, useEffect } from 'react';
 import { Notif } from './NotifComponent';
 import './notifStyle.scss';
@@ -10,6 +10,7 @@ import apiClient from '../../middlewares/axiosInterceptors';
 import InfiniteScroll from 'react-infinite-scroller';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { timeAgo } from '../../components/CalculateTimeAgo';
+import useSWR from "swr";
 
 export function Notifications() {
   const pageSize = 12; //修改这个值来调整一次获取的数据量
@@ -22,40 +23,70 @@ export function Notifications() {
   const [wrongTimes,setWrongTimes] = useState<number>(0)
   const [loadError, setLoadError] = useState<boolean>(false)
   const [loading,setLoading]=useState(false)
+  const fetcher=(url:string)=>apiClient
+    .get(url, {
+      params: {
+        pageNum: pageNum,
+        pageSize: pageSize,
+      },
+
+  })
+  const {data,error}=useSWR<NotifDataResponse<NotifSwrResponse<NotifModel>>>('/notifications/',fetcher)
   let notifNums = 0;
   function loadMoreData() {
     setLoading(true)
-    GetData(pageNum, pageSize).then((result) =>{
-      if (result&&result.data) {
-        setNotifs([...notifs, ...result.data]);
-        setTotalPages(result.totalPages);
-        console.log(result.data);
-        setWrongTimes(0); // 如果成功加载，重置wrongTimes
-        setPageNum(pageNum + 1);
-      }
-      setLoading(false)
-    }).catch(()=>{
-      setLoadError(true)
+    setPageNum(pageNum + 1);
+    if (data) {
+      setNotifs([...notifs, ...data.data.notifs]);
+      setTotalPages(data.data.totalPages)
+      setWrongTimes(0)
+    }
+    if(error){
       setWrongTimes(t=>t+1)
-    });
+      setLoadError(true)
+    }
+    setLoading(false)
+    // GetData(pageNum, pageSize).then((result) =>{
+    //   if (result&&result.data) {
+    //     setNotifs([...notifs, ...result.data]);
+    //     setTotalPages(result.totalPages);
+    //     console.log(result.data);
+    //     setWrongTimes(0); // 如果成功加载，重置wrongTimes
+    //   }
+    //   setLoading(false)
+    // }).catch(()=>{
+    //   setLoadError(true)
+    //   setWrongTimes(t=>t+1)
+    // });
   }
 
   useEffect(() => {
+    // setLoading(true)
+    // GetData(pageNum, pageSize).then(result => {
+    //   if(result&&result.data) {
+    //     setNotifs([...result.data]);
+    //     setTotalPages(result.totalPages);
+    //     notifNums = result.totalNotifs;
+    //     console.log('GetFirstNotifNums' + result.totalNotifs);
+    //     setWrongTimes(0); // 如果成功加载，重置wrongTimes
+    //     // setPageNum(pageNum + 1);
+    //   }
+    //   setLoading(false)
+    // }).catch(()=>{
+    //   setWrongTimes(t=>t+1)
+    //   setLoadError(true)
+    // });
     setLoading(true)
-    GetData(pageNum, pageSize).then(result => {
-      if(result&&result.data) {
-        setNotifs([...result.data]);
-        setTotalPages(result.totalPages);
-        notifNums = result.totalNotifs;
-        console.log('GetFirstNotifNums' + result.totalNotifs);
-        setWrongTimes(0); // 如果成功加载，重置wrongTimes
-        setPageNum(pageNum + 1);
-      }
-      setLoading(false)
-    }).catch(()=>{
+    if (data) {
+      setNotifs([...notifs, ...data.data.notifs]);
+      setTotalPages(data.data.totalPages)
+      setWrongTimes(0)
+    }
+    if(error){
       setWrongTimes(t=>t+1)
       setLoadError(true)
-    });
+    }
+    setLoading(false)
     apiClient.get('/notifications/newMessage').then(result => {
       console.log(result);
       setNotifTag(new Date(result.data.notifTag).getTime());

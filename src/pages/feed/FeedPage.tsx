@@ -3,12 +3,13 @@ import { Layout, List, Badge } from '@douyinfe/semi-ui';
 import { Post } from '../../components/PostComponent.jsx';
 import { IconBellStroked } from '@douyinfe/semi-icons';
 import './FeedStyle.scss';
-import { GetData } from './HookToGetData';
 import { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import BottomNavigationBar from '../../components/BottomNavigationBar';
 import { Link } from 'react-router-dom';
-import { PostModel } from '../../../types/post';
+import { PostDataResponse, PostModel, PostSwrResponse } from "../../../types/post";
+import apiClient from "../../middlewares/axiosInterceptors";
+import useSWR from "swr";
 const { Header } = Layout;
 export function NewNotif({ newNotifNums }:{newNotifNums:number}) {
   if (newNotifNums > 0) {
@@ -38,34 +39,49 @@ export function Feed() {
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState< PostModel[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const fetcher=async(url:string)=>{return await apiClient.get(url)}
+  const {data,error}=useSWR<PostDataResponse<PostSwrResponse<PostModel>>>(`/posts?pageNum=${pageNum}&pageSize=${pageSize}`,fetcher)
+  // @ts-ignore
+  const {notifCount}=useSWR('/notifications/newMessage',fetcher)
+  console.log(notifCount)
   function loadMoreData() {
     setLoading(true);
-    GetData(pageNum, pageSize).then(result => {
-      setPosts([...posts,...result.data]);
-      setTotalPages(result.totalPages);
-      setPageNum(pageNum + 1);
-      setLoading(false);
-    });
+    // GetData(pageNum, pageSize).then(result => {
+    //   setPosts([...posts,...result.data]);
+    //   setTotalPages(result.totalPages);
+    //   setPageNum(pageNum + 1);
+    //   setLoading(false);
+    // });
+    if(data){
+        setPosts([...posts,...data.data.posts]);
+        setTotalPages(data.data.totalPages);
+    }
+    if(error){
+      throw error;
+      // Gotta change this to a retry button later rather than just throwing the error out
+    }
+    setPageNum(pageNum=>pageNum + 1);
+    setLoading(false)
   }
 
 
   useEffect(() => {
-    setPageNum(0);
     setLoading(true);
-    GetData(pageNum, pageSize).then(result => {
-      setPosts(result.data);
-      setTotalPages(result.totalPages);
-      setNewNotifNums(result.newNotifCounts);
-      setLoading(false);
-    });
-    setPageNum(pageNum + 1);
-  }, []);
-  useEffect(() => {
-    // 注意：这里没有在挂载时执行的代码，只有在卸载时执行的代码
-    return () => {
-      setPageNum(0);
-      setTotalPages(0);
-    };
+    // GetData(pageNum, pageSize).then(result => {
+    //   setPosts(result.data);
+    //   setTotalPages(result.totalPages);
+    //   setNewNotifNums(result.newNotifCounts);
+    //   setLoading(false);
+    // });
+    if(data){
+      setPosts(data.data.posts)
+      setTotalPages(data.data.totalPages)
+      if(notifCount){
+        setNewNotifNums(notifCount)
+      }
+    }
+    setPageNum(pageNum+1)
+    setLoading(false)
   }, []);
   return (
     <div className={'feed-page'}>

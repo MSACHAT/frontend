@@ -10,3 +10,10 @@ export interface PostModel {
     "userId": number;
     "avatar": string,
 }
+export type PostSwrResponse<T>={
+    posts:T[];
+    totalPages:number;
+}
+export type PostDataResponse<T>={
+    data:T
+}

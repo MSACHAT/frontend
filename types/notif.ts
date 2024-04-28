@@ -21,3 +21,11 @@ export interface NotifComponentProps{
     previewString:string;
     isRead:boolean;
 }
+export type NotifSwrResponse<T>={
+    notifs:T[];
+    totalNotifs:number;
+    totalPages:number;
+}
+export type NotifDataResponse<T>={
+    data:T
+}
