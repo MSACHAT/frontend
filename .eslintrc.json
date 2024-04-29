@@ -1,6 +1,11 @@
 {
-  "extends": ["prettier"],
-  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "prettier",
+    "plugin:storybook/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module"
