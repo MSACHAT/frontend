@@ -2,11 +2,13 @@ import React from 'react';
 import { withRouter } from 'storybook-addon-remix-react-router';
 import { Post } from '../components/PostComponent.jsx'
 import {reactRouterParameters} from 'storybook-addon-react-router-v6';
+import {viewParameters} from './preview';
 
 export default {
     title: 'Post',
     render: () => <Post />,
     decorators: [withRouter],
+    parameters:viewParameters
 };
 
 export const TextOnly = (args) => <Post {...args} />;
